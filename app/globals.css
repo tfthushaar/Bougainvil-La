@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+/* ─── Bougainvil'La — Design System ────────────────────────────────────────
+   Token scaffold only — actual styling to be built out separately.        */
+
+@theme {
+  --color-surface:      oklch(96.5% 0.014 75);  /* ivory paper        */
+  --color-surface-2:    oklch(92.5% 0.02 62);   /* warm cream         */
+  --color-ink:          oklch(15%   0.02 330);  /* aubergine charcoal */
+  --color-ink-soft:     oklch(44%   0.03 335);  /* secondary text     */
+  --color-line:         oklch(85%   0.02 340);  /* hairline           */
+  --color-dark:         oklch(8%    0.015 330); /* near-black         */
+  --color-accent:       oklch(58%   0.19 350);  /* bougainvillea pink */
+  --color-accent-deep:  oklch(42%   0.17 345);  /* deep plum/magenta  */
+  --color-gold:         oklch(72%   0.10 82);   /* muted metallic gold*/
+
+  --font-display: var(--font-garamond), "Georgia", "Times New Roman", serif;
+  --font-sans:    var(--font-raleway),  "Helvetica Neue", "Arial", sans-serif;
+
+  --ease-arch: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-film: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+/* ─── Reset ────────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  overflow-x: hidden;
+}
+
+/* ─── Reduced motion ────────────────────────────────────────────────────────  */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
