@@ -4,6 +4,12 @@
 
 [build.environment]
   NODE_VERSION = "20"
+  # Public Sanity project identifiers — safe to commit (not secrets, just
+  # config). Only needed so the build can read published content; no write
+  # token is required here since builds never write to Sanity.
+  NEXT_PUBLIC_SANITY_PROJECT_ID = "wn66u1a8"
+  NEXT_PUBLIC_SANITY_DATASET = "production"
+  NEXT_PUBLIC_SANITY_API_VERSION = "2025-01-01"
 
 [[headers]]
   for = "/*"
