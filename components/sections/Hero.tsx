@@ -28,31 +28,6 @@ function GoldRule({ width = '2.5rem' }: { width?: string }) {
   return <span style={{ display: 'inline-block', width, height: '1px', background: 'var(--color-gold)' }} />
 }
 
-function CTAButtons() {
-  return (
-    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'clamp(0.7rem, 1.6vw, 1rem)', pointerEvents: 'auto' }}>
-      {/* TODO: point at the real inquiry address/booking form once available */}
-      <a href="mailto:hello@bougainvilla.in?subject=Venue%20Tour%20Request" style={{
-        fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: 'clamp(0.82rem, 1vw, 0.95rem)', letterSpacing: '0.18em',
-        textTransform: 'uppercase', color: 'var(--color-dark)', background: 'var(--color-accent)',
-        textDecoration: 'none', padding: '1rem 2rem', border: '1px solid var(--color-accent)',
-        whiteSpace: 'nowrap',
-      }}>
-        Book Your Venue Tour
-      </a>
-      {/* TODO: replace with the real brochure PDF in public/ once supplied */}
-      <a href="/brochure.pdf" style={{
-        fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: 'clamp(0.82rem, 1vw, 0.95rem)', letterSpacing: '0.18em',
-        textTransform: 'uppercase', color: 'var(--color-gold)', background: 'transparent',
-        textDecoration: 'none', padding: '1rem 2rem', border: '1px solid var(--color-gold)',
-        whiteSpace: 'nowrap',
-      }}>
-        Download Brochure
-      </a>
-    </div>
-  )
-}
-
 /* Moment 1 — hero wordmark, visible only in the first frame/viewport, framed
    like Secant's hero: huge tracked sans wordmark, upper-left, gold on this
    site's palette, with a small tracked subtitle line + gold rule. */
@@ -99,7 +74,7 @@ function WordmarkBlock() {
 function IntroBlock() {
   return (
     <div style={{
-      position: 'absolute', top: '100svh', left: 0, right: 0, minHeight: '100svh', zIndex: 2,
+      position: 'absolute', top: '85svh', left: 0, right: 0, minHeight: '100svh', zIndex: 2,
       display: 'flex', flexDirection: 'column', justifyContent: 'center',
       padding: '0 clamp(1.5rem, 6vw, 5rem)', pointerEvents: 'none',
     }}>
@@ -144,9 +119,11 @@ function IntroBlock() {
 function ButtonsBlock() {
   return (
     <div style={{
-      position: 'absolute', top: '200svh', left: 0, right: 0, minHeight: '100svh', zIndex: 2,
-      display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-end',
-      padding: '0 clamp(1.5rem, 6vw, 5rem)', pointerEvents: 'none',
+      position: 'absolute', top: '150svh', left: 0, right: 0, minHeight: '100svh', zIndex: 2,
+      display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-end',
+      paddingTop: 'clamp(4.5rem, 16vh, 9rem)',
+      paddingLeft: 'clamp(1.5rem, 6vw, 5rem)', paddingRight: 'clamp(1.5rem, 6vw, 5rem)',
+      pointerEvents: 'none',
     }}>
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '1.4rem', maxWidth: '28rem' }}>
         <span style={{
@@ -156,7 +133,6 @@ function ButtonsBlock() {
           Ready When You Are
         </span>
         <span style={{ display: 'inline-block', width: '100%', height: '1px', background: 'var(--color-gold)' }} />
-        <CTAButtons />
       </div>
     </div>
   )
@@ -317,12 +293,15 @@ export function Hero() {
         />
         <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.2)' }} />
         <WordmarkBlock />
+        {/* Lets the fixed Navigation know when a light section has scrolled
+            beneath it, so it can switch from white to dark text. */}
+        <div id="hero-end-sentinel" style={{ position: 'absolute', bottom: 0, left: 0, width: 1, height: 1 }} />
       </section>
     )
   }
 
   return (
-    <section ref={wrapperRef} className="relative h-[320vh] md:h-[360vh]">
+    <section ref={wrapperRef} className="relative h-[230vh]">
       <div style={{ position: 'sticky', top: 0, height: '100svh', overflow: 'hidden', zIndex: 0 }}>
         <canvas
           ref={canvasRef}
@@ -337,6 +316,7 @@ export function Hero() {
       <WordmarkBlock />
       <IntroBlock />
       <ButtonsBlock />
+      <div id="hero-end-sentinel" style={{ position: 'absolute', bottom: 0, left: 0, width: 1, height: 1 }} />
     </section>
   )
 }
