@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { getRoomTypes } from '@/lib/sanity/roomTypes'
 
 export const metadata: Metadata = {
   title: "Luxury Stays | Bougainvil'La — Accommodation for 100 Guests",
@@ -6,33 +7,9 @@ export const metadata: Metadata = {
     "18 beautifully appointed rooms at Bougainvil'La comfortably host up to 100 guests, including a Bridal Suite, Groom's Suite, Luxury Family Rooms and Dormitories.",
 }
 
-const ROOMS = [
-  { type: 'Bridal Suite', qty: 1, capacity: 'Up to 3 Guests' },
-  { type: "Groom's Suite", qty: 1, capacity: 'Up to 3 Guests' },
-  { type: 'Luxury Family Rooms', qty: 14, capacity: 'Up to 5 Guests Each' },
-  { type: 'Dormitories', qty: 2, capacity: 'Up to 12 Guests Each' },
-]
+export default async function LuxuryStaysPage() {
+  const rooms = await getRoomTypes()
 
-const ROOM_TYPES = [
-  {
-    name: 'The Bridal Suite',
-    desc: 'A beautifully designed private suite offering elegant interiors, generous natural light, and a luxurious setting for bridal preparations, quiet moments, and timeless photographs before the celebrations begin.',
-  },
-  {
-    name: "The Groom's Suite",
-    desc: "Sophisticated and spacious, the groom's suite provides the perfect place to prepare, relax, and celebrate alongside family and friends before every event.",
-  },
-  {
-    name: 'Luxury Family Rooms',
-    desc: 'Our spacious family rooms have been thoughtfully designed to keep loved ones together while offering exceptional comfort throughout the celebrations. Beautifully furnished with modern amenities, they create a welcoming retreat between every event.',
-  },
-  {
-    name: 'Dormitory Accommodation',
-    desc: "Perfect for larger groups of friends and extended family, our dormitory offers generous space, comfort, and convenience while maintaining the same high standard of hospitality found throughout Bougainvil'La.",
-  },
-]
-
-export default function LuxuryStaysPage() {
   return (
     <main>
       <section style={{ background: 'var(--color-ink)', padding: 'clamp(6rem, 14vh, 9rem) clamp(1.25rem, 5vw, 3rem) clamp(3rem, 7vh, 4.5rem)', textAlign: 'center' }}>
@@ -80,10 +57,10 @@ export default function LuxuryStaysPage() {
               </tr>
             </thead>
             <tbody>
-              {ROOMS.map((r) => (
-                <tr key={r.type} style={{ borderBottom: '1px solid var(--color-line)' }}>
-                  <td style={{ fontFamily: 'var(--font-sans)', fontWeight: 400, fontSize: '0.92rem', color: 'var(--color-ink)', padding: '0.75rem 0.5rem' }}>{r.type}</td>
-                  <td style={{ fontFamily: 'var(--font-sans)', fontWeight: 300, fontSize: '0.92rem', color: 'var(--color-ink-soft)', padding: '0.75rem 0.5rem' }}>{r.qty}</td>
+              {rooms.map((r) => (
+                <tr key={r.name} style={{ borderBottom: '1px solid var(--color-line)' }}>
+                  <td style={{ fontFamily: 'var(--font-sans)', fontWeight: 400, fontSize: '0.92rem', color: 'var(--color-ink)', padding: '0.75rem 0.5rem' }}>{r.name}</td>
+                  <td style={{ fontFamily: 'var(--font-sans)', fontWeight: 300, fontSize: '0.92rem', color: 'var(--color-ink-soft)', padding: '0.75rem 0.5rem' }}>{r.quantity}</td>
                   <td style={{ fontFamily: 'var(--font-sans)', fontWeight: 300, fontSize: '0.92rem', color: 'var(--color-ink-soft)', padding: '0.75rem 0.5rem' }}>{r.capacity}</td>
                 </tr>
               ))}
@@ -92,7 +69,7 @@ export default function LuxuryStaysPage() {
         </div>
       </section>
 
-      {ROOM_TYPES.map((r, i) => (
+      {rooms.map((r, i) => (
         <section key={r.name} style={{
           background: i % 2 === 0 ? 'var(--color-surface-2)' : 'var(--color-surface)',
           borderTop: '1px solid var(--color-line)',
@@ -102,16 +79,22 @@ export default function LuxuryStaysPage() {
             display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 'clamp(2rem, 5vw, 4rem)',
             alignItems: 'center',
           }}>
-            {/* TODO: every supplied room photo (bridal/groom/family) was an unusable
-                blurry frame; no dormitory photos were supplied at all — needs real
-                room photography from the client. */}
-            <div style={{
-              order: i % 2 === 0 ? 1 : 0, width: '100%', height: 'clamp(240px, 34vh, 380px)',
-              background: 'linear-gradient(155deg, var(--color-surface-2), var(--color-accent) 140%)',
-            }} />
+            {r.photo ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={r.photo}
+                alt={r.name}
+                style={{ order: i % 2 === 0 ? 1 : 0, width: '100%', height: 'clamp(240px, 34vh, 380px)', objectFit: 'cover' }}
+              />
+            ) : (
+              <div style={{
+                order: i % 2 === 0 ? 1 : 0, width: '100%', height: 'clamp(240px, 34vh, 380px)',
+                background: 'linear-gradient(155deg, var(--color-surface-2), var(--color-accent) 140%)',
+              }} />
+            )}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               <h2 className="font-display" style={{ fontWeight: 500, fontSize: '1.5rem', color: 'var(--color-ink)', margin: 0 }}>{r.name}</h2>
-              <p style={{ fontFamily: 'var(--font-sans)', fontWeight: 300, fontSize: '1rem', lineHeight: 1.75, color: 'var(--color-ink-soft)', margin: 0 }}>{r.desc}</p>
+              <p style={{ fontFamily: 'var(--font-sans)', fontWeight: 300, fontSize: '1rem', lineHeight: 1.75, color: 'var(--color-ink-soft)', margin: 0 }}>{r.description}</p>
             </div>
           </div>
         </section>

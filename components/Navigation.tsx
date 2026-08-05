@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
+import type { SiteSettings } from '@/lib/sanity/siteSettings'
 
 const NAV_LINKS = [
   { href: '/about/', label: 'About' },
@@ -13,12 +14,13 @@ const NAV_LINKS = [
   { href: '/contact/', label: 'Contact' },
 ]
 
-function CTAButtons({ compact, textColor }: { compact?: boolean; textColor: string }) {
+function CTAButtons({ compact, textColor, settings }: { compact?: boolean; textColor: string; settings: SiteSettings }) {
   const pad = compact ? '0.6rem 1.1rem' : '0.85rem 1.7rem'
   const size = compact ? '0.68rem' : '0.75rem'
+  const mailto = `mailto:${settings.email}?subject=${encodeURIComponent(settings.bookTourEmailSubject)}`
   return (
     <div style={{ display: 'flex', gap: '0.7rem' }}>
-      <a href="mailto:bougainvillaluxury@gmail.com?subject=Venue%20Tour%20Request" style={{
+      <a href={mailto} style={{
         fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: size, letterSpacing: '0.14em',
         textTransform: 'uppercase', color: '#fff', background: 'var(--color-accent-deep)',
         textDecoration: 'none', padding: pad, whiteSpace: 'nowrap',
@@ -36,7 +38,7 @@ function CTAButtons({ compact, textColor }: { compact?: boolean; textColor: stri
   )
 }
 
-export function Navigation() {
+export function Navigation({ settings }: { settings: SiteSettings }) {
   const [open, setOpen] = useState(false)
   const [onLight, setOnLight] = useState(false)
   const headerRef = useRef<HTMLElement>(null)
@@ -105,7 +107,7 @@ export function Navigation() {
         </nav>
 
         <div className="nav-cta-desktop">
-          <CTAButtons compact textColor={textColor} />
+          <CTAButtons compact textColor={textColor} settings={settings} />
         </div>
 
         <button
@@ -133,7 +135,7 @@ export function Navigation() {
             <Link key={l.href} href={l.href} style={{ ...linkStyle, color: '#fff', textShadow: 'none' }} onClick={() => setOpen(false)}>{l.label}</Link>
           ))}
           <div style={{ marginTop: '0.5rem' }}>
-            <CTAButtons textColor="#fff" />
+            <CTAButtons textColor="#fff" settings={settings} />
           </div>
         </div>
       )}

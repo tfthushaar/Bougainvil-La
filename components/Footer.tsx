@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import type { SiteSettings } from '@/lib/sanity/siteSettings'
 
 const EXPLORE_LINKS = [
   { href: '/', label: 'Home' },
@@ -16,7 +17,9 @@ const linkStyle: React.CSSProperties = {
   color: 'rgba(255,255,255,0.75)', textDecoration: 'none',
 }
 
-export function Footer() {
+export function Footer({ settings }: { settings: SiteSettings }) {
+  const telHref = `tel:+${settings.phone.replace(/[^0-9]/g, '')}`
+
   return (
     <footer style={{ background: 'var(--color-ink)', color: '#fff' }}>
       <div style={{
@@ -26,7 +29,7 @@ export function Footer() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
           <span className="font-display" style={{ fontSize: '1.4rem', fontWeight: 500 }}>Bougainvil&rsquo;La</span>
           <p style={{ fontFamily: 'var(--font-sans)', fontWeight: 300, fontSize: '0.85rem', color: 'rgba(255,255,255,0.7)', maxWidth: '20rem' }}>
-            Celebrate Luxury. Create Memories That Last Forever.
+            {settings.footerTagline}
           </p>
         </div>
 
@@ -39,15 +42,15 @@ export function Footer() {
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.7rem' }}>
           <span style={{ fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: '0.7rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--color-gold)' }}>Contact</span>
-          <span style={{ ...linkStyle }}>📍 Near Bolare, K.G. Gollarapalya, Kanakapura Road, Bengaluru, Karnataka – 562109</span>
-          <a href="tel:+918660654160" style={linkStyle}>📞 +91 86606 54160</a>
-          <a href="mailto:bougainvillaluxury@gmail.com" style={linkStyle}>✉️ bougainvillaluxury@gmail.com</a>
+          <span style={{ ...linkStyle }}>📍 {settings.address}</span>
+          <a href={telHref} style={linkStyle}>📞 {settings.phone}</a>
+          <a href={`mailto:${settings.email}`} style={linkStyle}>✉️ {settings.email}</a>
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.7rem' }}>
           <span style={{ fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: '0.7rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--color-gold)' }}>Follow Us</span>
-          <a href="https://www.instagram.com/bougainvillaweddingvenue/" target="_blank" rel="noopener noreferrer" style={linkStyle}>
-            Instagram &mdash; @bougainvillaweddingvenue
+          <a href={settings.instagramUrl} target="_blank" rel="noopener noreferrer" style={linkStyle}>
+            Instagram &mdash; {settings.instagramHandle}
           </a>
         </div>
       </div>

@@ -1,17 +1,6 @@
-const FEATURES: { title: string; desc: string }[] = [
-  { title: 'Floating Mandap', desc: 'Exchange vows on our iconic mandap surrounded by shimmering waters.' },
-  { title: 'Retractable Roof Celebration Space', desc: "Bengaluru's first — celebrate outdoors with year-round comfort, rain or shine." },
-  { title: 'Five Distinctive Celebration Spaces', desc: 'Every event enjoys its own unique atmosphere without ever leaving the venue.' },
-  { title: 'Luxury Accommodation', desc: '18 elegant rooms hosting up to 100 guests overnight.' },
-  { title: 'Landscaped Gardens', desc: 'Beautiful walkways, mature trees, and endless greenery create stunning backdrops.' },
-  { title: 'Picture-Perfect Corners', desc: 'Every turn offers a setting worthy of your wedding album.' },
-  { title: 'Prime South Bengaluru Location', desc: "A destination wedding experience that's beautifully accessible." },
-  { title: 'Temple', desc: 'A dedicated on-site temple for traditional rites and ceremonies.' },
-  { title: 'Capacity for up to 1,000 Guests', desc: 'Grand enough for the biggest celebrations, intimate enough for the smallest.' },
-  { title: 'Parking for Over 200 Vehicles', desc: 'Effortless arrival and departure for every guest.' },
-]
+import type { HomeContent } from '@/lib/sanity/home'
 
-export function Highlights() {
+export function Highlights({ content }: { content: HomeContent }) {
   return (
     <section style={{ background: 'var(--color-ink)', padding: 'clamp(3.5rem, 8vh, 6rem) clamp(1.25rem, 5vw, 3rem)' }}>
       <div style={{ maxWidth: '76rem', margin: '0 auto' }}>
@@ -31,7 +20,7 @@ export function Highlights() {
           display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)',
           border: '1px solid rgba(255,255,255,0.12)', borderLeft: 'none', borderTop: 'none',
         }}>
-          {FEATURES.map((f, i) => (
+          {content.highlights.map((f, i) => (
             <div key={f.title} style={{
               padding: '1.75rem', borderLeft: '1px solid rgba(255,255,255,0.12)', borderTop: '1px solid rgba(255,255,255,0.12)',
               display: 'flex', flexDirection: 'column', gap: '0.6rem',

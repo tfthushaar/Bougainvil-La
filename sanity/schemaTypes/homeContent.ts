@@ -36,8 +36,6 @@ export const homeContent = defineType({
 
     defineField({ name: 'whyHeadline', title: "Why Bougainvil'La — Headline", type: 'string' }),
     defineField({ name: 'whyParagraphs', title: "Why Bougainvil'La — Paragraphs", type: 'array', of: [{ type: 'text' }] }),
-    defineField({ name: 'whyCouplesChoose', title: 'Why Couples Choose (list)', type: 'array', of: [{ type: 'string' }] }),
-    defineField({ name: 'eventsWeHost', title: 'Events We Host (list)', type: 'array', of: [{ type: 'string' }] }),
 
     defineField({ name: 'locationBlurbHeadline', title: 'Location Blurb — Headline', type: 'string' }),
     defineField({ name: 'locationBlurbQuote', title: 'Location Blurb — Quote', type: 'text' }),

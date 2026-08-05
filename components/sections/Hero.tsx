@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import type { HomeContent } from '@/lib/sanity/home'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -31,7 +32,7 @@ function GoldRule({ width = '2.5rem' }: { width?: string }) {
 /* Moment 1 — hero wordmark, visible only in the first frame/viewport, framed
    like Secant's hero: huge tracked sans wordmark, upper-left, gold on this
    site's palette, with a small tracked subtitle line + gold rule. */
-function WordmarkBlock() {
+function WordmarkBlock({ subtitleLeft, subtitleRight }: { subtitleLeft: string; subtitleRight: string }) {
   return (
     <div style={{
       position: 'absolute', top: 0, left: 0, right: 0, minHeight: '100svh', zIndex: 2,
@@ -55,14 +56,14 @@ function WordmarkBlock() {
           fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: 'clamp(0.85rem, 1.1vw, 1rem)', letterSpacing: '0.24em',
           textTransform: 'uppercase', color: 'var(--color-gold)', textShadow: softShadow,
         }}>
-          Destination Wedding Venue
+          {subtitleLeft}
         </span>
         <GoldRule width="2.5rem" />
         <span style={{
           fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: 'clamp(0.85rem, 1.1vw, 1rem)', letterSpacing: '0.24em',
           textTransform: 'uppercase', color: 'rgba(255,255,255,0.85)', textShadow: softShadow,
         }}>
-          Bangalore, India
+          {subtitleRight}
         </span>
       </div>
     </div>
@@ -71,7 +72,9 @@ function WordmarkBlock() {
 
 /* Moment 2 — left-aligned text moment: eyebrow, gold display headline,
    supporting paragraph (the brand copy), and a short tracked feature line. */
-function IntroBlock() {
+function IntroBlock({ eyebrow, headline, paragraph, featureLine }: {
+  eyebrow: string; headline: string; paragraph: string; featureLine: string
+}) {
   return (
     <div style={{
       position: 'absolute', top: '85svh', left: 0, right: 0, minHeight: '100svh', zIndex: 2,
@@ -83,22 +86,20 @@ function IntroBlock() {
           fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: 'clamp(0.85rem, 1.1vw, 1rem)', letterSpacing: '0.28em',
           textTransform: 'uppercase', color: 'var(--color-gold)', textShadow: softShadow,
         }}>
-          The Venue
+          {eyebrow}
         </span>
         <h2 style={{
           fontFamily: 'var(--font-display)', fontWeight: 500, fontStyle: 'italic',
           fontSize: 'clamp(2.3rem, 5vw, 4.2rem)', lineHeight: 1.15, color: 'var(--color-gold)',
           margin: 0, textShadow: goldShadow,
         }}>
-          Jaipur-inspired elegance meets modern luxury.
+          {headline}
         </h2>
         <p style={{
           fontFamily: 'var(--font-sans)', fontWeight: 300, fontSize: 'clamp(1.1rem, 1.6vw, 1.35rem)',
           lineHeight: 1.7, color: 'rgba(255,255,255,0.92)', margin: 0, textShadow: softShadow, maxWidth: '38rem',
         }}>
-          Bangalore&rsquo;s premier destination wedding venue — featuring an iconic floating mandap,
-          stunning semi-indoor and outdoor venues, and a fully retractable rain-proof roof. Every
-          celebration is crafted to be timeless, unforgettable, and weather-ready.
+          {paragraph}
         </p>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
           <GoldRule width="2.5rem" />
@@ -106,7 +107,7 @@ function IntroBlock() {
             fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: 'clamp(0.78rem, 1vw, 0.9rem)', letterSpacing: '0.2em',
             textTransform: 'uppercase', color: 'var(--color-gold)', textShadow: softShadow,
           }}>
-            Floating Mandap &middot; Indoor &amp; Outdoor &middot; Rain-Proof Roof
+            {featureLine}
           </span>
         </div>
       </div>
@@ -116,7 +117,7 @@ function IntroBlock() {
 
 /* Moment 3 — right-aligned moment: a short label + gold rule leading into
    the two CTAs, echoing where Secant places its stat callouts. */
-function ButtonsBlock() {
+function ButtonsBlock({ label }: { label: string }) {
   return (
     <div style={{
       position: 'absolute', top: '150svh', left: 0, right: 0, minHeight: '100svh', zIndex: 2,
@@ -130,7 +131,7 @@ function ButtonsBlock() {
           fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: 'clamp(0.85rem, 1.1vw, 1rem)', letterSpacing: '0.28em',
           textTransform: 'uppercase', color: 'var(--color-gold)', textShadow: softShadow, textAlign: 'right',
         }}>
-          Ready When You Are
+          {label}
         </span>
         <span style={{ display: 'inline-block', width: '100%', height: '1px', background: 'var(--color-gold)' }} />
       </div>
@@ -138,7 +139,7 @@ function ButtonsBlock() {
   )
 }
 
-export function Hero() {
+export function Hero({ content }: { content: HomeContent }) {
   const wrapperRef = useRef<HTMLDivElement>(null)
   const canvasRef  = useRef<HTMLCanvasElement>(null)
   const [reducedMotion, setReducedMotion] = useState<boolean | null>(null)
@@ -292,7 +293,7 @@ export function Hero() {
           style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
         />
         <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.2)' }} />
-        <WordmarkBlock />
+        <WordmarkBlock subtitleLeft={content.heroSubtitleLeft} subtitleRight={content.heroSubtitleRight} />
         {/* Lets the fixed Navigation know when a light section has scrolled
             beneath it, so it can switch from white to dark text. */}
         <div id="hero-end-sentinel" style={{ position: 'absolute', bottom: 0, left: 0, width: 1, height: 1 }} />
@@ -313,9 +314,14 @@ export function Hero() {
         />
         <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.15)' }} />
       </div>
-      <WordmarkBlock />
-      <IntroBlock />
-      <ButtonsBlock />
+      <WordmarkBlock subtitleLeft={content.heroSubtitleLeft} subtitleRight={content.heroSubtitleRight} />
+      <IntroBlock
+        eyebrow={content.heroEyebrow}
+        headline={content.heroHeadline}
+        paragraph={content.heroParagraph}
+        featureLine={content.heroFeatureLine}
+      />
+      <ButtonsBlock label={content.heroButtonsLabel} />
       <div id="hero-end-sentinel" style={{ position: 'absolute', bottom: 0, left: 0, width: 1, height: 1 }} />
     </section>
   )

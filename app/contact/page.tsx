@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { getSiteSettings } from '@/lib/sanity/siteSettings'
 
 export const metadata: Metadata = {
   title: "Contact | Bougainvil'La — Schedule Your Venue Tour",
@@ -17,7 +18,10 @@ const labelStyle: React.CSSProperties = {
   textTransform: 'uppercase', color: 'var(--color-ink-soft)', marginBottom: '0.5rem', display: 'block',
 }
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const settings = await getSiteSettings()
+  const telHref = `tel:+${settings.phone.replace(/[^0-9]/g, '')}`
+
   return (
     <main>
       <section style={{ background: 'var(--color-ink)', padding: 'clamp(6rem, 14vh, 9rem) clamp(1.25rem, 5vw, 3rem) clamp(3rem, 7vh, 4.5rem)', textAlign: 'center' }}>
@@ -90,24 +94,23 @@ export default function ContactPage() {
                 Visit Us
               </span>
               <p style={{ fontFamily: 'var(--font-sans)', fontWeight: 300, fontSize: '0.98rem', lineHeight: 1.8, color: 'var(--color-ink-soft)', margin: 0 }}>
-                📍 Near Bolare, K.G. Gollarapalya<br />
-                Kanakapura Road, Bengaluru, Karnataka – 562109
+                📍 {settings.address}
               </p>
             </div>
             <div>
-              <a href="tel:+918660654160" style={{ fontFamily: 'var(--font-sans)', fontWeight: 400, fontSize: '0.98rem', color: 'var(--color-ink)', textDecoration: 'none', display: 'block' }}>
-                📞 +91 86606 54160
+              <a href={telHref} style={{ fontFamily: 'var(--font-sans)', fontWeight: 400, fontSize: '0.98rem', color: 'var(--color-ink)', textDecoration: 'none', display: 'block' }}>
+                📞 {settings.phone}
               </a>
-              <a href="mailto:bougainvillaluxury@gmail.com" style={{ fontFamily: 'var(--font-sans)', fontWeight: 400, fontSize: '0.98rem', color: 'var(--color-ink)', textDecoration: 'none', display: 'block', marginTop: '0.5rem' }}>
-                ✉️ bougainvillaluxury@gmail.com
+              <a href={`mailto:${settings.email}`} style={{ fontFamily: 'var(--font-sans)', fontWeight: 400, fontSize: '0.98rem', color: 'var(--color-ink)', textDecoration: 'none', display: 'block', marginTop: '0.5rem' }}>
+                ✉️ {settings.email}
               </a>
             </div>
             <div>
               <span style={{ display: 'block', fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: '0.72rem', letterSpacing: '0.28em', textTransform: 'uppercase', color: 'var(--color-gold)', marginBottom: '0.75rem' }}>
                 Follow Us
               </span>
-              <a href="https://www.instagram.com/bougainvillaweddingvenue/" target="_blank" rel="noopener noreferrer" style={{ fontFamily: 'var(--font-sans)', fontWeight: 400, fontSize: '0.98rem', color: 'var(--color-ink)', textDecoration: 'none' }}>
-                Instagram — @bougainvillaweddingvenue
+              <a href={settings.instagramUrl} target="_blank" rel="noopener noreferrer" style={{ fontFamily: 'var(--font-sans)', fontWeight: 400, fontSize: '0.98rem', color: 'var(--color-ink)', textDecoration: 'none' }}>
+                Instagram — {settings.instagramHandle}
               </a>
             </div>
           </div>

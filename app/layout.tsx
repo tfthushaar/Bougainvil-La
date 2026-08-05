@@ -3,6 +3,7 @@ import { ebGaramond, raleway } from '@/lib/fonts'
 import { SmoothScroll } from '@/components/SmoothScroll'
 import { Navigation } from '@/components/Navigation'
 import { Footer } from '@/components/Footer'
+import { getSiteSettings } from '@/lib/sanity/siteSettings'
 import './globals.css'
 
 export const viewport: Viewport = {
@@ -17,14 +18,16 @@ export const metadata: Metadata = {
     "Bougainvil'La is one of the finest Luxury Wedding Venue Bangalore destinations, thoughtfully designed for couples who seek elegance, exclusivity, and unforgettable celebrations.",
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const settings = await getSiteSettings()
+
   return (
     <html lang="en" className={`${ebGaramond.variable} ${raleway.variable}`}>
       <body>
         <SmoothScroll>
-          <Navigation />
+          <Navigation settings={settings} />
           {children}
-          <Footer />
+          <Footer settings={settings} />
         </SmoothScroll>
       </body>
     </html>

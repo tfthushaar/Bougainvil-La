@@ -151,9 +151,247 @@ async function migrateLocations() {
   }
 }
 
+// ---- home page content (singleton) ----------------------------------------
+
+async function migrateHomeContent() {
+  console.log('\nHome content')
+  const founderImage = await uploadImage('/images/venues/sumeera/with-decor/001.webp')
+
+  const doc = {
+    _id: 'homeContent',
+    _type: 'homeContent',
+    heroSubtitleLeft: 'Destination Wedding Venue',
+    heroSubtitleRight: 'Bangalore, India',
+    heroEyebrow: 'The Venue',
+    heroHeadline: 'Jaipur-inspired elegance meets modern luxury.',
+    heroParagraph:
+      'Bangalore’s premier destination wedding venue — featuring an iconic floating mandap, stunning semi-indoor and outdoor venues, and a fully retractable rain-proof roof. Every celebration is crafted to be timeless, unforgettable, and weather-ready.',
+    heroFeatureLine: 'Floating Mandap · Indoor & Outdoor · Rain-Proof Roof',
+    heroButtonsLabel: 'Ready When You Are',
+
+    introHeadline: 'Your Perfect Luxury Wedding Begins Here',
+    introParagraph:
+      'If you’re searching for the perfect Luxury Wedding Venue Bangalore, Bougainvil’La offers an unmatched destination wedding experience in South Bangalore. Designed to host weddings, receptions, engagements, mehendi, haldi, sangeet, anniversaries and luxury celebrations, every space has been thoughtfully created to deliver timeless elegance.',
+
+    founderEyebrow: 'Designed Through the Eyes of a Wedding Planner',
+    founderParagraphs: [
+      'Bougainvil’La is the vision of Lakshmi Keerthi, an award-winning luxury wedding planner with over two decades of experience in the wedding industry.',
+      'After years of creating weddings and understanding what couples, families, planners and designers truly need from a venue, she envisioned Bougainvil’La as more than a beautiful setting. Every space has been thoughtfully created around how weddings actually unfold — from ceremonies and guest experiences to décor, dining, photography and celebrations.',
+    ],
+    founderQuote: 'A venue imagined by a wedding planner. Created for unforgettable weddings.',
+    ...(founderImage ? { founderImage } : {}),
+
+    highlights: [
+      { _key: key(), title: 'Floating Mandap', desc: 'Exchange vows on our iconic mandap surrounded by shimmering waters.' },
+      { _key: key(), title: 'Retractable Roof Celebration Space', desc: 'Bengaluru’s first — celebrate outdoors with year-round comfort, rain or shine.' },
+      { _key: key(), title: 'Five Distinctive Celebration Spaces', desc: 'Every event enjoys its own unique atmosphere without ever leaving the venue.' },
+      { _key: key(), title: 'Luxury Accommodation', desc: '18 elegant rooms hosting up to 100 guests overnight.' },
+      { _key: key(), title: 'Landscaped Gardens', desc: 'Beautiful walkways, mature trees, and endless greenery create stunning backdrops.' },
+      { _key: key(), title: 'Picture-Perfect Corners', desc: 'Every turn offers a setting worthy of your wedding album.' },
+      { _key: key(), title: 'Prime South Bengaluru Location', desc: 'A destination wedding experience that’s beautifully accessible.' },
+      { _key: key(), title: 'Temple', desc: 'A dedicated on-site temple for traditional rites and ceremonies.' },
+      { _key: key(), title: 'Capacity for up to 1,000 Guests', desc: 'Grand enough for the biggest celebrations, intimate enough for the smallest.' },
+      { _key: key(), title: 'Parking for Over 200 Vehicles', desc: 'Effortless arrival and departure for every guest.' },
+    ],
+
+    whyHeadline: 'Thoughtfully Designed for Unforgettable Celebrations',
+    whyParagraphs: [
+      'Some places simply host weddings. Others become part of the story. Couples choose Bougainvil’La as their destination wedding venue in Bangalore for its coveted South Bangalore location, luxury stays for 100 guests, iconic floating mandap, in-house wedding planning support, complete vendor flexibility, ample parking, easy accessibility, and fully weather-proof venue spaces.',
+      'From wedding ceremonies, receptions and engagements to mehendi, haldi, sangeet, anniversaries, corporate events and luxury social gatherings — every kind of celebration finds its place here.',
+    ],
+
+    locationBlurbHeadline: 'A Luxury Wedding Destination in South Bangalore',
+    locationBlurbQuote:
+      'Located near Bolare on Kanakapura Road, Bougainvil’La is conveniently accessible from JP Nagar, Basavanagudi, Banashankari, Jayanagar, Bannerghatta Road, Nice Road and neighbourhoods across South Bengaluru.',
+  }
+
+  await client.createOrReplace(doc)
+  console.log('  saved homeContent')
+}
+
+// ---- about page (singleton) ------------------------------------------------
+
+async function migrateAboutContent() {
+  console.log('\nAbout content')
+  const heroImage = await uploadImage('/images/about/about-us.webp')
+
+  const doc = {
+    _id: 'aboutContent',
+    _type: 'aboutContent',
+    eyebrow: 'A Destination for Luxury Wedding',
+    introParagraphs: [
+      'At Bougainvil’La, we believe a wedding is far more than a single event—it is a collection of unforgettable moments that deserve extraordinary surroundings.',
+      'As one of the most sought-after Luxury Wedding Venue Bangalore destinations, Bougainvil’La has been thoughtfully planned to host every chapter of your celebration. Inspired by timeless Jaipur architecture and surrounded by lush tropical landscapes, our Wedding Venue South Bangalore features Bengaluru’s iconic Floating Mandap, India’s first Retractable Roof Wedding Venue, elegant indoor and outdoor celebration spaces, and premium Luxury Accommodation—all seamlessly connected within one spectacular destination.',
+    ],
+    ...(heroImage ? { heroImage } : {}),
+    founderName: 'Lakshmi Keerthi',
+    founderTitle: 'Founder, Bougainvil’La | Luxury Wedding Planner',
+    founderBioParagraphs: [
+      'Bougainvil’La was born from a simple belief — a wedding venue should do more than host a celebration. It should become part of the story.',
+      'Founded by Lakshmi Keerthi, an award-winning luxury wedding planner with over two decades of experience in the wedding industry, Bougainvil’La brings together years of understanding weddings from the inside — the emotions of families, the expectations of couples, the complexities of execution, and the importance of creating spaces that are both beautiful and functional.',
+      'A Computer Science Engineer and an alumna of IIM Bangalore, Lakshmi’s professional journey began in the corporate world, where she worked extensively in HR and Leadership roles before following her passion into the world of weddings.',
+      'Over the years, she has planned and curated luxury and destination weddings, working closely with couples, families, designers, artists and wedding professionals.',
+      'That experience shaped the philosophy behind Bougainvil’La.',
+      'Rather than creating another conventional wedding hall, the vision was to build a venue through the eyes of a wedding planner — where every space considers how a wedding actually unfolds.',
+      'From guest movement and ceremony layouts to décor possibilities, dining experiences, photography backdrops and the transition between multiple wedding functions, every detail has been envisioned around the experience of celebrating.',
+      'The result is Bougainvil’La — a collection of distinctive semi indoor, outdoor, retractable roof feature and poolside spaces where every celebration can have its own identity.',
+      'For Lakshmi, luxury is not simply about grandeur.',
+      'It is about thoughtful details, effortless experiences and creating moments that remain with families long after the celebration is over.',
+      'That philosophy continues to guide every experience at Bougainvil’La.',
+      'From intimate ceremonies by the water to grand receptions beneath the stars, every celebration is designed to feel elegant, effortless, and unforgettable.',
+      'Bougainvil’La is guided by an experienced Board of Directors, Chairman, and executive leadership team who collectively oversee the organisation and its operations.',
+      'Lakshmi Keerthi continues to spearhead La’kiru – designing and executing weddings across India while also being associated with Bougainvil’La as its in-house wedding planner. Clients may choose to engage her services for their celebrations; however, this is entirely optional.',
+      'Bougainvil’La offers complete creative freedom, allowing every client to appoint a wedding planner and decorator of their choice. Our team works collaboratively with external professionals to ensure a seamless experience while bringing each couple’s unique vision to life.',
+    ],
+    highlights: [
+      'Capacity for up to 1,000 Guests',
+      '5 Distinctive Celebration Spaces',
+      'Luxury Accommodation for 100 Guests',
+      '18 Elegant Guest Rooms',
+      'Iconic Floating Mandap',
+      'Temple',
+      'Bengaluru’s First Retractable Roof Celebration Space',
+      'Parking for Over 200 Vehicles',
+      'Destination Wedding Experience in South Bengaluru',
+    ],
+  }
+
+  await client.createOrReplace(doc)
+  console.log('  saved aboutContent')
+}
+
+// ---- luxury stays room types ------------------------------------------------
+
+async function migrateRoomTypes() {
+  console.log('\nRoom types')
+  // No usable photos exist for any room type — every supplied photo (bridal,
+  // groom's, family) was an unusable blurry frame, and no dormitory photos
+  // were supplied at all (see reference-bougainvilla-materials memory).
+  const rooms = [
+    {
+      slug: 'bridal-suite',
+      name: 'The Bridal Suite',
+      quantity: 1,
+      capacity: 'Up to 3 Guests',
+      description:
+        'A beautifully designed private suite offering elegant interiors, generous natural light, and a luxurious setting for bridal preparations, quiet moments, and timeless photographs before the celebrations begin.',
+    },
+    {
+      slug: 'grooms-suite',
+      name: 'The Groom’s Suite',
+      quantity: 1,
+      capacity: 'Up to 3 Guests',
+      description:
+        'Sophisticated and spacious, the groom’s suite provides the perfect place to prepare, relax, and celebrate alongside family and friends before every event.',
+    },
+    {
+      slug: 'luxury-family-rooms',
+      name: 'Luxury Family Rooms',
+      quantity: 14,
+      capacity: 'Up to 5 Guests Each',
+      description:
+        'Our spacious family rooms have been thoughtfully designed to keep loved ones together while offering exceptional comfort throughout the celebrations. Beautifully furnished with modern amenities, they create a welcoming retreat between every event.',
+    },
+    {
+      slug: 'dormitories',
+      name: 'Dormitory Accommodation',
+      quantity: 2,
+      capacity: 'Up to 12 Guests Each',
+      description:
+        'Perfect for larger groups of friends and extended family, our dormitory offers generous space, comfort, and convenience while maintaining the same high standard of hospitality found throughout Bougainvil’La.',
+    },
+  ]
+
+  for (const [i, r] of rooms.entries()) {
+    const doc = {
+      _id: `roomType-${r.slug}`,
+      _type: 'roomType',
+      name: r.name,
+      description: r.description,
+      quantity: r.quantity,
+      capacity: r.capacity,
+      order: i,
+    }
+    await client.createOrReplace(doc)
+    console.log(`  saved roomType-${r.slug}`)
+  }
+}
+
+// ---- FAQ items ------------------------------------------------
+
+async function migrateFaqItems() {
+  console.log('\nFAQ items')
+  const faqs = [
+    {
+      slug: 'guests',
+      question: 'How many guests can Bougainvil’La accommodate?',
+      answer: 'Our celebration spaces can comfortably host weddings and events for up to 1,000 guests.',
+    },
+    {
+      slug: 'accommodation',
+      question: 'Do you offer accommodation?',
+      answer:
+        'Yes. Bougainvil’La features 18 luxurious rooms, including exclusive bridal and groom suites, spacious family rooms, and dormitory accommodation for up to 100 guests.',
+    },
+    {
+      slug: 'functions',
+      question: 'Can all our wedding functions be hosted here?',
+      answer:
+        'Absolutely. Our five distinctive celebration spaces are designed to host every event—from intimate ceremonies and vibrant mehendis to grand receptions and elegant dining experiences.',
+    },
+    {
+      slug: 'parking',
+      question: 'Is parking available?',
+      answer: 'Yes. We offer ample parking for over 200 vehicles.',
+    },
+    {
+      slug: 'seasons',
+      question: 'Is the venue suitable during all seasons?',
+      answer:
+        'Yes. Floral Trellis features Bengaluru’s first retractable roof celebration space, allowing you to enjoy the beauty of an outdoor celebration throughout the year.',
+    },
+  ]
+
+  for (const [i, f] of faqs.entries()) {
+    const doc = {
+      _id: `faqItem-${f.slug}`,
+      _type: 'faqItem',
+      question: f.question,
+      answer: f.answer,
+      order: i,
+    }
+    await client.createOrReplace(doc)
+    console.log(`  saved faqItem-${f.slug}`)
+  }
+}
+
+// ---- site settings (singleton) ------------------------------------------------
+
+async function migrateSiteSettings() {
+  console.log('\nSite settings')
+  const doc = {
+    _id: 'siteSettings',
+    _type: 'siteSettings',
+    address: 'Near Bolare, K.G. Gollarapalya, Kanakapura Road, Bengaluru, Karnataka – 562109',
+    phone: '+91 86606 54160',
+    email: 'bougainvillaluxury@gmail.com',
+    instagramHandle: '@bougainvillaweddingvenue',
+    instagramUrl: 'https://www.instagram.com/bougainvillaweddingvenue/',
+    footerTagline: 'Celebrate Luxury. Create Memories That Last Forever.',
+    bookTourEmailSubject: 'Venue Tour Request',
+  }
+  await client.createOrReplace(doc)
+  console.log('  saved siteSettings')
+}
+
 async function main() {
   await migrateVenues()
   await migrateLocations()
+  await migrateHomeContent()
+  await migrateAboutContent()
+  await migrateRoomTypes()
+  await migrateFaqItems()
+  await migrateSiteSettings()
   console.log('\nDone.')
 }
 

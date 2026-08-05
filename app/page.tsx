@@ -7,18 +7,21 @@ import { GalleryPreview } from '@/components/sections/GalleryPreview'
 import { LuxuryStaysPreview } from '@/components/sections/LuxuryStaysPreview'
 import { LocationBlurb } from '@/components/sections/LocationBlurb'
 import { EnquireForm } from '@/components/sections/EnquireForm'
+import { getHomeContent } from '@/lib/sanity/home'
 
-export default function Home() {
+export default async function Home() {
+  const home = await getHomeContent()
+
   return (
     <main>
-      <Hero />
-      <Intro />
-      <FounderTeaser />
-      <Highlights />
-      <WhyBougainvilla />
+      <Hero content={home} />
+      <Intro content={home} />
+      <FounderTeaser content={home} />
+      <Highlights content={home} />
+      <WhyBougainvilla content={home} />
       <GalleryPreview />
       <LuxuryStaysPreview />
-      <LocationBlurb />
+      <LocationBlurb content={home} />
       <EnquireForm />
     </main>
   )

@@ -1,4 +1,6 @@
-export function WhyBougainvilla() {
+import type { HomeContent } from '@/lib/sanity/home'
+
+export function WhyBougainvilla({ content }: { content: HomeContent }) {
   return (
     <section style={{
       background: 'var(--color-surface)', borderTop: '1px solid var(--color-line)',
@@ -12,20 +14,13 @@ export function WhyBougainvilla() {
           Why Bougainvil&rsquo;La
         </span>
         <h2 className="font-display" style={{ fontStyle: 'italic', fontWeight: 500, fontSize: 'clamp(1.8rem, 3.6vw, 2.6rem)', margin: 0, color: 'var(--color-ink)' }}>
-          Thoughtfully Designed for Unforgettable Celebrations
+          {content.whyHeadline}
         </h2>
-        <p style={{ fontFamily: 'var(--font-sans)', fontWeight: 300, fontSize: '1.05rem', lineHeight: 1.8, color: 'var(--color-ink-soft)', margin: 0 }}>
-          Some places simply host weddings. Others become part of the story. Couples choose
-          Bougainvil&rsquo;La as their destination wedding venue in Bangalore for its coveted South
-          Bangalore location, luxury stays for 100 guests, iconic floating mandap, in-house
-          wedding planning support, complete vendor flexibility, ample parking, easy
-          accessibility, and fully weather-proof venue spaces.
-        </p>
-        <p style={{ fontFamily: 'var(--font-sans)', fontWeight: 300, fontSize: '1.05rem', lineHeight: 1.8, color: 'var(--color-ink-soft)', margin: 0 }}>
-          From wedding ceremonies, receptions and engagements to mehendi, haldi, sangeet,
-          anniversaries, corporate events and luxury social gatherings — every kind of
-          celebration finds its place here.
-        </p>
+        {content.whyParagraphs.map((para, i) => (
+          <p key={i} style={{ fontFamily: 'var(--font-sans)', fontWeight: 300, fontSize: '1.05rem', lineHeight: 1.8, color: 'var(--color-ink-soft)', margin: 0 }}>
+            {para}
+          </p>
+        ))}
       </div>
     </section>
   )
