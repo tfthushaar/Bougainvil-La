@@ -2,7 +2,14 @@
 
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import type { SiteSettings } from '@/lib/sanity/siteSettings'
+
+// Secret entry point to the Studio: click the wordmark 5 times in quick
+// succession. Not real security (Sanity's own login is) — just keeps the
+// admin route from being an obvious thing casual visitors stumble onto.
+const SECRET_CLICKS = 5
+const SECRET_WINDOW_MS = 1500
 
 const NAV_LINKS = [
   { href: '/about/', label: 'About' },
@@ -42,6 +49,21 @@ export function Navigation({ settings }: { settings: SiteSettings }) {
   const [open, setOpen] = useState(false)
   const [onLight, setOnLight] = useState(false)
   const headerRef = useRef<HTMLElement>(null)
+  const router = useRouter()
+  const logoClickCount = useRef(0)
+  const logoLastClickAt = useRef(0)
+
+  function handleLogoClick(e: React.MouseEvent) {
+    const now = Date.now()
+    logoClickCount.current = now - logoLastClickAt.current > SECRET_WINDOW_MS ? 1 : logoClickCount.current + 1
+    logoLastClickAt.current = now
+
+    if (logoClickCount.current >= SECRET_CLICKS) {
+      logoClickCount.current = 0
+      e.preventDefault()
+      router.push('/studio/')
+    }
+  }
 
   useEffect(() => {
     function check() {
@@ -91,7 +113,7 @@ export function Navigation({ settings }: { settings: SiteSettings }) {
         maxWidth: '84rem', margin: '0 auto', padding: '0.9rem clamp(1.25rem, 4vw, 2.5rem)',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem',
       }}>
-        <Link href="/" style={{ display: 'flex', alignItems: 'center', flexShrink: 0, textDecoration: 'none' }} aria-label="Bougainvil'La — Home">
+        <Link href="/" onClick={handleLogoClick} style={{ display: 'flex', alignItems: 'center', flexShrink: 0, textDecoration: 'none' }} aria-label="Bougainvil'La — Home">
           <span className="font-display" style={{
             fontStyle: 'italic', fontWeight: 500, fontSize: '1.35rem', color: textColor,
             textShadow, transition: 'color 0.3s ease',
