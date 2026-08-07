@@ -4,7 +4,7 @@ import { SmoothScroll } from '@/components/SmoothScroll'
 import { Navigation } from '@/components/Navigation'
 import { Footer } from '@/components/Footer'
 import { getSiteSettings } from '@/lib/sanity/siteSettings'
-import './globals.css'
+import '../globals.css'
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     "Bougainvil'La is one of the finest Luxury Wedding Venue Bangalore destinations, thoughtfully designed for couples who seek elegance, exclusivity, and unforgettable celebrations.",
 }
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function SiteLayout({ children }: { children: React.ReactNode }) {
   const settings = await getSiteSettings()
 
   return (
