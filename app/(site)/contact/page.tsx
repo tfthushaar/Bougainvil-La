@@ -1,21 +1,11 @@
 import type { Metadata } from 'next'
 import { getSiteSettings } from '@/lib/sanity/siteSettings'
+import { ContactForm } from '@/components/sections/ContactForm'
 
 export const metadata: Metadata = {
   title: "Contact | Bougainvil'La — Schedule Your Venue Tour",
   description:
     "Get in touch with Bougainvil'La to schedule a venue tour. Near Bolare, K.G. Gollarapalya, Kanakapura Road, Bengaluru, Karnataka – 562109.",
-}
-
-const fieldStyle: React.CSSProperties = {
-  fontFamily: 'var(--font-sans)', fontWeight: 300, fontSize: '0.95rem', color: 'var(--color-ink)',
-  background: 'var(--color-surface)', border: '1px solid var(--color-line)',
-  padding: '0.8rem 1rem', width: '100%',
-}
-
-const labelStyle: React.CSSProperties = {
-  fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: '0.7rem', letterSpacing: '0.14em',
-  textTransform: 'uppercase', color: 'var(--color-ink-soft)', marginBottom: '0.5rem', display: 'block',
 }
 
 export default async function ContactPage() {
@@ -52,40 +42,7 @@ export default async function ContactPage() {
             }}>
               Schedule Your Visit
             </span>
-            <form name="enquiry" method="POST" data-netlify="true" style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-              <input type="hidden" name="form-name" value="enquiry" />
-              <div>
-                <label htmlFor="name" style={labelStyle}>Full Name</label>
-                <input id="name" name="name" type="text" required style={fieldStyle} />
-              </div>
-              <div>
-                <label htmlFor="phone" style={labelStyle}>Phone Number</label>
-                <input id="phone" name="phone" type="tel" required style={fieldStyle} />
-              </div>
-              <div>
-                <label htmlFor="email" style={labelStyle}>Email Address</label>
-                <input id="email" name="email" type="email" required style={fieldStyle} />
-              </div>
-              <div>
-                <label htmlFor="wedding_date" style={labelStyle}>Wedding Date</label>
-                <input id="wedding_date" name="wedding_date" type="date" style={fieldStyle} />
-              </div>
-              <div>
-                <label htmlFor="guest_count" style={labelStyle}>Estimated Guest Count</label>
-                <input id="guest_count" name="guest_count" type="number" min={1} style={fieldStyle} />
-              </div>
-              <div>
-                <label htmlFor="message" style={labelStyle}>Tell Us About Your Celebration</label>
-                <textarea id="message" name="message" rows={4} style={{ ...fieldStyle, resize: 'vertical' }} />
-              </div>
-              <button type="submit" style={{
-                fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: '0.78rem', letterSpacing: '0.16em',
-                textTransform: 'uppercase', color: '#fff', background: 'var(--color-accent-deep)',
-                border: 'none', padding: '1rem 2rem', cursor: 'pointer', marginTop: '0.5rem',
-              }}>
-                Book a Venue Tour
-              </button>
-            </form>
+            <ContactForm />
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>

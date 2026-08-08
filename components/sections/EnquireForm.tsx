@@ -1,3 +1,7 @@
+'use client'
+
+import { useNetlifyForm } from '@/lib/useNetlifyForm'
+
 const fieldStyle: React.CSSProperties = {
   fontFamily: 'var(--font-sans)', fontWeight: 300, fontSize: '0.95rem', color: 'var(--color-ink)',
   background: 'var(--color-surface)', border: '1px solid var(--color-line)',
@@ -10,6 +14,8 @@ const labelStyle: React.CSSProperties = {
 }
 
 export function EnquireForm() {
+  const { status, handleSubmit } = useNetlifyForm()
+
   return (
     <section id="enquire" style={{ background: 'var(--color-surface)', borderTop: '1px solid var(--color-line)', padding: 'clamp(3.5rem, 8vh, 6rem) clamp(1.25rem, 5vw, 3rem)' }}>
       <div style={{ maxWidth: '52rem', margin: '0 auto' }}>
@@ -29,7 +35,7 @@ export function EnquireForm() {
           </p>
         </div>
 
-        <form name="enquiry" method="POST" data-netlify="true" style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+        <form name="enquiry" onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
           <input type="hidden" name="form-name" value="enquiry" />
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1.25rem' }}>
             <div>
@@ -59,13 +65,24 @@ export function EnquireForm() {
             <label htmlFor="message" style={labelStyle}>Tell Us About Your Celebration</label>
             <textarea id="message" name="message" rows={4} style={{ ...fieldStyle, resize: 'vertical' }} />
           </div>
-          <button type="submit" style={{
+          <button type="submit" disabled={status === 'submitting'} style={{
             fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: '0.78rem', letterSpacing: '0.16em',
             textTransform: 'uppercase', color: '#fff', background: 'var(--color-accent-deep)',
-            border: 'none', padding: '1rem 2rem', cursor: 'pointer', marginTop: '0.5rem',
+            border: 'none', padding: '1rem 2rem', cursor: status === 'submitting' ? 'default' : 'pointer',
+            marginTop: '0.5rem', opacity: status === 'submitting' ? 0.7 : 1,
           }}>
-            Book a Venue Tour
+            {status === 'submitting' ? 'Sending…' : 'Book a Venue Tour'}
           </button>
+          {status === 'success' && (
+            <p style={{ fontFamily: 'var(--font-sans)', fontWeight: 400, fontSize: '0.9rem', color: 'var(--color-accent-deep)', margin: 0 }}>
+              Thank you — we&rsquo;ll be in touch shortly!
+            </p>
+          )}
+          {status === 'error' && (
+            <p style={{ fontFamily: 'var(--font-sans)', fontWeight: 400, fontSize: '0.9rem', color: 'var(--color-accent-deep)', margin: 0 }}>
+              Something went wrong — please try again, or reach us directly at the contact details below.
+            </p>
+          )}
         </form>
       </div>
     </section>
