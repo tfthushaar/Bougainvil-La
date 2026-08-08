@@ -37,7 +37,7 @@ export default async function VenuesPage() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.9rem' }}>
                 {v.cover ? (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={v.cover} alt={`${v.name} at Bougainvil'La`} style={{ width: '100%', aspectRatio: '4 / 3', objectFit: 'cover' }} />
+                  <img src={v.cover} alt={`${v.name} at Bougainvil'La`} style={{ width: '100%', height: 'auto', display: 'block' }} />
                 ) : (
                   <div style={{ width: '100%', aspectRatio: '4 / 3', background: 'linear-gradient(155deg, var(--color-surface-2), var(--color-accent) 140%)' }} />
                 )}

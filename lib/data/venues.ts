@@ -5,10 +5,9 @@ export interface Venue {
   description: string[]
   seated: number
   floating: number
-  /** null when materials/ had no usable (non-blurry) photo for this space yet */
   cover: string | null
-  /** Hand-picked, quality-checked highlights for the venue detail page — the
-   *  full provided photo set (including uncurated ones) lives on /gallery/. */
+  /** Hand-picked highlights for the venue detail page — the full provided
+   *  photo set lives on /gallery/. */
   highlights: string[]
 }
 
@@ -60,7 +59,11 @@ export const VENUES: Venue[] = [
     seated: 250,
     floating: 350,
     cover: '/images/venues/divine-bells/with-decor/004.webp',
-    highlights: ['/images/venues/divine-bells/with-decor/004.webp'],
+    highlights: [
+      '/images/venues/divine-bells/with-decor/004.webp',
+      '/images/venues/divine-bells/with-decor/008.webp',
+      '/images/venues/divine-bells/without-decor/004.webp',
+    ],
   },
   {
     slug: 'margarita',
@@ -74,7 +77,11 @@ export const VENUES: Venue[] = [
     seated: 200,
     floating: 300,
     cover: '/images/venues/margarita/with-decor/001.webp',
-    highlights: ['/images/venues/margarita/with-decor/001.webp'],
+    highlights: [
+      '/images/venues/margarita/with-decor/001.webp',
+      '/images/venues/margarita/with-decor/022.webp',
+      '/images/venues/margarita/without-decor/001.webp',
+    ],
   },
   {
     slug: 'ice-spice',
@@ -86,9 +93,11 @@ export const VENUES: Venue[] = [
     ],
     seated: 180,
     floating: 280,
-    // TODO: every supplied Ice Spice photo (all 9, with & without decor) is an
-    // unusable close-up/motion-blur frame — needs real photography.
-    cover: null,
-    highlights: [],
+    cover: '/images/venues/ice-spice/with-decor/001.webp',
+    highlights: [
+      '/images/venues/ice-spice/with-decor/001.webp',
+      '/images/venues/ice-spice/with-decor/003.webp',
+      '/images/venues/ice-spice/with-decor/004.webp',
+    ],
   },
 ]

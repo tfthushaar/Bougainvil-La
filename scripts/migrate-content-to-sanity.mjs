@@ -28,6 +28,22 @@ if (!token) throw new Error('SANITY_API_WRITE_TOKEN is not set — generate an E
 
 const client = createClient({ projectId, dataset, apiVersion, token, useCdn: false })
 
+// Sanity's asset API rate-limits in-flight uploads (429 above ~25 at once) —
+// this venue set alone uploads 150+ images, so run them a few at a time
+// instead of Promise.all-ing the whole batch.
+async function mapWithConcurrency(items, limit, fn) {
+  const results = new Array(items.length)
+  let next = 0
+  async function worker() {
+    while (next < items.length) {
+      const i = next++
+      results[i] = await fn(items[i], i)
+    }
+  }
+  await Promise.all(Array.from({ length: Math.min(limit, items.length) }, worker))
+  return results
+}
+
 // ---- tiny helpers ----------------------------------------------------
 
 let keyCounter = 0
@@ -91,14 +107,14 @@ async function migrateVenues() {
   for (const [i, v] of VENUES.entries()) {
     console.log(`\nVenue: ${v.name}`)
     const cover = v.cover ? await uploadImage(v.cover) : undefined
-    const highlights = (await Promise.all(v.highlights.map(uploadImageWithKey))).filter(Boolean)
+    const highlights = (await mapWithConcurrency(v.highlights, 5, uploadImageWithKey)).filter(Boolean)
 
     const m = manifest[v.slug] ?? { 'with-decor': [], 'without-decor': [] }
     const galleryWithDecor = (
-      await Promise.all(m['with-decor'].map((f) => uploadImageWithKey(`/images/venues/${v.slug}/with-decor/${f}`)))
+      await mapWithConcurrency(m['with-decor'], 5, (f) => uploadImageWithKey(`/images/venues/${v.slug}/with-decor/${f}`))
     ).filter(Boolean)
     const galleryWithoutDecor = (
-      await Promise.all(m['without-decor'].map((f) => uploadImageWithKey(`/images/venues/${v.slug}/without-decor/${f}`)))
+      await mapWithConcurrency(m['without-decor'], 5, (f) => uploadImageWithKey(`/images/venues/${v.slug}/without-decor/${f}`))
     ).filter(Boolean)
 
     const doc = {
@@ -264,15 +280,18 @@ async function migrateAboutContent() {
 
 async function migrateRoomTypes() {
   console.log('\nRoom types')
-  // No usable photos exist for any room type — every supplied photo (bridal,
-  // groom's, family) was an unusable blurry frame, and no dormitory photos
-  // were supplied at all (see reference-bougainvilla-materials memory).
+  // Room photos were unusable in an earlier pass because of a since-fixed
+  // conversion bug (ffmpeg was grabbing a single 512x512 tile from Apple's
+  // grid-tiled HEIC photos instead of the reconstructed full image — see
+  // scripts/prepare-images.py). Real, good photos exist for every room type
+  // except dormitories, which genuinely have none supplied.
   const rooms = [
     {
       slug: 'bridal-suite',
       name: 'The Bridal Suite',
       quantity: 1,
       capacity: 'Up to 3 Guests',
+      photo: '/images/rooms/bridal-suite/003.webp',
       description:
         'A beautifully designed private suite offering elegant interiors, generous natural light, and a luxurious setting for bridal preparations, quiet moments, and timeless photographs before the celebrations begin.',
     },
@@ -281,6 +300,7 @@ async function migrateRoomTypes() {
       name: 'The Groom’s Suite',
       quantity: 1,
       capacity: 'Up to 3 Guests',
+      photo: '/images/rooms/grooms-suite/002.webp',
       description:
         'Sophisticated and spacious, the groom’s suite provides the perfect place to prepare, relax, and celebrate alongside family and friends before every event.',
     },
@@ -289,6 +309,7 @@ async function migrateRoomTypes() {
       name: 'Luxury Family Rooms',
       quantity: 14,
       capacity: 'Up to 5 Guests Each',
+      photo: '/images/rooms/family-rooms/001.webp',
       description:
         'Our spacious family rooms have been thoughtfully designed to keep loved ones together while offering exceptional comfort throughout the celebrations. Beautifully furnished with modern amenities, they create a welcoming retreat between every event.',
     },
@@ -297,12 +318,14 @@ async function migrateRoomTypes() {
       name: 'Dormitory Accommodation',
       quantity: 2,
       capacity: 'Up to 12 Guests Each',
+      photo: null,
       description:
         'Perfect for larger groups of friends and extended family, our dormitory offers generous space, comfort, and convenience while maintaining the same high standard of hospitality found throughout Bougainvil’La.',
     },
   ]
 
   for (const [i, r] of rooms.entries()) {
+    const photo = r.photo ? await uploadImage(r.photo) : undefined
     const doc = {
       _id: `roomType-${r.slug}`,
       _type: 'roomType',
@@ -310,6 +333,7 @@ async function migrateRoomTypes() {
       description: r.description,
       quantity: r.quantity,
       capacity: r.capacity,
+      ...(photo ? { photo } : {}),
       order: i,
     }
     await client.createOrReplace(doc)

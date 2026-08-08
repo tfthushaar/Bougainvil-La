@@ -27,7 +27,7 @@ export async function GalleryPreview() {
             <Link key={v.slug} href={`/gallery/#${v.slug}`} style={{ textDecoration: 'none', display: 'block', position: 'relative' }}>
               {v.cover ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={v.cover} alt={`${v.name} gallery`} style={{ width: '100%', aspectRatio: '1 / 1', objectFit: 'cover' }} />
+                <img src={v.cover} alt={`${v.name} gallery`} style={{ width: '100%', height: 'auto', display: 'block' }} />
               ) : (
                 <div style={{
                   width: '100%', aspectRatio: '1 / 1',

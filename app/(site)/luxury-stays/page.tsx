@@ -84,7 +84,7 @@ export default async function LuxuryStaysPage() {
               <img
                 src={r.photo}
                 alt={r.name}
-                style={{ order: i % 2 === 0 ? 1 : 0, width: '100%', height: 'clamp(240px, 34vh, 380px)', objectFit: 'cover' }}
+                style={{ order: i % 2 === 0 ? 1 : 0, width: '100%', height: 'auto', display: 'block' }}
               />
             ) : (
               <div style={{

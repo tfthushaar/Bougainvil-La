@@ -41,10 +41,20 @@ export default async function VenueDetailPage({ params }: { params: Promise<{ sl
       </section>
 
       {venue.highlights.length > 0 ? (
-        <div style={{ display: 'grid', gridTemplateColumns: venue.highlights.length > 1 ? 'repeat(auto-fit, minmax(280px, 1fr))' : '1fr' }}>
+        <div style={{
+          columns: venue.highlights.length > 1 ? '2 340px' : '1', columnGap: '0.4rem',
+          padding: venue.highlights.length > 1 ? '0.4rem' : 0,
+        }}>
           {venue.highlights.map((src) => (
             // eslint-disable-next-line @next/next/no-img-element
-            <img key={src} src={src} alt={`${venue.name} at Bougainvil'La`} style={{ width: '100%', height: 'clamp(280px, 46vh, 520px)', objectFit: 'cover', display: 'block' }} />
+            <img
+              key={src} src={src} alt={`${venue.name} at Bougainvil'La`}
+              style={{
+                width: '100%', height: 'auto', display: 'block',
+                marginBottom: venue.highlights.length > 1 ? '0.4rem' : 0,
+                breakInside: 'avoid',
+              }}
+            />
           ))}
         </div>
       ) : (

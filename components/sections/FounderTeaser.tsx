@@ -14,7 +14,7 @@ export function FounderTeaser({ content }: { content: HomeContent }) {
           <img
             src={content.founderImage}
             alt="The floating mandap, decorated, at Bougainvil'La"
-            style={{ width: '100%', height: 'clamp(280px, 40vh, 460px)', objectFit: 'cover' }}
+            style={{ width: '100%', height: 'auto', display: 'block' }}
           />
         )}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>

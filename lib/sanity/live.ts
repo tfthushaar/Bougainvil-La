@@ -16,4 +16,11 @@ export const { sanityFetch, SanityLive } = defineLive({
   serverToken: process.env.SANITY_API_READ_TOKEN,
   // Standalone live-preview outside the Presentation tool isn't needed here.
   browserToken: false,
+  // Without this, Next's Data Cache treats fetched content as cacheable
+  // forever in production (only invalidated by on-demand tag revalidation).
+  // The Sanity webhook -> Netlify rebuild already delivers fresh content on
+  // publish, but if a build ever reuses a restored .next/cache from a prior
+  // deploy, an unbounded cache could serve stale content indefinitely. This
+  // is a defensive backstop, not the primary freshness mechanism.
+  fetchOptions: { revalidate: 60 },
 })

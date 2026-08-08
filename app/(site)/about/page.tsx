@@ -30,8 +30,14 @@ export default async function AboutPage() {
       </section>
 
       {about.heroImage && (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={about.heroImage} alt="Bougainvillea archway at Bougainvil'La" style={{ width: '100%', height: 'clamp(300px, 50vh, 560px)', objectFit: 'cover', display: 'block' }} />
+        <div style={{ background: 'var(--color-surface)', padding: 'clamp(2rem, 5vh, 3rem) clamp(1.25rem, 5vw, 3rem) 0', textAlign: 'center' }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={about.heroImage}
+            alt="Bougainvillea archway at Bougainvil'La"
+            style={{ width: '100%', maxWidth: '32rem', height: 'auto', display: 'inline-block' }}
+          />
+        </div>
       )}
 
       <section style={{ background: 'var(--color-surface)', padding: 'clamp(3rem, 7vh, 4.5rem) clamp(1.25rem, 5vw, 3rem)' }}>

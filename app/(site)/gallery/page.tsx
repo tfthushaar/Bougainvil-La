@@ -16,10 +16,13 @@ function ImageGrid({ urls }: { urls: string[] }) {
     )
   }
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '0.6rem' }}>
+    <div style={{ columns: '4 220px', columnGap: '0.6rem' }}>
       {urls.map((src) => (
         // eslint-disable-next-line @next/next/no-img-element
-        <img key={src} src={src} alt="" loading="lazy" style={{ width: '100%', aspectRatio: '4 / 3', objectFit: 'cover' }} />
+        <img
+          key={src} src={src} alt="" loading="lazy"
+          style={{ width: '100%', height: 'auto', display: 'block', marginBottom: '0.6rem', breakInside: 'avoid' }}
+        />
       ))}
     </div>
   )
