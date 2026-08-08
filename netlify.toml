@@ -1,10 +1,12 @@
 [build]
   command = "npm run build"
-  # No `publish` override: this is now a server-rendered Next.js app (needed
-  # for Sanity's Presentation tool / draft mode), and Netlify's Next.js
-  # Runtime auto-detects the `.next` server build and provisions the
-  # functions it needs — an explicit static `out/` publish dir doesn't
-  # apply anymore.
+  # Server-rendered Next.js build (needed for Sanity's Presentation tool /
+  # draft mode) — the Next.js Runtime plugin reads from `.next`, not the old
+  # static-export `out/` dir. Set explicitly here (publishOrigin: config) so
+  # it overrides the site's dashboard-level "Publish directory" setting,
+  # which was left over from when this was a static export and doesn't
+  # update itself just because this file changed.
+  publish = ".next"
 
 [build.environment]
   NODE_VERSION = "20"
