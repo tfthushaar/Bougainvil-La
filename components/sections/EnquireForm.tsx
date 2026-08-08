@@ -17,12 +17,12 @@ export function EnquireForm() {
   const { status, handleSubmit } = useNetlifyForm()
 
   return (
-    <section id="enquire" style={{ background: 'var(--color-surface)', borderTop: '1px solid var(--color-line)', padding: 'clamp(3.5rem, 8vh, 6rem) clamp(1.25rem, 5vw, 3rem)' }}>
+    <section id="enquire" style={{ background: 'var(--color-surface-2)', borderTop: '1px solid var(--color-line)', padding: 'clamp(3.5rem, 8vh, 6rem) clamp(1.25rem, 5vw, 3rem)' }}>
       <div style={{ maxWidth: '52rem', margin: '0 auto' }}>
         <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
           <span style={{
             fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: '0.72rem', letterSpacing: '0.28em',
-            textTransform: 'uppercase', color: 'var(--color-gold)',
+            textTransform: 'uppercase', color: 'var(--color-gold-deep)',
           }}>
             Begin Your Celebration
           </span>
@@ -65,7 +65,7 @@ export function EnquireForm() {
             <label htmlFor="message" style={labelStyle}>Tell Us About Your Celebration</label>
             <textarea id="message" name="message" rows={4} style={{ ...fieldStyle, resize: 'vertical' }} />
           </div>
-          <button type="submit" disabled={status === 'submitting'} style={{
+          <button type="submit" disabled={status === 'submitting'} className="btn-press" style={{
             fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: '0.78rem', letterSpacing: '0.16em',
             textTransform: 'uppercase', color: '#fff', background: 'var(--color-accent-deep)',
             border: 'none', padding: '1rem 2rem', cursor: status === 'submitting' ? 'default' : 'pointer',

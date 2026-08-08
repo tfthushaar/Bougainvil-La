@@ -7,6 +7,7 @@ import { GalleryPreview } from '@/components/sections/GalleryPreview'
 import { LuxuryStaysPreview } from '@/components/sections/LuxuryStaysPreview'
 import { LocationBlurb } from '@/components/sections/LocationBlurb'
 import { EnquireForm } from '@/components/sections/EnquireForm'
+import { Reveal } from '@/components/Reveal'
 import { getHomeContent } from '@/lib/sanity/home'
 
 export default async function Home() {
@@ -15,14 +16,14 @@ export default async function Home() {
   return (
     <main>
       <Hero content={home} />
-      <Intro content={home} />
-      <FounderTeaser content={home} />
-      <Highlights content={home} />
-      <WhyBougainvilla content={home} />
-      <GalleryPreview />
-      <LuxuryStaysPreview />
-      <LocationBlurb content={home} />
-      <EnquireForm />
+      <Reveal><Intro content={home} /></Reveal>
+      <Reveal><FounderTeaser content={home} /></Reveal>
+      <Reveal><Highlights content={home} /></Reveal>
+      <Reveal><WhyBougainvilla content={home} /></Reveal>
+      <Reveal><GalleryPreview /></Reveal>
+      <Reveal><LuxuryStaysPreview /></Reveal>
+      <Reveal><LocationBlurb content={home} /></Reveal>
+      <Reveal><EnquireForm /></Reveal>
     </main>
   )
 }

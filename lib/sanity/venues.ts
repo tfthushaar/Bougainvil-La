@@ -30,6 +30,10 @@ interface RawVenue {
   galleryWithoutDecor: Image[] | null
 }
 
+function dedupe(urls: string[]): string[] {
+  return Array.from(new Set(urls))
+}
+
 function shapeVenue(raw: RawVenue): Venue {
   return {
     slug: raw.slug,
@@ -39,9 +43,9 @@ function shapeVenue(raw: RawVenue): Venue {
     seated: raw.seated,
     floating: raw.floating,
     cover: raw.cover ? urlFor(raw.cover).width(1600).url() : null,
-    highlights: (raw.highlights ?? []).map((img) => urlFor(img).width(1600).url()),
-    galleryWithDecor: (raw.galleryWithDecor ?? []).map((img) => urlFor(img).width(1200).url()),
-    galleryWithoutDecor: (raw.galleryWithoutDecor ?? []).map((img) => urlFor(img).width(1200).url()),
+    highlights: dedupe((raw.highlights ?? []).map((img) => urlFor(img).width(1600).url())),
+    galleryWithDecor: dedupe((raw.galleryWithDecor ?? []).map((img) => urlFor(img).width(1200).url())),
+    galleryWithoutDecor: dedupe((raw.galleryWithoutDecor ?? []).map((img) => urlFor(img).width(1200).url())),
   }
 }
 

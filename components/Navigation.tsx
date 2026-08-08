@@ -25,19 +25,20 @@ function CTAButtons({ compact, textColor, settings }: { compact?: boolean; textC
   const pad = compact ? '0.6rem 1.1rem' : '0.85rem 1.7rem'
   const size = compact ? '0.68rem' : '0.75rem'
   const mailto = `mailto:${settings.email}?subject=${encodeURIComponent(settings.bookTourEmailSubject)}`
+  const borderColor = textColor === '#fff' ? 'var(--color-gold)' : 'var(--color-gold-deep)'
   return (
     <div style={{ display: 'flex', gap: '0.7rem' }}>
-      <a href={mailto} style={{
+      <a href={mailto} className="btn-press" style={{
         fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: size, letterSpacing: '0.14em',
         textTransform: 'uppercase', color: '#fff', background: 'var(--color-accent-deep)',
         textDecoration: 'none', padding: pad, whiteSpace: 'nowrap',
       }}>
         Book a Venue Tour
       </a>
-      <a href="/brochure.pdf" style={{
+      <a href="/brochure.pdf" className="btn-press" style={{
         fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: size, letterSpacing: '0.14em',
-        textTransform: 'uppercase', color: textColor, background: 'transparent', transition: 'color 0.3s ease',
-        textDecoration: 'none', padding: pad, border: '1px solid var(--color-gold)', whiteSpace: 'nowrap',
+        textTransform: 'uppercase', color: textColor, background: 'transparent', transition: 'color 0.3s ease, border-color 0.3s ease',
+        textDecoration: 'none', padding: pad, border: `1px solid ${borderColor}`, whiteSpace: 'nowrap',
       }}>
         Download Brochure
       </a>

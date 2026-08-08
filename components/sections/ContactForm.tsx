@@ -43,7 +43,7 @@ export function ContactForm() {
         <label htmlFor="message" style={labelStyle}>Tell Us About Your Celebration</label>
         <textarea id="message" name="message" rows={4} style={{ ...fieldStyle, resize: 'vertical' }} />
       </div>
-      <button type="submit" disabled={status === 'submitting'} style={{
+      <button type="submit" disabled={status === 'submitting'} className="btn-press" style={{
         fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: '0.78rem', letterSpacing: '0.16em',
         textTransform: 'uppercase', color: '#fff', background: 'var(--color-accent-deep)',
         border: 'none', padding: '1rem 2rem', cursor: status === 'submitting' ? 'default' : 'pointer',

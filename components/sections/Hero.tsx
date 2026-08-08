@@ -1,327 +1,145 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
+import Link from 'next/link'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import type { HomeContent } from '@/lib/sanity/home'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const FRAMES_BASE = '/frames/hero'
-const FALLBACK_VIDEO = '/videos/hero.mp4'
-const EAGER_LOAD_COUNT = 15
+// --ease-arch (cubic-bezier(0.16,1,0.3,1)) and --ease-film
+// (cubic-bezier(0.77,0,0.175,1)) are the standard "easeOutExpo"/
+// "easeInOutExpo" curves — GSAP's own expo eases are the same shape,
+// used here since GSAP's free core has no CSS-custom-property ease input.
 
-interface Manifest {
-  frameCount: number
-}
-
-function frameSrc(index: number) {
-  const n = String(index + 1).padStart(4, '0')
-  return `${FRAMES_BASE}/frame_${n}.webp`
-}
-
-// Pronounced drop shadow "beneath" the gold text — dark, offset down, so the
-// gold reads clearly over both the bright pergola lights and the night sky.
-const goldShadow = '0 6px 14px rgba(0,0,0,0.6), 0 2px 5px rgba(0,0,0,0.55)'
-const softShadow = '0 2px 20px rgba(0,0,0,0.5), 0 1px 6px rgba(0,0,0,0.4)'
+const HERO_IMAGE = '/images/brand/hero/floating-mandap-daylight.webp'
 
 function GoldRule({ width = '2.5rem' }: { width?: string }) {
-  return <span style={{ display: 'inline-block', width, height: '1px', background: 'var(--color-gold)' }} />
+  return <span style={{ display: 'inline-block', width, height: '1px', background: 'var(--color-gold-deep)' }} />
 }
 
-/* Moment 1 — hero wordmark, visible only in the first frame/viewport, framed
-   like Secant's hero: huge tracked sans wordmark, upper-left, gold on this
-   site's palette, with a small tracked subtitle line + gold rule. */
-function WordmarkBlock({ subtitleLeft, subtitleRight }: { subtitleLeft: string; subtitleRight: string }) {
-  return (
-    <div style={{
-      position: 'absolute', top: 0, left: 0, right: 0, minHeight: '100svh', zIndex: 2,
-      display: 'flex', flexDirection: 'column', justifyContent: 'flex-start',
-      paddingTop: 'clamp(4.5rem, 16vh, 9rem)',
-      paddingLeft: 'clamp(1.5rem, 6vw, 5rem)', paddingRight: 'clamp(1.5rem, 6vw, 5rem)',
-      pointerEvents: 'none',
-    }}>
-      <h1 style={{
-        fontFamily: 'var(--font-sans)', fontWeight: 300, textTransform: 'uppercase',
-        fontSize: 'clamp(3.2rem, 12vw, 10.5rem)', lineHeight: 0.9, letterSpacing: '0.01em',
-        color: 'var(--color-gold)', margin: 0, userSelect: 'none', textShadow: goldShadow,
-      }}>
-        Bougainvil&rsquo;La
-      </h1>
-      <div style={{
-        display: 'flex', alignItems: 'center', gap: '1.1rem', marginTop: 'clamp(1.1rem, 3vh, 2rem)',
-        flexWrap: 'wrap',
-      }}>
-        <span style={{
-          fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: 'clamp(0.85rem, 1.1vw, 1rem)', letterSpacing: '0.24em',
-          textTransform: 'uppercase', color: 'var(--color-gold)', textShadow: softShadow,
-        }}>
-          {subtitleLeft}
-        </span>
-        <GoldRule width="2.5rem" />
-        <span style={{
-          fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: 'clamp(0.85rem, 1.1vw, 1rem)', letterSpacing: '0.24em',
-          textTransform: 'uppercase', color: 'rgba(255,255,255,0.85)', textShadow: softShadow,
-        }}>
-          {subtitleRight}
-        </span>
-      </div>
-    </div>
-  )
+const primaryBtn: React.CSSProperties = {
+  fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: '0.78rem', letterSpacing: '0.16em',
+  textTransform: 'uppercase', color: '#fff', background: 'var(--color-accent-deep)',
+  textDecoration: 'none', padding: '1rem 2rem', textAlign: 'center',
 }
 
-/* Moment 2 — left-aligned text moment: eyebrow, gold display headline,
-   supporting paragraph (the brand copy), and a short tracked feature line. */
-function IntroBlock({ eyebrow, headline, paragraph, featureLine }: {
-  eyebrow: string; headline: string; paragraph: string; featureLine: string
-}) {
-  return (
-    <div style={{
-      position: 'absolute', top: '85svh', left: 0, right: 0, minHeight: '100svh', zIndex: 2,
-      display: 'flex', flexDirection: 'column', justifyContent: 'center',
-      padding: '0 clamp(1.5rem, 6vw, 5rem)', pointerEvents: 'none',
-    }}>
-      <div style={{ maxWidth: '42rem', display: 'flex', flexDirection: 'column', gap: 'clamp(1.1rem, 2.5vh, 1.6rem)' }}>
-        <span style={{
-          fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: 'clamp(0.85rem, 1.1vw, 1rem)', letterSpacing: '0.28em',
-          textTransform: 'uppercase', color: 'var(--color-gold)', textShadow: softShadow,
-        }}>
-          {eyebrow}
-        </span>
-        <h2 style={{
-          fontFamily: 'var(--font-display)', fontWeight: 500, fontStyle: 'italic',
-          fontSize: 'clamp(2.3rem, 5vw, 4.2rem)', lineHeight: 1.15, color: 'var(--color-gold)',
-          margin: 0, textShadow: goldShadow,
-        }}>
-          {headline}
-        </h2>
-        <p style={{
-          fontFamily: 'var(--font-sans)', fontWeight: 300, fontSize: 'clamp(1.1rem, 1.6vw, 1.35rem)',
-          lineHeight: 1.7, color: 'rgba(255,255,255,0.92)', margin: 0, textShadow: softShadow, maxWidth: '38rem',
-        }}>
-          {paragraph}
-        </p>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <GoldRule width="2.5rem" />
-          <span style={{
-            fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: 'clamp(0.78rem, 1vw, 0.9rem)', letterSpacing: '0.2em',
-            textTransform: 'uppercase', color: 'var(--color-gold)', textShadow: softShadow,
-          }}>
-            {featureLine}
-          </span>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-/* Moment 3 — right-aligned moment: a short label + gold rule leading into
-   the two CTAs, echoing where Secant places its stat callouts. */
-function ButtonsBlock({ label }: { label: string }) {
-  return (
-    <div style={{
-      position: 'absolute', top: '150svh', left: 0, right: 0, minHeight: '100svh', zIndex: 2,
-      display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-end',
-      paddingTop: 'clamp(4.5rem, 16vh, 9rem)',
-      paddingLeft: 'clamp(1.5rem, 6vw, 5rem)', paddingRight: 'clamp(1.5rem, 6vw, 5rem)',
-      pointerEvents: 'none',
-    }}>
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '1.4rem', maxWidth: '28rem' }}>
-        <span style={{
-          fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: 'clamp(0.85rem, 1.1vw, 1rem)', letterSpacing: '0.28em',
-          textTransform: 'uppercase', color: 'var(--color-gold)', textShadow: softShadow, textAlign: 'right',
-        }}>
-          {label}
-        </span>
-        <span style={{ display: 'inline-block', width: '100%', height: '1px', background: 'var(--color-gold)' }} />
-      </div>
-    </div>
-  )
+const secondaryBtn: React.CSSProperties = {
+  fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: '0.78rem', letterSpacing: '0.16em',
+  textTransform: 'uppercase', color: 'var(--color-ink)', background: 'transparent',
+  textDecoration: 'none', padding: '1rem 2rem', textAlign: 'center', border: '1px solid var(--color-line)',
 }
 
 export function Hero({ content }: { content: HomeContent }) {
-  const wrapperRef = useRef<HTMLDivElement>(null)
-  const canvasRef  = useRef<HTMLCanvasElement>(null)
-  const [reducedMotion, setReducedMotion] = useState<boolean | null>(null)
-  const [ready, setReady] = useState(false)
+  const rootRef = useRef<HTMLElement>(null)
+  const imgRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    setReducedMotion(window.matchMedia('(prefers-reduced-motion: reduce)').matches)
-  }, [])
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-  useEffect(() => {
-    if (reducedMotion !== false) return
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({ defaults: { ease: 'expo.out' } })
+      tl.from(imgRef.current, { opacity: 0, scale: reduce ? 1 : 1.05, duration: reduce ? 0 : 1.4, ease: 'power2.out' })
+        .from('.hero-eyebrow', { opacity: 0, y: 14, duration: reduce ? 0 : 0.7 }, reduce ? 0 : 0.2)
+        .from('.hero-headline', { opacity: 0, y: 22, duration: reduce ? 0 : 0.9 }, '-=0.45')
+        .from('.hero-paragraph', { opacity: 0, y: 16, duration: reduce ? 0 : 0.8 }, '-=0.55')
+        .from('.hero-feature', { opacity: 0, y: 12, duration: reduce ? 0 : 0.7 }, '-=0.5')
+        .from('.hero-buttons', { opacity: 0, y: 12, duration: reduce ? 0 : 0.7 }, '-=0.5')
 
-    let cancelled = false
-    const images: HTMLImageElement[] = []
-    const loaded: boolean[] = []
-    let frameCount = 0
-    let ctx: CanvasRenderingContext2D | null = null
-    let currentDrawn = -1
-    let st: ScrollTrigger | null = null
-    let targetProgress = 0
-    let displayedProgress = 0
-    let rafId = 0
-
-    const canvas = canvasRef.current!
-
-    function resizeCanvas() {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2)
-      canvas.width = Math.round(window.innerWidth * dpr)
-      canvas.height = Math.round(window.innerHeight * dpr)
-      if (ctx) ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
-      if (currentDrawn >= 0) draw(currentDrawn)
-    }
-
-    function draw(index: number) {
-      const img = images[index]
-      if (!ctx || !img || !img.complete || img.naturalWidth === 0) return
-      const cw = window.innerWidth
-      const ch = window.innerHeight
-      const scale = Math.max(cw / img.naturalWidth, ch / img.naturalHeight)
-      const dw = img.naturalWidth * scale
-      const dh = img.naturalHeight * scale
-      const dx = (cw - dw) / 2
-      const dy = (ch - dh) / 2
-      ctx.clearRect(0, 0, cw, ch)
-      ctx.drawImage(img, dx, dy, dw, dh)
-    }
-
-    function nearestLoadedIndex(target: number): number {
-      if (loaded[target]) return target
-      for (let d = 1; d < frameCount; d++) {
-        const back = target - d
-        const fwd = target + d
-        if (back >= 0 && loaded[back]) return back
-        if (fwd < frameCount && loaded[fwd]) return fwd
-      }
-      return target
-    }
-
-    async function init() {
-      const res = await fetch(`${FRAMES_BASE}/manifest.json`)
-      const manifest: Manifest = await res.json()
-      if (cancelled) return
-
-      frameCount = manifest.frameCount
-      ctx = canvas.getContext('2d')
-      resizeCanvas()
-
-      for (let i = 0; i < frameCount; i++) {
-        loaded[i] = false
-      }
-
-      function loadFrame(i: number): Promise<void> {
-        return new Promise((resolve) => {
-          const img = new Image()
-          img.decoding = 'async'
-          img.onload = () => {
-            loaded[i] = true
-            if (!cancelled && i === 0) { draw(0); setReady(true) }
-            resolve()
-          }
-          img.onerror = () => resolve()
-          img.src = frameSrc(i)
-          images[i] = img
+      if (!reduce) {
+        gsap.to(imgRef.current, {
+          yPercent: 8,
+          ease: 'none',
+          scrollTrigger: { trigger: rootRef.current, start: 'top top', end: 'bottom top', scrub: true },
         })
       }
+    }, rootRef)
 
-      // Eagerly load the first slice so scrubbing is correct from frame 1
-      const eagerCount = Math.min(EAGER_LOAD_COUNT, frameCount)
-      await Promise.all(Array.from({ length: eagerCount }, (_, i) => loadFrame(i)))
-      if (cancelled) return
-
-      // Stream the rest in the background
-      for (let i = eagerCount; i < frameCount; i++) {
-        if (cancelled) return
-        await loadFrame(i)
-      }
-    }
-
-    init()
-
-    // Decouple frame draws from raw scroll-event cadence: ScrollTrigger only
-    // updates `targetProgress`, and a rAF loop eases `displayedProgress`
-    // toward it every frame, so the scrub stays smooth regardless of how
-    // bursty the input device's wheel/trackpad deltas are.
-    function tick() {
-      displayedProgress += (targetProgress - displayedProgress) * 0.22
-      if (Math.abs(targetProgress - displayedProgress) < 0.0005) {
-        displayedProgress = targetProgress
-      }
-      if (frameCount) {
-        const target = Math.round(displayedProgress * (frameCount - 1))
-        const idx = nearestLoadedIndex(target)
-        if (idx !== currentDrawn) { draw(idx); currentDrawn = idx }
-      }
-      rafId = requestAnimationFrame(tick)
-    }
-    rafId = requestAnimationFrame(tick)
-
-    // No GSAP pin here — the canvas is kept on-screen via CSS `position:
-    // sticky` below, which lets sibling text scroll normally over it.
-    // ScrollTrigger just measures scroll progress across the wrapper's
-    // full height (exactly the sticky-active range) to drive the scrub.
-    st = ScrollTrigger.create({
-      trigger: wrapperRef.current,
-      start: 'top top',
-      end: 'bottom bottom',
-      scrub: true,
-      onUpdate: (self) => { targetProgress = self.progress },
-    })
-
-    window.addEventListener('resize', resizeCanvas)
-
-    return () => {
-      cancelled = true
-      cancelAnimationFrame(rafId)
-      window.removeEventListener('resize', resizeCanvas)
-      st?.kill()
-    }
-  }, [reducedMotion])
-
-  if (reducedMotion === null) {
-    return <section style={{ height: '100svh' }} />
-  }
-
-  if (reducedMotion) {
-    return (
-      <section data-nav-surface="dark" style={{ position: 'relative', width: '100%', height: '100svh', overflow: 'hidden' }}>
-        <video
-          src={FALLBACK_VIDEO}
-          autoPlay muted loop playsInline
-          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
-        />
-        <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.2)' }} />
-        <WordmarkBlock subtitleLeft={content.heroSubtitleLeft} subtitleRight={content.heroSubtitleRight} />
-      </section>
-    )
-  }
+    return () => ctx.revert()
+  }, [])
 
   return (
-    <section ref={wrapperRef} className="relative h-[230vh]">
-      {/* This sticky div is what's actually on-screen at the top of the
-          viewport for this whole 230vh scroll range, so it's what tells the
-          fixed Navigation to use light (white) text throughout. */}
-      <div data-nav-surface="dark" style={{ position: 'sticky', top: 0, height: '100svh', overflow: 'hidden', zIndex: 0 }}>
-        <canvas
-          ref={canvasRef}
+    <section
+      ref={rootRef}
+      style={{
+        position: 'relative', display: 'grid', gridTemplateColumns: '1fr',
+        minHeight: '100svh', background: 'var(--color-surface)', overflow: 'hidden',
+      }}
+      className="hero-grid"
+    >
+      <div className="hero-image-panel" style={{ position: 'relative', overflow: 'hidden', minHeight: '52vh', order: 1 }}>
+        <div
+          ref={imgRef}
           style={{
-            position: 'absolute', inset: 0, width: '100%', height: '100%',
-            opacity: ready ? 1 : 0, transition: 'opacity 0.6s var(--ease-arch)',
-            background: 'var(--color-dark)',
+            position: 'absolute', inset: '-6% 0', backgroundImage: `url(${HERO_IMAGE})`,
+            backgroundSize: 'cover', backgroundPosition: 'center 30%',
           }}
         />
-        <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.15)' }} />
       </div>
-      <WordmarkBlock subtitleLeft={content.heroSubtitleLeft} subtitleRight={content.heroSubtitleRight} />
-      <IntroBlock
-        eyebrow={content.heroEyebrow}
-        headline={content.heroHeadline}
-        paragraph={content.heroParagraph}
-        featureLine={content.heroFeatureLine}
-      />
-      <ButtonsBlock label={content.heroButtonsLabel} />
+
+      <div className="hero-text-panel" style={{
+        display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 'clamp(1.1rem, 2.2vh, 1.6rem)',
+        padding: 'clamp(2.5rem, 6vh, 3.5rem) clamp(1.5rem, 6vw, 5rem)', maxWidth: '40rem', zIndex: 2, order: 2,
+      }}>
+        <span className="hero-eyebrow" style={{
+          fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: 'clamp(0.72rem, 1vw, 0.85rem)', letterSpacing: '0.28em',
+          textTransform: 'uppercase', color: 'var(--color-gold-deep)', display: 'flex', alignItems: 'center', gap: '0.9rem',
+        }}>
+          {content.heroSubtitleLeft}
+          <GoldRule width="1.75rem" />
+          {content.heroSubtitleRight}
+        </span>
+
+        <h1 className="hero-headline font-display" style={{
+          fontStyle: 'italic', fontWeight: 500, color: 'var(--color-ink)', margin: 0,
+          fontSize: 'clamp(2.6rem, 5.4vw, 4.6rem)', lineHeight: 1.08,
+        }}>
+          {content.heroHeadline}
+        </h1>
+
+        <p className="hero-paragraph" style={{
+          fontFamily: 'var(--font-sans)', fontWeight: 300, fontSize: 'clamp(1.02rem, 1.3vw, 1.2rem)',
+          lineHeight: 1.75, color: 'var(--color-ink-soft)', margin: 0, maxWidth: '36rem',
+        }}>
+          {content.heroParagraph}
+        </p>
+
+        <div className="hero-feature" style={{ display: 'flex', alignItems: 'center', gap: '0.9rem' }}>
+          <GoldRule width="1.75rem" />
+          <span style={{
+            fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: 'clamp(0.72rem, 0.95vw, 0.82rem)', letterSpacing: '0.16em',
+            textTransform: 'uppercase', color: 'var(--color-ink-soft)',
+          }}>
+            {content.heroFeatureLine}
+          </span>
+        </div>
+
+        <div className="hero-buttons" style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: '0.5rem' }}>
+          <span style={{
+            fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: '0.7rem', letterSpacing: '0.2em',
+            textTransform: 'uppercase', color: 'var(--color-ink-soft)',
+          }}>
+            {content.heroButtonsLabel}
+          </span>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.9rem' }}>
+            <Link href="/#enquire" className="btn-press" style={primaryBtn}>
+              Book a Venue Tour
+            </Link>
+            <Link href="/venues/" className="btn-press" style={secondaryBtn}>
+              Explore Venues
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      <style>{`
+        @media (min-width: 900px) {
+          .hero-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important; align-items: stretch; }
+          .hero-image-panel { min-height: 100svh !important; order: 2 !important; }
+          .hero-text-panel { order: 1 !important; padding-top: clamp(6rem, 12vh, 8rem) !important; }
+        }
+      `}</style>
     </section>
   )
 }

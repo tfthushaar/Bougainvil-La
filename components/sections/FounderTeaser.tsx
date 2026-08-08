@@ -20,7 +20,7 @@ export function FounderTeaser({ content }: { content: HomeContent }) {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
           <span style={{
             fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: '0.72rem', letterSpacing: '0.24em',
-            textTransform: 'uppercase', color: 'var(--color-gold)',
+            textTransform: 'uppercase', color: 'var(--color-gold-deep)',
           }}>
             {content.founderEyebrow}
           </span>

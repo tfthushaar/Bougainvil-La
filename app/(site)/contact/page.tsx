@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import { getSiteSettings } from '@/lib/sanity/siteSettings'
 import { ContactForm } from '@/components/sections/ContactForm'
+import { PageHeader } from '@/components/PageHeader'
+import { Reveal } from '@/components/Reveal'
 
 export const metadata: Metadata = {
   title: "Contact | Bougainvil'La — Schedule Your Venue Tour",
@@ -14,22 +16,13 @@ export default async function ContactPage() {
 
   return (
     <main>
-      <section data-nav-surface="dark" style={{ background: 'var(--color-ink)', padding: 'clamp(6rem, 14vh, 9rem) clamp(1.25rem, 5vw, 3rem) clamp(3rem, 7vh, 4.5rem)', textAlign: 'center' }}>
-        <span style={{
-          display: 'block', fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: '0.72rem',
-          letterSpacing: '0.28em', textTransform: 'uppercase', color: 'var(--color-gold)', marginBottom: '1rem',
-        }}>
-          Begin Your Celebration
-        </span>
-        <h1 className="font-display" style={{ fontStyle: 'italic', fontWeight: 500, fontSize: 'clamp(2rem, 4.4vw, 3.2rem)', color: '#fff', margin: '0 0 1rem' }}>
-          Let&rsquo;s Create Something Beautiful Together
-        </h1>
-        <p style={{ fontFamily: 'var(--font-sans)', fontWeight: 300, fontSize: '1rem', lineHeight: 1.7, color: 'rgba(255,255,255,0.75)', maxWidth: '38rem', margin: '0 auto' }}>
-          Whether you&rsquo;re envisioning an intimate celebration or a grand destination wedding,
-          we&rsquo;d be delighted to welcome you for a tour and help bring your vision to life.
-        </p>
-      </section>
+      <PageHeader
+        eyebrow="Begin Your Celebration"
+        title="Let’s Create Something Beautiful Together"
+        paragraph="Whether you’re envisioning an intimate celebration or a grand destination wedding, we’d be delighted to welcome you for a tour and help bring your vision to life."
+      />
 
+      <Reveal>
       <section style={{ background: 'var(--color-surface)', padding: 'clamp(3.5rem, 8vh, 6rem) clamp(1.25rem, 5vw, 3rem)' }}>
         <div style={{
           maxWidth: '72rem', margin: '0 auto', display: 'grid',
@@ -38,7 +31,7 @@ export default async function ContactPage() {
           <div>
             <span style={{
               display: 'block', fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: '0.72rem', letterSpacing: '0.28em',
-              textTransform: 'uppercase', color: 'var(--color-gold)', marginBottom: '1.5rem',
+              textTransform: 'uppercase', color: 'var(--color-gold-deep)', marginBottom: '1.5rem',
             }}>
               Schedule Your Visit
             </span>
@@ -47,7 +40,7 @@ export default async function ContactPage() {
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
             <div>
-              <span style={{ display: 'block', fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: '0.72rem', letterSpacing: '0.28em', textTransform: 'uppercase', color: 'var(--color-gold)', marginBottom: '1rem' }}>
+              <span style={{ display: 'block', fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: '0.72rem', letterSpacing: '0.28em', textTransform: 'uppercase', color: 'var(--color-gold-deep)', marginBottom: '1rem' }}>
                 Visit Us
               </span>
               <p style={{ fontFamily: 'var(--font-sans)', fontWeight: 300, fontSize: '0.98rem', lineHeight: 1.8, color: 'var(--color-ink-soft)', margin: 0 }}>
@@ -63,7 +56,7 @@ export default async function ContactPage() {
               </a>
             </div>
             <div>
-              <span style={{ display: 'block', fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: '0.72rem', letterSpacing: '0.28em', textTransform: 'uppercase', color: 'var(--color-gold)', marginBottom: '0.75rem' }}>
+              <span style={{ display: 'block', fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: '0.72rem', letterSpacing: '0.28em', textTransform: 'uppercase', color: 'var(--color-gold-deep)', marginBottom: '0.75rem' }}>
                 Follow Us
               </span>
               <a href={settings.instagramUrl} target="_blank" rel="noopener noreferrer" style={{ fontFamily: 'var(--font-sans)', fontWeight: 400, fontSize: '0.98rem', color: 'var(--color-ink)', textDecoration: 'none' }}>
@@ -73,6 +66,7 @@ export default async function ContactPage() {
           </div>
         </div>
       </section>
+      </Reveal>
     </main>
   )
 }
