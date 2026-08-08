@@ -30,7 +30,7 @@ export default async function GalleryPage() {
 
   return (
     <main>
-      <section style={{ background: 'var(--color-ink)', padding: 'clamp(6rem, 14vh, 9rem) clamp(1.25rem, 5vw, 3rem) clamp(3rem, 7vh, 4.5rem)', textAlign: 'center' }}>
+      <section data-nav-surface="dark" style={{ background: 'var(--color-ink)', padding: 'clamp(6rem, 14vh, 9rem) clamp(1.25rem, 5vw, 3rem) clamp(3rem, 7vh, 4.5rem)', textAlign: 'center' }}>
         <span style={{
           display: 'block', fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: '0.72rem',
           letterSpacing: '0.28em', textTransform: 'uppercase', color: 'var(--color-gold)', marginBottom: '1rem',
@@ -46,7 +46,9 @@ export default async function GalleryPage() {
         </p>
       </section>
 
-      <nav style={{ background: 'var(--color-surface)', borderBottom: '1px solid var(--color-line)', padding: '1rem clamp(1.25rem, 5vw, 3rem)', position: 'sticky', top: 0, zIndex: 10 }}>
+      {/* top offset clears the fixed site header (~4.5rem tall) so this
+          sticky jump-nav sticks just below it instead of overlapping it */}
+      <nav style={{ background: 'var(--color-surface)', borderBottom: '1px solid var(--color-line)', padding: '1rem clamp(1.25rem, 5vw, 3rem)', position: 'sticky', top: '4.5rem', zIndex: 10 }}>
         <div style={{ maxWidth: '84rem', margin: '0 auto', display: 'flex', gap: '1.5rem', flexWrap: 'wrap', justifyContent: 'center' }}>
           {venues.map((v) => (
             <a key={v.slug} href={`#${v.slug}`} style={{

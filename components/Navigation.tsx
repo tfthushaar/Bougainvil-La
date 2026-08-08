@@ -66,12 +66,22 @@ export function Navigation({ settings }: { settings: SiteSettings }) {
   }
 
   useEffect(() => {
+    // Every dark-background section on the site (Hero, page headers, the
+    // Highlights band, location pages, etc.) is tagged data-nav-surface="dark".
+    // If any of them currently overlaps the strip the fixed nav sits over,
+    // the nav needs light (white) text; otherwise it's over a light section
+    // and needs dark ink text. This handles pages with no dark section at
+    // all, and pages with more than one (e.g. the home page's Hero *and*
+    // Highlights), not just a single before/after threshold.
     function check() {
-      const sentinel = document.getElementById('hero-end-sentinel')
-      // No sentinel on this page (no hero video) → always the dark-text state.
-      if (!sentinel) { setOnLight(true); return }
       const navHeight = headerRef.current?.offsetHeight ?? 72
-      setOnLight(sentinel.getBoundingClientRect().top <= navHeight)
+      const darkSurfaces = document.querySelectorAll('[data-nav-surface="dark"]')
+      let overDark = false
+      darkSurfaces.forEach((el) => {
+        const rect = el.getBoundingClientRect()
+        if (rect.top <= navHeight && rect.bottom >= 0) overDark = true
+      })
+      setOnLight(!overDark)
     }
 
     check()
@@ -84,10 +94,10 @@ export function Navigation({ settings }: { settings: SiteSettings }) {
     window.addEventListener('scroll', onScroll, { passive: true })
     window.addEventListener('resize', check)
 
-    // Hero resolves `prefers-reduced-motion` async before it renders the
-    // real sentinel, so it isn't in the DOM yet on Navigation's first check
-    // (defaulting to onLight=true) — recheck once it actually appears,
-    // rather than waiting for the user to scroll first.
+    // Hero resolves `prefers-reduced-motion` async before it renders its
+    // real dark-surface element, so it isn't in the DOM yet on Navigation's
+    // first check — recheck once it actually appears, rather than waiting
+    // for the user to scroll first.
     const observer = new MutationObserver(check)
     observer.observe(document.body, { childList: true, subtree: true })
 

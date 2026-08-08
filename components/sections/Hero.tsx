@@ -286,7 +286,7 @@ export function Hero({ content }: { content: HomeContent }) {
 
   if (reducedMotion) {
     return (
-      <section style={{ position: 'relative', width: '100%', height: '100svh', overflow: 'hidden' }}>
+      <section data-nav-surface="dark" style={{ position: 'relative', width: '100%', height: '100svh', overflow: 'hidden' }}>
         <video
           src={FALLBACK_VIDEO}
           autoPlay muted loop playsInline
@@ -294,16 +294,16 @@ export function Hero({ content }: { content: HomeContent }) {
         />
         <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.2)' }} />
         <WordmarkBlock subtitleLeft={content.heroSubtitleLeft} subtitleRight={content.heroSubtitleRight} />
-        {/* Lets the fixed Navigation know when a light section has scrolled
-            beneath it, so it can switch from white to dark text. */}
-        <div id="hero-end-sentinel" style={{ position: 'absolute', bottom: 0, left: 0, width: 1, height: 1 }} />
       </section>
     )
   }
 
   return (
     <section ref={wrapperRef} className="relative h-[230vh]">
-      <div style={{ position: 'sticky', top: 0, height: '100svh', overflow: 'hidden', zIndex: 0 }}>
+      {/* This sticky div is what's actually on-screen at the top of the
+          viewport for this whole 230vh scroll range, so it's what tells the
+          fixed Navigation to use light (white) text throughout. */}
+      <div data-nav-surface="dark" style={{ position: 'sticky', top: 0, height: '100svh', overflow: 'hidden', zIndex: 0 }}>
         <canvas
           ref={canvasRef}
           style={{
@@ -322,7 +322,6 @@ export function Hero({ content }: { content: HomeContent }) {
         featureLine={content.heroFeatureLine}
       />
       <ButtonsBlock label={content.heroButtonsLabel} />
-      <div id="hero-end-sentinel" style={{ position: 'absolute', bottom: 0, left: 0, width: 1, height: 1 }} />
     </section>
   )
 }

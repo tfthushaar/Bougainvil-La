@@ -46,7 +46,7 @@ export async function LocationPageContent({ page }: { page: LocationPageDoc }) {
 
   return (
     <main>
-      <section style={{ background: 'var(--color-ink)', padding: 'clamp(6rem, 14vh, 9rem) clamp(1.25rem, 5vw, 3rem) clamp(3rem, 7vh, 4.5rem)' }}>
+      <section data-nav-surface="dark" style={{ background: 'var(--color-ink)', padding: 'clamp(6rem, 14vh, 9rem) clamp(1.25rem, 5vw, 3rem) clamp(3rem, 7vh, 4.5rem)' }}>
         <div style={{ maxWidth: '48rem', margin: '0 auto', textAlign: 'center' }}>
           {page.subheading && (
             <span style={{

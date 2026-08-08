@@ -2,7 +2,7 @@ import type { HomeContent } from '@/lib/sanity/home'
 
 export function Highlights({ content }: { content: HomeContent }) {
   return (
-    <section style={{ background: 'var(--color-ink)', padding: 'clamp(3.5rem, 8vh, 6rem) clamp(1.25rem, 5vw, 3rem)' }}>
+    <section data-nav-surface="dark" style={{ background: 'var(--color-ink)', padding: 'clamp(3.5rem, 8vh, 6rem) clamp(1.25rem, 5vw, 3rem)' }}>
       <div style={{ maxWidth: '76rem', margin: '0 auto' }}>
         <div style={{ textAlign: 'center', maxWidth: '42rem', margin: '0 auto 3rem' }}>
           <span style={{
