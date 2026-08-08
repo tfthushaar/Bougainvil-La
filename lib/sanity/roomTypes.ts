@@ -1,5 +1,6 @@
 import type { Image } from 'sanity'
-import { sanityClient, urlFor } from './client'
+import { urlFor } from './client'
+import { sanityFetch } from './live'
 import { roomTypesQuery } from './queries'
 
 export interface RoomType {
@@ -15,8 +16,8 @@ interface RawRoomType extends Omit<RoomType, 'photo'> {
 }
 
 export async function getRoomTypes(): Promise<RoomType[]> {
-  const raw: RawRoomType[] = await sanityClient.fetch(roomTypesQuery)
-  return raw.map((r) => ({
+  const { data } = await sanityFetch({ query: roomTypesQuery })
+  return (data as RawRoomType[]).map((r) => ({
     ...r,
     photo: r.photo ? urlFor(r.photo).width(1200).url() : null,
   }))

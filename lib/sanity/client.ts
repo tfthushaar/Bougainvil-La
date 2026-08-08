@@ -20,7 +20,15 @@ export const sanityClient = createClient({
   projectId,
   dataset,
   apiVersion,
-  useCdn: true, // fine for build-time fetches of published content
+  useCdn: true, // fine for plain (non-live) reads; defineLive overrides this per-request
+  stega: {
+    // Studio is embedded at /studio on this same site (see sanity.config.ts) —
+    // enables the Presentation tool's click-to-edit overlays to resolve
+    // fields back to the right document/field there. Actual encoding only
+    // ever happens when defineLive's sanityFetch is in draft mode, never on
+    // a normal (published, logged-out) request.
+    studioUrl: '/studio',
+  },
 })
 
 const builder = createImageUrlBuilder(sanityClient)

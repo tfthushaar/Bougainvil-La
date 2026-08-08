@@ -1,9 +1,12 @@
 import type { Metadata, Viewport } from 'next'
+import { draftMode } from 'next/headers'
+import { VisualEditing } from 'next-sanity/visual-editing'
 import { ebGaramond, raleway } from '@/lib/fonts'
 import { SmoothScroll } from '@/components/SmoothScroll'
 import { Navigation } from '@/components/Navigation'
 import { Footer } from '@/components/Footer'
 import { getSiteSettings } from '@/lib/sanity/siteSettings'
+import { SanityLive } from '@/lib/sanity/live'
 import '../globals.css'
 
 export const viewport: Viewport = {
@@ -20,6 +23,7 @@ export const metadata: Metadata = {
 
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
   const settings = await getSiteSettings()
+  const { isEnabled: isDraftMode } = await draftMode()
 
   return (
     <html lang="en" className={`${ebGaramond.variable} ${raleway.variable}`}>
@@ -29,6 +33,10 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
           {children}
           <Footer settings={settings} />
         </SmoothScroll>
+        <SanityLive />
+        {/* Only ever rendered for an authenticated Studio preview session
+            (draft mode) — normal visitors never get this overlay script. */}
+        {isDraftMode && <VisualEditing />}
       </body>
     </html>
   )

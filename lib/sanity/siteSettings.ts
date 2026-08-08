@@ -1,4 +1,4 @@
-import { sanityClient } from './client'
+import { sanityFetch } from './live'
 import { siteSettingsQuery } from './queries'
 
 export interface SiteSettings {
@@ -12,5 +12,6 @@ export interface SiteSettings {
 }
 
 export async function getSiteSettings(): Promise<SiteSettings> {
-  return sanityClient.fetch(siteSettingsQuery)
+  const { data } = await sanityFetch({ query: siteSettingsQuery })
+  return data as SiteSettings
 }

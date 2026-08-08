@@ -1,5 +1,6 @@
 import type { Image } from 'sanity'
-import { sanityClient, urlFor } from './client'
+import { urlFor } from './client'
+import { sanityFetch } from './live'
 import { homeContentQuery } from './queries'
 
 export interface HighlightItem {
@@ -33,7 +34,8 @@ interface RawHomeContent extends Omit<HomeContent, 'founderImage'> {
 }
 
 export async function getHomeContent(): Promise<HomeContent> {
-  const raw: RawHomeContent = await sanityClient.fetch(homeContentQuery)
+  const { data } = await sanityFetch({ query: homeContentQuery })
+  const raw = data as RawHomeContent
   return {
     ...raw,
     founderImage: raw.founderImage ? urlFor(raw.founderImage).width(1200).url() : null,

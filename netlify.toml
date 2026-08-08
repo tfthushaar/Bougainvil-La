@@ -1,6 +1,10 @@
 [build]
   command = "npm run build"
-  publish = "out"
+  # No `publish` override: this is now a server-rendered Next.js app (needed
+  # for Sanity's Presentation tool / draft mode), and Netlify's Next.js
+  # Runtime auto-detects the `.next` server build and provisions the
+  # functions it needs — an explicit static `out/` publish dir doesn't
+  # apply anymore.
 
 [build.environment]
   NODE_VERSION = "20"

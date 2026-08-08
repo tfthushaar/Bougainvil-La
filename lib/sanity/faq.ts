@@ -1,4 +1,4 @@
-import { sanityClient } from './client'
+import { sanityFetch } from './live'
 import { faqItemsQuery } from './queries'
 
 export interface FaqItem {
@@ -7,5 +7,6 @@ export interface FaqItem {
 }
 
 export async function getFaqItems(): Promise<FaqItem[]> {
-  return sanityClient.fetch(faqItemsQuery)
+  const { data } = await sanityFetch({ query: faqItemsQuery })
+  return data as FaqItem[]
 }

@@ -1,5 +1,5 @@
 import type { PortableTextBlock } from 'sanity'
-import { sanityClient } from './client'
+import { sanityFetch } from './live'
 import { locationPagesQuery, locationPageBySlugQuery } from './queries'
 
 export interface LocationPageDoc {
@@ -13,10 +13,12 @@ export interface LocationPageDoc {
 }
 
 export async function getLocations(): Promise<LocationPageDoc[]> {
-  return sanityClient.fetch(locationPagesQuery)
+  const { data } = await sanityFetch({ query: locationPagesQuery })
+  return data as LocationPageDoc[]
 }
 
 export async function getLocationBySlug(slug: string): Promise<LocationPageDoc | undefined> {
-  const raw: LocationPageDoc | null = await sanityClient.fetch(locationPageBySlugQuery, { slug })
+  const { data } = await sanityFetch({ query: locationPageBySlugQuery, params: { slug } })
+  const raw = data as LocationPageDoc | null
   return raw ?? undefined
 }

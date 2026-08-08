@@ -1,5 +1,6 @@
 import type { Image } from 'sanity'
-import { sanityClient, urlFor } from './client'
+import { urlFor } from './client'
+import { sanityFetch } from './live'
 import { aboutContentQuery } from './queries'
 
 export interface AboutContent {
@@ -17,7 +18,8 @@ interface RawAboutContent extends Omit<AboutContent, 'heroImage'> {
 }
 
 export async function getAboutContent(): Promise<AboutContent> {
-  const raw: RawAboutContent = await sanityClient.fetch(aboutContentQuery)
+  const { data } = await sanityFetch({ query: aboutContentQuery })
+  const raw = data as RawAboutContent
   return {
     ...raw,
     heroImage: raw.heroImage ? urlFor(raw.heroImage).width(1800).url() : null,

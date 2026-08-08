@@ -1,5 +1,6 @@
 import type { Image, PortableTextBlock } from 'sanity'
 import { sanityClient, urlFor } from './client'
+import { sanityFetch } from './live'
 import { venuesQuery, venueBySlugQuery, venueSlugsQuery } from './queries'
 import { blocksToPlainParagraphs } from './portable-text'
 
@@ -45,15 +46,19 @@ function shapeVenue(raw: RawVenue): Venue {
 }
 
 export async function getVenues(): Promise<Venue[]> {
-  const raw: RawVenue[] = await sanityClient.fetch(venuesQuery)
-  return raw.map(shapeVenue)
+  const { data } = await sanityFetch({ query: venuesQuery })
+  return (data as RawVenue[]).map(shapeVenue)
 }
 
 export async function getVenueBySlug(slug: string): Promise<Venue | undefined> {
-  const raw: RawVenue | null = await sanityClient.fetch(venueBySlugQuery, { slug })
+  const { data } = await sanityFetch({ query: venueBySlugQuery, params: { slug } })
+  const raw = data as RawVenue | null
   return raw ? shapeVenue(raw) : undefined
 }
 
+// Used only from generateStaticParams, which runs at build time outside any
+// per-request scope — sanityFetch calls draftMode() internally and throws
+// there, so this one intentionally stays on the plain (non-live) client.
 export async function getVenueSlugs(): Promise<string[]> {
   return sanityClient.fetch(venueSlugsQuery)
 }
