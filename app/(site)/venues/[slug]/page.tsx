@@ -30,6 +30,7 @@ export default async function VenueDetailPage({ params }: { params: Promise<{ sl
       <PageHeader
         eyebrow={venue.tagline}
         title={venue.name}
+        paragraph={venue.subtitle ?? undefined}
         meta={`${venue.seated} Seated · ${venue.floating} Floating`}
         image={venue.cover ?? venue.highlights[0] ?? null}
       />

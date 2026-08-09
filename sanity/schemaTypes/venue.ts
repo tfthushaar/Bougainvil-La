@@ -11,6 +11,10 @@ export const venue = defineType({
       options: { source: 'name' }, validation: (r) => r.required(),
     }),
     defineField({ name: 'tagline', title: 'Tagline', type: 'string' }),
+    defineField({
+      name: 'subtitle', title: 'SEO Subtitle', type: 'string',
+      description: 'Longer descriptive phrase shown under the venue name (e.g. "Luxury Outdoor Wedding Venue with a floating mandap concept in Bangalore"). Optional.',
+    }),
     defineField({ name: 'description', title: 'Description', type: 'array', of: [{ type: 'block' }] }),
     defineField({ name: 'seated', title: 'Seated Capacity', type: 'number' }),
     defineField({ name: 'floating', title: 'Floating Capacity', type: 'number' }),

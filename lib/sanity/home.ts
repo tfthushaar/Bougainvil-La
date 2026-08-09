@@ -3,9 +3,9 @@ import { urlFor } from './client'
 import { sanityFetch } from './live'
 import { homeContentQuery } from './queries'
 
-export interface HighlightItem {
+export interface SignatureExperience {
   title: string
-  desc: string
+  desc?: string
 }
 
 export interface HomeContent {
@@ -22,9 +22,15 @@ export interface HomeContent {
   founderParagraphs: string[]
   founderQuote: string
   founderImage: string | null
-  highlights: HighlightItem[]
+  highlights: string[]
   whyHeadline: string
   whyParagraphs: string[]
+  whyCouplesChooseHeadline: string
+  whyCouplesChoose: string[]
+  eventsWeHostHeadline: string
+  eventsWeHost: string[]
+  signatureExperiencesHeadline: string
+  signatureExperiences: SignatureExperience[]
   locationBlurbHeadline: string
   locationBlurbQuote: string
 }

@@ -2,6 +2,7 @@ export interface Venue {
   slug: string
   name: string
   tagline: string
+  subtitle?: string
   description: string[]
   seated: number
   floating: number
@@ -16,13 +17,14 @@ export const VENUES: Venue[] = [
     slug: 'sumeera',
     name: 'Sumeera',
     tagline: 'Where Jaipur Grandeur Meets Our Iconic Floating Mandap',
+    subtitle: 'Luxury Outdoor Wedding Venue with a floating mandap concept in Bangalore',
     description: [
       "Inspired by timeless Jaipur architecture, this spectacular Outdoor Wedding Venue Bangalore is centred around our iconic Floating Mandap, creating one of the most photographed ceremony settings in Bengaluru. Grand pink pillars, shimmering waters, and open skies come together to create an experience unlike any other.",
       'By day, natural light reflects beautifully across the Floating Mandap, while evenings transform the venue into a magical celebration beneath the stars. Every ceremony becomes a timeless memory.',
     ],
     seated: 600,
     floating: 900,
-    cover: '/images/venues/sumeera/with-decor/001.webp',
+    cover: '/images/venues/sumeera/with-decor/003.webp',
     highlights: [
       '/images/venues/sumeera/with-decor/001.webp',
       '/images/venues/sumeera/with-decor/015.webp',
@@ -32,7 +34,8 @@ export const VENUES: Venue[] = [
   {
     slug: 'floral-trellis',
     name: 'Floral Trellis',
-    tagline: "Bengaluru's First Retractable Roof Wedding Venue",
+    tagline: 'Celebrate, Rain or Shine',
+    subtitle: "Bengaluru's First Retractable Roof Wedding Venue",
     description: [
       'Floral Trellis perfectly combines the beauty of an outdoor celebration with complete peace of mind.',
       "Home to Bengaluru's first Retractable Roof Wedding Venue, this remarkable space allows couples to enjoy nature without worrying about changing weather. Whether open to blue skies or protected beneath its elegant retractable roof, every celebration unfolds exactly as envisioned.",
@@ -51,6 +54,7 @@ export const VENUES: Venue[] = [
     slug: 'divine-bells',
     name: 'Divine Bells',
     tagline: 'An Open Lawn Canvas',
+    subtitle: 'Elegant Wedding Lawn in Bangalore',
     description: [
       'Inspired by South Indian heritage and timeless Chettinad architecture, Divine Bells offers one of the most elegant Wedding Lawn Bangalore experiences.',
       'Beautiful pillars, intricate craftsmanship, and expansive open lawns provide a refined backdrop for ceremonies, receptions, and cultural celebrations.',
@@ -76,7 +80,7 @@ export const VENUES: Venue[] = [
     ],
     seated: 200,
     floating: 300,
-    cover: '/images/venues/margarita/with-decor/001.webp',
+    cover: '/images/venues/margarita/with-decor/005.webp',
     highlights: [
       '/images/venues/margarita/with-decor/001.webp',
       '/images/venues/margarita/with-decor/022.webp',
@@ -87,6 +91,7 @@ export const VENUES: Venue[] = [
     slug: 'ice-spice',
     name: 'Ice Spice',
     tagline: 'Semi Indoor Haven',
+    subtitle: 'Semi Indoor Wedding Venue Bangalore',
     description: [
       'Overlooking the sparkling pool, Ice Spice blends contemporary elegance with relaxed sophistication.',
       'Designed for intimate gatherings, dining experiences, and celebrations, this semi-indoor venue provides comfort while maintaining beautiful connections with the surrounding landscape.',

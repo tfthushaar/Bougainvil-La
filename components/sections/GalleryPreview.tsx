@@ -16,7 +16,7 @@ export async function GalleryPreview() {
           </p>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '1rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '1rem', alignItems: 'start' }}>
           {venues.map((v) => (
             <Link key={v.slug} href={`/gallery/#${v.slug}`} style={{ textDecoration: 'none', display: 'block', position: 'relative' }}>
               {v.cover ? (

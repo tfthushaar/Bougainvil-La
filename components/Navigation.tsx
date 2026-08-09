@@ -13,10 +13,11 @@ const SECRET_WINDOW_MS = 1500
 
 const NAV_LINKS = [
   { href: '/about/', label: 'About' },
-  { href: '/venues/', label: 'Venues' },
+  { href: '/venues/', label: 'Celebration Spaces' },
   { href: '/luxury-stays/', label: 'Luxury Stays' },
   { href: '/luxury-wedding-venue-south-bangalore/', label: 'Locations' },
   { href: '/gallery/', label: 'Gallery' },
+  { href: '/testimonials/', label: 'Testimonials' },
   { href: '/faq/', label: 'FAQ' },
   { href: '/contact/', label: 'Contact' },
 ]
@@ -113,8 +114,8 @@ export function Navigation({ settings }: { settings: SiteSettings }) {
   const textShadow = onLight ? 'none' : '0 1px 8px rgba(0,0,0,0.5)'
 
   const linkStyle: React.CSSProperties = {
-    fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: '0.78rem', letterSpacing: '0.12em',
-    textTransform: 'uppercase', color: textColor, textDecoration: 'none', textShadow,
+    fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: '0.72rem', letterSpacing: '0.07em',
+    textTransform: 'uppercase', color: textColor, textDecoration: 'none', textShadow, whiteSpace: 'nowrap',
     transition: 'color 0.3s ease',
   }
 
@@ -133,7 +134,7 @@ export function Navigation({ settings }: { settings: SiteSettings }) {
           </span>
         </Link>
 
-        <nav style={{ display: 'flex', gap: 'clamp(1rem, 2vw, 1.6rem)', flexWrap: 'wrap' }} className="nav-links-desktop">
+        <nav style={{ display: 'flex', gap: 'clamp(0.6rem, 1.3vw, 1.1rem)', flexWrap: 'wrap', justifyContent: 'flex-end' }} className="nav-links-desktop">
           {NAV_LINKS.map((l) => (
             <Link key={l.href} href={l.href} style={linkStyle}>{l.label}</Link>
           ))}

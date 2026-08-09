@@ -8,6 +8,7 @@ export interface Venue {
   slug: string
   name: string
   tagline: string
+  subtitle: string | null
   description: string[]
   seated: number
   floating: number
@@ -21,6 +22,7 @@ interface RawVenue {
   slug: string
   name: string
   tagline: string
+  subtitle: string | null
   description: PortableTextBlock[]
   seated: number
   floating: number
@@ -39,6 +41,7 @@ function shapeVenue(raw: RawVenue): Venue {
     slug: raw.slug,
     name: raw.name,
     tagline: raw.tagline,
+    subtitle: raw.subtitle ?? null,
     description: blocksToPlainParagraphs(raw.description),
     seated: raw.seated,
     floating: raw.floating,

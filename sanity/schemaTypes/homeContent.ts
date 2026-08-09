@@ -24,18 +24,28 @@ export const homeContent = defineType({
     defineField({ name: 'founderImage', title: 'Founder Teaser — Image', type: 'image', options: { hotspot: true } }),
 
     defineField({
-      name: 'highlights', title: 'Highlights', type: 'array',
+      name: 'highlights', title: 'Our Highlights', type: 'array',
+      description: "The simple landing-page highlights list (e.g. \"Capacity for up to 1,000 Guests\") — matches the same list shown on the About page.",
+      of: [{ type: 'string' }],
+    }),
+
+    defineField({ name: 'whyHeadline', title: "Why Bougainvil'La — Headline", type: 'string' }),
+    defineField({ name: 'whyParagraphs', title: "Why Bougainvil'La — Paragraphs", type: 'array', of: [{ type: 'text' }] }),
+    defineField({ name: 'whyCouplesChooseHeadline', title: 'Why Couples Choose — Headline', type: 'string' }),
+    defineField({ name: 'whyCouplesChoose', title: 'Why Couples Choose (list)', type: 'array', of: [{ type: 'string' }] }),
+    defineField({ name: 'eventsWeHostHeadline', title: 'Events We Host — Headline', type: 'string' }),
+    defineField({ name: 'eventsWeHost', title: 'Events We Host (list)', type: 'array', of: [{ type: 'string' }] }),
+    defineField({ name: 'signatureExperiencesHeadline', title: 'Signature Experiences — Headline', type: 'string' }),
+    defineField({
+      name: 'signatureExperiences', title: 'Signature Experiences', type: 'array',
       of: [{
-        type: 'object', name: 'highlight',
+        type: 'object', name: 'signatureExperience',
         fields: [
           { name: 'title', title: 'Title', type: 'string' },
           { name: 'desc', title: 'Description', type: 'text' },
         ],
       }],
     }),
-
-    defineField({ name: 'whyHeadline', title: "Why Bougainvil'La — Headline", type: 'string' }),
-    defineField({ name: 'whyParagraphs', title: "Why Bougainvil'La — Paragraphs", type: 'array', of: [{ type: 'text' }] }),
 
     defineField({ name: 'locationBlurbHeadline', title: 'Location Blurb — Headline', type: 'string' }),
     defineField({ name: 'locationBlurbQuote', title: 'Location Blurb — Quote', type: 'text' }),

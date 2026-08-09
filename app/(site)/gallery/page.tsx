@@ -43,6 +43,15 @@ export default async function GalleryPage() {
         image={headerImage}
       />
 
+      <div style={{ background: 'var(--color-surface)', padding: '1.5rem clamp(1.25rem, 5vw, 3rem) 0', textAlign: 'center' }}>
+        <span style={{
+          fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: '0.68rem', letterSpacing: '0.16em',
+          textTransform: 'uppercase', color: 'var(--color-gold-deep)',
+        }}>
+          Browse by Celebration Space
+        </span>
+      </div>
+
       {/* top offset clears the fixed site header (~4.5rem tall) so this
           sticky jump-nav sticks just below it instead of overlapping it */}
       <nav style={{ background: 'var(--color-surface)', borderBottom: '1px solid var(--color-line)', padding: '1rem clamp(1.25rem, 5vw, 3rem)', position: 'sticky', top: '4.5rem', zIndex: 10 }}>
