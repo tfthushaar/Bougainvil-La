@@ -7,6 +7,7 @@ const EXPLORE_LINKS = [
   { href: '/venues/', label: 'Celebration Spaces' },
   { href: '/luxury-stays/', label: 'Luxury Stays' },
   { href: '/gallery/', label: 'Gallery' },
+  { href: '/blog/', label: 'Blog' },
   { href: '/testimonials/', label: 'Testimonials' },
   { href: '/faq/', label: 'FAQs' },
   { href: '/contact/', label: 'Contact' },

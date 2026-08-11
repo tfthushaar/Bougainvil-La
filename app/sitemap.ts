@@ -1,16 +1,17 @@
 import type { MetadataRoute } from 'next'
 import { getVenueSlugs } from '@/lib/content/venues'
 import { getLocationSlugs } from '@/lib/content/locations'
+import { getBlogPosts } from '@/lib/content/blog'
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://bougainvilla.co.in'
 
 const STATIC_ROUTES = [
-  '', 'about', 'venues', 'luxury-stays', 'gallery', 'testimonials', 'faq', 'contact',
+  '', 'about', 'venues', 'luxury-stays', 'gallery', 'blog', 'testimonials', 'faq', 'contact',
   'luxury-wedding-venue-south-bangalore',
 ]
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [venueSlugs, locationSlugs] = await Promise.all([getVenueSlugs(), getLocationSlugs()])
+  const [venueSlugs, locationSlugs, posts] = await Promise.all([getVenueSlugs(), getLocationSlugs(), getBlogPosts()])
 
   const staticEntries = STATIC_ROUTES.map((slug) => ({
     url: `${SITE_URL}/${slug}${slug ? '/' : ''}`,
@@ -29,5 +30,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     .filter((slug) => slug !== 'luxury-wedding-venue-south-bangalore')
     .map((slug) => ({ url: `${SITE_URL}/${slug}/`, lastModified: new Date() }))
 
-  return [...staticEntries, ...venueEntries, ...locationEntries]
+  const blogEntries = posts.map((p) => ({
+    url: `${SITE_URL}/blog/${p.slug}/`,
+    lastModified: new Date(p.publishedAt),
+  }))
+
+  return [...staticEntries, ...venueEntries, ...locationEntries, ...blogEntries]
 }

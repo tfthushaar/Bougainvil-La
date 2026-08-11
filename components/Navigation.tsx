@@ -19,6 +19,7 @@ const NAV_LINKS = [
   { href: '/luxury-stays/', label: 'Luxury Stays' },
   { href: '/luxury-wedding-venue-south-bangalore/', label: 'Locations' },
   { href: '/gallery/', label: 'Gallery' },
+  { href: '/blog/', label: 'Blog' },
   { href: '/testimonials/', label: 'Testimonials' },
   { href: '/faq/', label: 'FAQ' },
   { href: '/contact/', label: 'Contact' },
