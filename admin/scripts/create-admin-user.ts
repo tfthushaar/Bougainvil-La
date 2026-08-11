@@ -1,6 +1,8 @@
 // One-time: creates (or updates the password of) an admin login.
 // Usage: npx tsx scripts/create-admin-user.ts <email> <password>
-import 'dotenv/config'
+import { config } from 'dotenv'
+config({ path: '.env.local' })
+
 import { hash } from 'bcryptjs'
 import { eq } from 'drizzle-orm'
 import { db } from '../lib/db/client'

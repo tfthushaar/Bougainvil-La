@@ -7,7 +7,9 @@
 // used for its previous CMS migration.
 //
 // Usage: npm run db:seed   (needs DATABASE_URL in .env.local)
-import 'dotenv/config'
+import { config } from 'dotenv'
+config({ path: '.env.local' })
+
 import { db } from '../lib/db/client'
 import {
   venues, roomTypes, faqItems, locationPages, blogPosts,

@@ -1,5 +1,7 @@
-import 'dotenv/config'
+import { config } from 'dotenv'
 import type { Config } from 'drizzle-kit'
+
+config({ path: '.env.local' })
 
 // Prefers the unpooled connection for schema pushes/migrations (Neon's
 // pooler runs in transaction mode, which can be flaky for DDL) — falls back
