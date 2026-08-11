@@ -6,6 +6,7 @@ import { revalidatePath } from 'next/cache'
 import { db } from '@/lib/db/client'
 import { blogPosts } from '@/lib/db/schema'
 import type { ContentBlock } from '@/lib/blocks'
+import { triggerPublicSiteDeploy } from '@/lib/deploy'
 
 export async function saveBlogPost(formData: FormData) {
   const id = String(formData.get('id'))
@@ -41,6 +42,7 @@ export async function saveBlogPost(formData: FormData) {
   }
 
   revalidatePath('/blog')
+  await triggerPublicSiteDeploy()
   redirect('/blog')
 }
 
@@ -48,5 +50,6 @@ export async function deleteBlogPost(formData: FormData) {
   const id = String(formData.get('id'))
   await db().delete(blogPosts).where(eq(blogPosts.id, id))
   revalidatePath('/blog')
+  await triggerPublicSiteDeploy()
   redirect('/blog')
 }

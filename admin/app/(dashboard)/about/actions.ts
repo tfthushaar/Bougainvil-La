@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { db } from '@/lib/db/client'
 import { aboutContent } from '@/lib/db/schema'
+import { triggerPublicSiteDeploy } from '@/lib/deploy'
 
 function lines(v: FormDataEntryValue | null): string[] {
   return String(v ?? '').split('\n').map((s) => s.trim()).filter(Boolean)
@@ -22,4 +23,5 @@ export async function saveAboutContent(formData: FormData) {
 
   await db().insert(aboutContent).values(values).onConflictDoUpdate({ target: aboutContent.id, set: values })
   revalidatePath('/about')
+  await triggerPublicSiteDeploy()
 }

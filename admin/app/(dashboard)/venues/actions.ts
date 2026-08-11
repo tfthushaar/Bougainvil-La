@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
 import { db } from '@/lib/db/client'
 import { venues } from '@/lib/db/schema'
+import { triggerPublicSiteDeploy } from '@/lib/deploy'
 
 function lines(v: FormDataEntryValue | null): string[] {
   return String(v ?? '').split('\n').map((s) => s.trim()).filter(Boolean)
@@ -36,6 +37,7 @@ export async function saveVenue(formData: FormData) {
   }
 
   revalidatePath('/venues')
+  await triggerPublicSiteDeploy()
   redirect('/venues')
 }
 
@@ -43,5 +45,6 @@ export async function deleteVenue(formData: FormData) {
   const id = String(formData.get('id'))
   await db().delete(venues).where(eq(venues.id, id))
   revalidatePath('/venues')
+  await triggerPublicSiteDeploy()
   redirect('/venues')
 }

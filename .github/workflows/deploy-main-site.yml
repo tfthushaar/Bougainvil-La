@@ -1,0 +1,33 @@
+name: Deploy main site
+
+# Rebuilds and redeploys the public Cloudflare Worker. Runs on every push
+# to main (so code changes deploy normally), and can also be triggered by
+# the admin app (repository_dispatch) whenever content changes in the
+# database — the site is statically generated at build time, so a DB write
+# alone never reaches the live site without a fresh build.
+on:
+  push:
+    branches: [main]
+    # Admin-only or docs-only commits don't need a public-site rebuild.
+    paths-ignore: ['admin/**', '**/*.md']
+  repository_dispatch:
+    types: [content-updated]
+  workflow_dispatch: {}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - run: npm ci
+
+      - run: npm run cf:deploy
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

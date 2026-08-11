@@ -6,6 +6,7 @@ import { revalidatePath } from 'next/cache'
 import { db } from '@/lib/db/client'
 import { locationPages } from '@/lib/db/schema'
 import type { ContentBlock } from '@/lib/blocks'
+import { triggerPublicSiteDeploy } from '@/lib/deploy'
 
 export async function saveLocationPage(formData: FormData) {
   const id = String(formData.get('id'))
@@ -35,6 +36,7 @@ export async function saveLocationPage(formData: FormData) {
   }
 
   revalidatePath('/locations')
+  await triggerPublicSiteDeploy()
   redirect('/locations')
 }
 
@@ -42,5 +44,6 @@ export async function deleteLocationPage(formData: FormData) {
   const id = String(formData.get('id'))
   await db().delete(locationPages).where(eq(locationPages.id, id))
   revalidatePath('/locations')
+  await triggerPublicSiteDeploy()
   redirect('/locations')
 }

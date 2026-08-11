@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
 import { db } from '@/lib/db/client'
 import { roomTypes } from '@/lib/db/schema'
+import { triggerPublicSiteDeploy } from '@/lib/deploy'
 
 export async function saveRoomType(formData: FormData) {
   const id = String(formData.get('id'))
@@ -26,6 +27,7 @@ export async function saveRoomType(formData: FormData) {
   }
 
   revalidatePath('/room-types')
+  await triggerPublicSiteDeploy()
   redirect('/room-types')
 }
 
@@ -33,5 +35,6 @@ export async function deleteRoomType(formData: FormData) {
   const id = String(formData.get('id'))
   await db().delete(roomTypes).where(eq(roomTypes.id, id))
   revalidatePath('/room-types')
+  await triggerPublicSiteDeploy()
   redirect('/room-types')
 }
