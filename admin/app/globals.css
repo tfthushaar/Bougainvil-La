@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+/* A light touch of the public site's brand — this is an editing tool, not a
+   marketing surface, so it stays a plain functional dashboard rather than a
+   re-skin of the luxury site. Just enough (serif headings, the gold accent
+   on active/focus states) that it doesn't feel like a generic template. */
+@theme {
+  --font-display: Georgia, 'Times New Roman', serif;
+  --color-accent: #a8843f;
+  --color-accent-dark: #8a6d33;
+}
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  background: #f7f6f3;
+  color: #1a1a1a;
+}
