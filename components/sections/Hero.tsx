@@ -13,12 +13,11 @@ gsap.registerPlugin(ScrollTrigger)
 // "easeInOutExpo" curves — GSAP's own expo eases are the same shape,
 // used here since GSAP's free core has no CSS-custom-property ease input.
 
-const HERO_IMAGE = '/images/brand/hero/jaipur-mandap-golden-hour.webp'
-// A separate, portrait-oriented pick for narrow screens — the wide
-// architectural shot above loses most of its impact when `cover`-cropped
-// down to a phone's aspect ratio. This one (golden-hour floating mandap,
-// peacocks, water reflection) was shot portrait, so it survives that crop.
-const HERO_IMAGE_MOBILE = '/images/brand/hero/floating-mandap-daylight.webp'
+// The venue's signature shot — the peach-toned floating mandap with its
+// white peacock finials, shot in clean daylight with no watermark or people
+// in frame. Portrait-shot, but crops well at any aspect ratio since the
+// mandap sits centered in the frame.
+const HERO_IMAGE = '/images/brand/hero/floating-mandap-daylight.webp'
 
 function GoldRule({ width = '2.5rem' }: { width?: string }) {
   return <span style={{ display: 'inline-block', width, height: '1px', background: 'var(--color-gold-deep)' }} />
@@ -46,7 +45,8 @@ export function Hero({ content }: { content: HomeContent }) {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ defaults: { ease: 'expo.out' } })
       tl.from(imgRef.current, { opacity: 0, scale: reduce ? 1 : 1.06, duration: reduce ? 0 : 1.6, ease: 'power2.out' })
-        .from('.hero-eyebrow', { opacity: 0, y: 14, duration: reduce ? 0 : 0.7 }, reduce ? 0 : 0.3)
+        .from('.hero-wordmark', { opacity: 0, y: 20, duration: reduce ? 0 : 0.9 }, reduce ? 0 : 0.4)
+        .from('.hero-eyebrow', { opacity: 0, y: 14, duration: reduce ? 0 : 0.7 }, '-=0.3')
         .from('.hero-headline', { opacity: 0, y: 24, duration: reduce ? 0 : 0.9 }, '-=0.45')
         .from('.hero-paragraph', { opacity: 0, y: 16, duration: reduce ? 0 : 0.8 }, '-=0.55')
         .from('.hero-feature', { opacity: 0, y: 12, duration: reduce ? 0 : 0.7 }, '-=0.5')
@@ -65,34 +65,49 @@ export function Hero({ content }: { content: HomeContent }) {
   }, [])
 
   return (
-    <section
-      ref={rootRef}
-      style={{ position: 'relative', height: '100svh', minHeight: '38rem', overflow: 'hidden', background: 'var(--color-surface)' }}
-    >
-      <div
-        ref={imgRef}
-        className="hero-bg"
-        style={{
-          position: 'absolute', inset: '-7% 0', backgroundImage: `url(${HERO_IMAGE})`,
-          backgroundSize: 'cover', backgroundPosition: 'center 38%',
-        }}
-      />
+    <section ref={rootRef} style={{ background: 'var(--color-surface)' }}>
+      {/* Image band — full-bleed photo, nothing overlapping it except the
+          brand wordmark itself and the subtle gradient that keeps it
+          legible. All the descriptive copy lives below, in-flow, not
+          floating on top of the photo. */}
+      <div style={{ position: 'relative', height: 'clamp(26rem, 88vh, 46rem)', overflow: 'hidden' }}>
+        <div
+          ref={imgRef}
+          className="hero-bg"
+          style={{
+            position: 'absolute', inset: '-7% 0', backgroundImage: `url(${HERO_IMAGE})`,
+            backgroundSize: 'cover', backgroundPosition: 'center 20%',
+          }}
+        />
+        {/* Very subtle gradient — only there so the wordmark stays legible
+            against whatever tone happens to be behind it, not a heavy scrim. */}
+        <div style={{
+          position: 'absolute', inset: 0,
+          background: 'linear-gradient(to top, rgba(0,0,0,0.32), transparent 40%)',
+        }} />
 
-      <div style={{
-        position: 'relative', zIndex: 2, height: '100%',
-        display: 'flex', flexDirection: 'column', justifyContent: 'flex-end',
-        padding: 'clamp(1.25rem, 5vw, 3.5rem) clamp(1.25rem, 5vw, 3.5rem) clamp(2rem, 8vh, 4.5rem)',
-      }}>
-        {/* Frosted panel behind the text — guarantees contrast regardless of
-            what's under it in the photo (the mandap's dark stone roof runs
-            right through this zone), instead of chasing a scrim across an
-            image with wildly uneven tones. */}
-        <div className="hero-panel" style={{
-          maxWidth: '36rem', display: 'flex', flexDirection: 'column', gap: 'clamp(0.9rem, 2vh, 1.35rem)',
-          background: 'color-mix(in oklch, var(--color-surface) 88%, transparent)',
-          backdropFilter: 'blur(18px)', WebkitBackdropFilter: 'blur(18px)',
-          border: '1px solid color-mix(in oklch, var(--color-surface) 40%, white 10%)',
-          padding: 'clamp(1.5rem, 4vw, 2.5rem)',
+        <div style={{
+          position: 'absolute', right: 0, bottom: 0, left: 0, zIndex: 2,
+          padding: 'clamp(1.25rem, 5vw, 3.5rem) clamp(1.25rem, 5vw, 3.5rem) clamp(1.5rem, 5vh, 2.75rem)',
+          display: 'flex', justifyContent: 'flex-end',
+        }}>
+          <span className="hero-wordmark font-display" style={{
+            fontStyle: 'italic', fontWeight: 500, color: '#fff', lineHeight: 1,
+            fontSize: 'clamp(2.75rem, 11vw, 7.5rem)', textShadow: '0 4px 28px rgba(0,0,0,0.4)',
+            textAlign: 'right',
+          }}>
+            Bougainvil&rsquo;La
+          </span>
+        </div>
+      </div>
+
+      {/* Content band — normal document flow below the photo, so it's
+          naturally phone-friendly (no fixed-height overlay competing for
+          space with the image). */}
+      <div style={{ padding: 'clamp(2.5rem, 7vh, 4.5rem) clamp(1.25rem, 5vw, 3rem)' }}>
+        <div style={{
+          maxWidth: '42rem', margin: '0 auto', textAlign: 'center',
+          display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'clamp(0.9rem, 2vh, 1.35rem)',
         }}>
           <span className="hero-eyebrow" style={{
             fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: 'clamp(0.72rem, 1vw, 0.85rem)', letterSpacing: '0.28em',
@@ -127,7 +142,7 @@ export function Hero({ content }: { content: HomeContent }) {
             </span>
           </div>
 
-          <div className="hero-buttons" style={{ display: 'flex', flexWrap: 'wrap', gap: '0.9rem', marginTop: '0.35rem' }}>
+          <div className="hero-buttons" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '0.9rem', marginTop: '0.35rem' }}>
             <Link href="/#enquire" className="btn-press" style={primaryBtn}>
               Book a Venue Tour
             </Link>
@@ -137,15 +152,6 @@ export function Hero({ content }: { content: HomeContent }) {
           </div>
         </div>
       </div>
-
-      <style>{`
-        @media (max-width: 640px) {
-          .hero-panel { gap: 0.7rem !important; padding: 1.25rem !important; }
-          .hero-headline { font-size: 2rem !important; }
-          .hero-paragraph, .hero-buttons { display: none !important; }
-          .hero-bg { background-image: url(${HERO_IMAGE_MOBILE}) !important; background-position: center 22% !important; }
-        }
-      `}</style>
     </section>
   )
 }

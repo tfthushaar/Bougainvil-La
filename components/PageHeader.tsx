@@ -86,34 +86,33 @@ export function PageHeader({ eyebrow, title, paragraph, meta, image, imagePositi
   }
 
   return (
-    <section data-nav-surface="dark" style={{ position: 'relative', height: 'clamp(24rem, 58vh, 38rem)', overflow: 'hidden' }}>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={image!} alt="" style={{
-          position: 'absolute', inset: 0, width: '100%', height: '100%',
-          objectFit: 'cover', objectPosition: imagePosition,
-        }}
-      />
-      <div style={{
-        position: 'absolute', left: 0, right: 0, bottom: 0,
-        display: 'flex', justifyContent: isLeft ? 'flex-start' : 'center',
-        padding: 'clamp(1.25rem, 5vh, 2.5rem) clamp(1.25rem, 6vw, 5rem)',
-      }}>
-        {/* Frosted panel, not a gradient scrim — a scrim strong enough to
-            guarantee contrast against a photo with uneven local tone (dark
-            foliage, bright sky, mixed decor colors) ends up either too weak
-            near the top of the text block or too heavy/flat near the
-            bottom. A backdrop-blur panel behind the text fixes contrast
-            unconditionally regardless of what's behind it. */}
+    <section>
+      {/* Image band — full-bleed photo, nothing overlapping it. The title/
+          copy sits in its own band underneath instead of floating on top of
+          the photo, so the image stays uncropped-by-text and legible on its
+          own. */}
+      <div data-nav-surface="dark" style={{ position: 'relative', height: 'clamp(20rem, 50vh, 32rem)', overflow: 'hidden' }}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={image!} alt="" style={{
+            position: 'absolute', inset: 0, width: '100%', height: '100%',
+            objectFit: 'cover', objectPosition: imagePosition,
+          }}
+        />
+        {/* Very subtle gradient — purely a polished transition into the
+            content band below, not for text contrast (nothing sits on the
+            photo anymore). */}
         <div style={{
-          maxWidth: paragraph ? '44rem' : '40rem',
-          background: 'color-mix(in oklch, var(--color-surface) 88%, transparent)',
-          backdropFilter: 'blur(18px)', WebkitBackdropFilter: 'blur(18px)',
-          border: '1px solid color-mix(in oklch, var(--color-surface) 40%, white 10%)',
-          padding: 'clamp(1.5rem, 4vw, 2.25rem) clamp(1.5rem, 4vw, 2.5rem)',
-        }}>
-          {content}
-        </div>
+          position: 'absolute', inset: 0,
+          background: 'linear-gradient(to bottom, transparent 75%, rgba(0,0,0,0.12))',
+        }} />
+      </div>
+
+      <div style={{
+        background: 'var(--color-surface)',
+        padding: 'clamp(2.5rem, 6vh, 4rem) clamp(1.25rem, 5vw, 3rem)',
+      }}>
+        {content}
       </div>
     </section>
   )
