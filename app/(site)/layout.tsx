@@ -21,8 +21,8 @@ export const metadata: Metadata = {
     "Bougainvil'La is one of the finest Luxury Wedding Venue Bangalore destinations, thoughtfully designed for couples who seek elegance, exclusivity, and unforgettable celebrations.",
 }
 
-export default function SiteLayout({ children }: { children: React.ReactNode }) {
-  const settings = getSiteSettings()
+export default async function SiteLayout({ children }: { children: React.ReactNode }) {
+  const settings = await getSiteSettings()
 
   return (
     <html lang="en" className={`${ebGaramond.variable} ${raleway.variable}`}>

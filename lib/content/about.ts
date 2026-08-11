@@ -47,6 +47,7 @@ const ABOUT_CONTENT: AboutContent = {
   ],
 }
 
-export function getAboutContent(): AboutContent {
+// async on purpose — see the comment in lib/content/venues.ts.
+export async function getAboutContent(): Promise<AboutContent> {
   return ABOUT_CONTENT
 }

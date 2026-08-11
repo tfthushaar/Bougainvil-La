@@ -18,6 +18,7 @@ const SITE_SETTINGS: SiteSettings = {
   bookTourEmailSubject: 'Venue Tour Request',
 }
 
-export function getSiteSettings(): SiteSettings {
+// async on purpose — see the comment in lib/content/venues.ts.
+export async function getSiteSettings(): Promise<SiteSettings> {
   return SITE_SETTINGS
 }

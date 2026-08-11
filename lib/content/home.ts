@@ -112,6 +112,7 @@ const HOME_CONTENT: HomeContent = {
     'Located near Bolare on Kanakapura Road, Bougainvil’La is conveniently accessible from JP Nagar, Basavanagudi, Banashankari, Jayanagar, Bannerghatta Road, Nice Road and neighbourhoods across South Bengaluru.',
 }
 
-export function getHomeContent(): HomeContent {
+// async on purpose — see the comment in lib/content/venues.ts.
+export async function getHomeContent(): Promise<HomeContent> {
   return HOME_CONTENT
 }

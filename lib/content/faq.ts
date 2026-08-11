@@ -29,6 +29,7 @@ const FAQ_ITEMS: FaqItem[] = [
   },
 ]
 
-export function getFaqItems(): FaqItem[] {
+// async on purpose — see the comment in lib/content/venues.ts.
+export async function getFaqItems(): Promise<FaqItem[]> {
   return FAQ_ITEMS
 }

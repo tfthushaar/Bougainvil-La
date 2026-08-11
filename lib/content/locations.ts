@@ -173,14 +173,15 @@ const LOCATIONS: LocationPageDoc[] = [
   },
 ]
 
-export function getLocations(): LocationPageDoc[] {
+// async on purpose — see the comment in lib/content/venues.ts.
+export async function getLocations(): Promise<LocationPageDoc[]> {
   return LOCATIONS
 }
 
-export function getLocationBySlug(slug: string): LocationPageDoc | undefined {
+export async function getLocationBySlug(slug: string): Promise<LocationPageDoc | undefined> {
   return LOCATIONS.find((l) => l.slug === slug)
 }
 
-export function getLocationSlugs(): string[] {
+export async function getLocationSlugs(): Promise<string[]> {
   return LOCATIONS.map((l) => l.slug)
 }

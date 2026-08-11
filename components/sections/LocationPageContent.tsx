@@ -41,8 +41,8 @@ function BlockRenderer({ block, index }: { block: LocationBlock; index: number }
   )
 }
 
-export function LocationPageContent({ page }: { page: LocationPageDoc }) {
-  const localities = getLocations().filter((l) => !l.isPillar)
+export async function LocationPageContent({ page }: { page: LocationPageDoc }) {
+  const localities = (await getLocations()).filter((l) => !l.isPillar)
 
   return (
     <main>

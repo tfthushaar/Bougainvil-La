@@ -41,6 +41,7 @@ const ROOM_TYPES: RoomType[] = [
   },
 ]
 
-export function getRoomTypes(): RoomType[] {
+// async on purpose — see the comment in lib/content/venues.ts.
+export async function getRoomTypes(): Promise<RoomType[]> {
   return ROOM_TYPES
 }

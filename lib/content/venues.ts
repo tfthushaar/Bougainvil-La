@@ -140,14 +140,17 @@ export const VENUES: Venue[] = VENUE_SEEDS.map((v) => {
   }
 })
 
-export function getVenues(): Venue[] {
+// async on purpose though nothing here awaits anything yet — keeps every
+// call site (already written as `await getVenues()`) forward-compatible
+// with swapping this for a real fetch once the planned admin app exists.
+export async function getVenues(): Promise<Venue[]> {
   return VENUES
 }
 
-export function getVenueBySlug(slug: string): Venue | undefined {
+export async function getVenueBySlug(slug: string): Promise<Venue | undefined> {
   return VENUES.find((v) => v.slug === slug)
 }
 
-export function getVenueSlugs(): string[] {
+export async function getVenueSlugs(): Promise<string[]> {
   return VENUES.map((v) => v.slug)
 }
