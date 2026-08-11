@@ -13,6 +13,11 @@
       "pattern": "bougainvilla.co.in",
       "zone_name": "bougainvilla.co.in",
       "custom_domain": true
+    },
+    {
+      "pattern": "www.bougainvilla.co.in",
+      "zone_name": "bougainvilla.co.in",
+      "custom_domain": true
     }
   ],
   "observability": {
