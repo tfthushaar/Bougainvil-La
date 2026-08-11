@@ -3,15 +3,14 @@ import { auth, signOut } from '@/lib/auth'
 
 const NAV_SECTIONS = [
   {
-    label: 'Content',
+    label: 'Edit Website',
     items: [
+      { href: '/home', label: 'Home Page' },
+      { href: '/about', label: 'About Page' },
       { href: '/venues', label: 'Venues' },
       { href: '/room-types', label: 'Room Types' },
       { href: '/faq', label: 'FAQ' },
       { href: '/locations', label: 'Location Pages' },
-      { href: '/blog', label: 'Blog' },
-      { href: '/home', label: 'Home Page' },
-      { href: '/about', label: 'About Page' },
       { href: '/site-settings', label: 'Site Settings' },
     ],
   },
@@ -40,8 +39,11 @@ export default async function DashboardLayout({ children }: { children: React.Re
         </div>
 
         <nav className="flex-1 overflow-y-auto px-3 py-4">
-          <Link href="/" className="mb-4 block rounded px-3 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-100">
+          <Link href="/" className="mb-1 block rounded px-3 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-100">
             Dashboard
+          </Link>
+          <Link href="/blog" className="mb-4 block rounded px-3 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-100">
+            Create Blog
           </Link>
           {NAV_SECTIONS.map((section) => (
             <div key={section.label} className="mb-4">
