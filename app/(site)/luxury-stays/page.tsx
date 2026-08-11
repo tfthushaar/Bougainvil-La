@@ -12,8 +12,11 @@ export const metadata: Metadata = {
 export default async function LuxuryStaysPage() {
   const rooms = await getRoomTypes()
   // Landscape shot — every room photo is portrait (no landscape room shots
-  // exist) and needed heavy cropping in this wide PageHeader banner.
-  const headerImage = '/images/venues/sumeera/without-decor/001.webp'
+  // exist). The tall pillars/archways in the venue's architectural shots
+  // looked stretched/oddly cropped in this wide, short banner; this one has
+  // a wider, lower composition (lawn + sky, not tall verticals) that holds
+  // up much better to an aggressive horizontal crop.
+  const headerImage = '/images/brand/hero/ceremony-lawn-daylight.webp'
 
   return (
     <main>

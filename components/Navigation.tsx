@@ -123,11 +123,19 @@ export function Navigation({ settings }: { settings: SiteSettings }) {
   }
 
   return (
-    <header ref={headerRef} style={{
-      position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
-      background: 'rgba(0,0,0,0.07)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)',
-      borderBottom: '1px solid rgba(255,255,255,0.06)',
-    }}>
+    <header ref={headerRef} style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100 }}>
+      {/* Separate background layer, not on the header itself — masking the
+          header directly would also fade out the nav links/logo/buttons
+          near the bottom of the bar, not just the frost behind them. A hard
+          edge (border/solid cutoff) reads as a bar sitting on top of the
+          page; fading just this layer dissolves it into the content
+          underneath instead. */}
+      <div style={{
+        position: 'absolute', inset: 0, zIndex: -1,
+        background: 'rgba(0,0,0,0.045)', backdropFilter: 'blur(5px)', WebkitBackdropFilter: 'blur(5px)',
+        WebkitMaskImage: 'linear-gradient(to bottom, black 55%, transparent 100%)',
+        maskImage: 'linear-gradient(to bottom, black 55%, transparent 100%)',
+      }} />
       <div style={{
         maxWidth: '88rem', margin: '0 auto', padding: '0.75rem clamp(1.25rem, 4vw, 2.75rem)',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1.5rem',
