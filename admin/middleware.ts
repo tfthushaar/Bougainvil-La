@@ -9,7 +9,9 @@ export const { auth: middleware } = NextAuth(authConfig)
 export default middleware
 
 export const config = {
-  // Everything except static assets, Next internals, and the auth API
-  // routes themselves (which must stay reachable to actually log in).
-  matcher: ['/((?!api/auth|_next/static|_next/image|favicon.ico).*)'],
+  // Everything except static assets, Next internals, the auth API routes
+  // (must stay reachable to log in), and the two routes deliberately public
+  // for site visitors: uploaded images (rendered on the public site) and
+  // enquiry submissions (the public site's contact form posts here).
+  matcher: ['/((?!api/auth|api/images|api/enquiries|_next/static|_next/image|favicon.ico).*)'],
 }

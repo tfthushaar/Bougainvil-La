@@ -4,16 +4,14 @@ import { useState } from 'react'
 
 export type FormStatus = 'idle' | 'submitting' | 'success' | 'error'
 
-// No backend/CMS to store submissions in right now — opens the visitor's
-// email client with a prefilled message to the venue's inbox instead. This
-// is a stopgap: the planned Netlify-hosted admin app will store and display
-// enquiries properly (see the migration plan doc).
-const ENQUIRY_EMAIL = 'bougainvillaluxury@gmail.com'
+const ENQUIRY_API_URL = process.env.NEXT_PUBLIC_ADMIN_API_URL
+  ? `${process.env.NEXT_PUBLIC_ADMIN_API_URL}/api/enquiries`
+  : 'https://bougainvilla-admin.netlify.app/api/enquiries'
 
 export function useEnquiryForm(source: string) {
   const [status, setStatus] = useState<FormStatus>('idle')
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     const form = e.currentTarget
     const data = Object.fromEntries(new FormData(form).entries()) as Record<string, string>
@@ -23,22 +21,26 @@ export function useEnquiryForm(source: string) {
 
     setStatus('submitting')
 
-    const lines = [
-      `Name: ${data.name ?? ''}`,
-      `Phone: ${data.phone ?? ''}`,
-      `Email: ${data.email ?? ''}`,
-      data.wedding_date ? `Wedding Date: ${data.wedding_date}` : null,
-      data.guest_count ? `Estimated Guests: ${data.guest_count}` : null,
-      data.message ? `Message: ${data.message}` : null,
-      `Source: ${source}`,
-    ].filter(Boolean).join('\n')
-
-    const subject = encodeURIComponent(`New Venue Enquiry — ${data.name || 'Website'}`)
-    const body = encodeURIComponent(lines)
-    window.location.href = `mailto:${ENQUIRY_EMAIL}?subject=${subject}&body=${body}`
-
-    setStatus('success')
-    form.reset()
+    try {
+      const res = await fetch(ENQUIRY_API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: data.name,
+          phone: data.phone,
+          email: data.email,
+          weddingDate: data.wedding_date || undefined,
+          guestCount: data.guest_count ? Number(data.guest_count) : undefined,
+          message: data.message || undefined,
+          source,
+        }),
+      })
+      if (!res.ok) throw new Error('Request failed')
+      setStatus('success')
+      form.reset()
+    } catch {
+      setStatus('error')
+    }
   }
 
   return { status, handleSubmit }

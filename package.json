@@ -13,6 +13,8 @@
     "cf:typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^0.10.4",
+    "drizzle-orm": "^0.45.2",
     "gsap": "^3.12.5",
     "lenis": "^1.1.14",
     "next": "^15.3.3",
@@ -29,5 +31,9 @@
     "tailwindcss": "^4.0.0",
     "typescript": "^5",
     "wrangler": "^4.120.1"
+  },
+  "overrides": {
+    "postcss": "^8.5.23",
+    "sharp": "^0.35.0"
   }
 }

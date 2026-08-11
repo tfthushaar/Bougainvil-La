@@ -1,8 +1,9 @@
 import Link from 'next/link'
-import type { LocationBlock, LocationPageDoc } from '@/lib/content/locations'
+import type { LocationPageDoc } from '@/lib/content/locations'
 import { getLocations } from '@/lib/content/locations'
 import { PageHeader } from '@/components/PageHeader'
 import { Reveal } from '@/components/Reveal'
+import { RichContent } from '@/components/RichContent'
 
 const HEADER_IMAGE = '/images/brand/hero/ceremony-lawn-daylight.webp'
 
@@ -12,37 +13,6 @@ const LOCALITY_LABELS: Record<string, string> = {
   'wedding-venue-near-bannerghatta-road': 'Bannerghatta Road',
   'wedding-venue-near-jayanagar-bangalore': 'Jayanagar',
   'wedding-venue-near-nice-road': 'NICE Road',
-}
-
-function BlockRenderer({ block, index }: { block: LocationBlock; index: number }) {
-  if (block.type === 'heading') {
-    return (
-      <h2 key={index} className="font-display" style={{ fontWeight: 500, fontSize: '1.4rem', color: 'var(--color-ink)', margin: '1rem 0 0' }}>
-        {block.text}
-      </h2>
-    )
-  }
-  if (block.type === 'paragraph') {
-    const style: React.CSSProperties = { fontFamily: 'var(--font-sans)', fontWeight: 300, fontSize: '1rem', lineHeight: 1.75, color: 'var(--color-ink-soft)', margin: 0 }
-    if (block.href) {
-      return (
-        <a key={index} href={block.href} target="_blank" rel="noopener noreferrer" style={{ ...style, textDecoration: 'underline', textUnderlineOffset: '2px' }}>
-          {block.text}
-        </a>
-      )
-    }
-    return <p key={index} style={style}>{block.text}</p>
-  }
-  return (
-    <ul key={index} style={{ margin: 0, padding: 0, listStyle: 'none', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '0.6rem 1.5rem' }}>
-      {block.items.map((item) => (
-        <li key={item} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.6rem' }}>
-          <span style={{ flexShrink: 0, marginTop: '0.55em', width: '4px', height: '4px', background: 'var(--color-gold-deep)' }} />
-          <span style={{ fontFamily: 'var(--font-sans)', fontWeight: 300, fontSize: '0.95rem', color: 'var(--color-ink-soft)' }}>{item}</span>
-        </li>
-      ))}
-    </ul>
-  )
 }
 
 export async function LocationPageContent({ page }: { page: LocationPageDoc }) {
@@ -55,7 +25,7 @@ export async function LocationPageContent({ page }: { page: LocationPageDoc }) {
       <Reveal>
         <section style={{ background: 'var(--color-surface)', padding: 'clamp(3rem, 7vh, 4.5rem) clamp(1.25rem, 5vw, 3rem)' }}>
           <div style={{ maxWidth: '52rem', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-            {page.blocks.map((block, i) => <BlockRenderer key={i} block={block} index={i} />)}
+            <RichContent blocks={page.blocks} />
 
             <div style={{ display: 'flex', gap: '0.8rem', marginTop: '1rem', flexWrap: 'wrap' }}>
               <a href="mailto:bougainvillaluxury@gmail.com?subject=Venue%20Tour%20Request" className="btn-press" style={{
