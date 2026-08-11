@@ -41,13 +41,20 @@ html {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   text-size-adjust: 100%;
+  /* `clip`, not `hidden` — overflow-x:hidden with no overflow-y set makes
+     the UA compute overflow-y: auto too (CSS spec's overflow-x/y
+     interaction rule, moving the "real" scroll container here and breaking
+     position:sticky for every descendant on the page, since their nearest
+     scrolling ancestor is no longer the actual viewport). `clip` prevents
+     horizontal overflow the same way without establishing a scroll
+     container, so it doesn't trigger that quirk. */
+  overflow-x: clip;
 }
 
 body {
   font-family: var(--font-sans);
   background: var(--color-surface);
   color: var(--color-ink);
-  overflow-x: hidden;
 }
 
 /* ─── Press feedback ─────────────────────────────────────────────────────────

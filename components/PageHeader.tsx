@@ -92,19 +92,33 @@ export function PageHeader({ eyebrow, title, paragraph, meta, image, imagePositi
           the photo, so the image stays uncropped-by-text and legible on its
           own. */}
       <div data-nav-surface="dark" style={{ position: 'relative', height: 'clamp(20rem, 50vh, 32rem)', overflow: 'hidden' }}>
+        {/* Many of these source photos are portrait or an awkward aspect
+            ratio for a wide banner — object-fit:cover alone was cropping
+            them hard (a room shot down to just a bed and curtain, a
+            venue's mandap with its top cut off). Same fix as the Hero: a
+            blurred, darkened, scaled-up copy fills every edge, and the real
+            photo sits on top fully visible, never cropped. */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={image!} alt="" aria-hidden="true" style={{
+            position: 'absolute', inset: 0, width: '100%', height: '100%',
+            objectFit: 'cover', objectPosition: imagePosition,
+            filter: 'blur(50px) brightness(0.75) saturate(1.1)', transform: 'scale(1.15)',
+          }}
+        />
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={image!} alt="" style={{
             position: 'absolute', inset: 0, width: '100%', height: '100%',
-            objectFit: 'cover', objectPosition: imagePosition,
+            objectFit: 'contain', objectPosition: imagePosition,
           }}
         />
-        {/* Very subtle gradient — purely a polished transition into the
-            content band below, not for text contrast (nothing sits on the
-            photo anymore). */}
+        {/* Fades toward the page's own background color (not black) right at
+            the bottom edge, so the photo visually dissolves into the content
+            band below instead of ending in a hard, high-contrast cut. */}
         <div style={{
           position: 'absolute', inset: 0,
-          background: 'linear-gradient(to bottom, transparent 75%, rgba(0,0,0,0.12))',
+          background: 'linear-gradient(to bottom, transparent 85%, var(--color-surface) 100%)',
         }} />
       </div>
 

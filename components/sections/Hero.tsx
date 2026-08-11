@@ -70,13 +70,27 @@ export function Hero({ content }: { content: HomeContent }) {
           brand wordmark itself and the subtle gradient that keeps it
           legible. All the descriptive copy lives below, in-flow, not
           floating on top of the photo. */}
-      <div style={{ position: 'relative', height: 'clamp(26rem, 88vh, 46rem)', overflow: 'hidden' }}>
+      <div data-nav-surface="dark" style={{ position: 'relative', height: 'clamp(26rem, 88vh, 46rem)', overflow: 'hidden' }}>
+        {/* The source photo is portrait — background-size:cover alone would
+            need to blow it up to fill a wide landscape band, cropping most
+            of the shot away (the peacocks at top got cut off entirely).
+            Fixed with the standard "blurred backdrop + fully contained
+            foreground" trick: a soft, darkened, scaled-up blur fills every
+            edge, while the real photo sits on top completely uncropped. */}
+        <div
+          className="hero-bg-blur"
+          style={{
+            position: 'absolute', inset: 0, backgroundImage: `url(${HERO_IMAGE})`,
+            backgroundSize: 'cover', backgroundPosition: 'center 20%',
+            filter: 'blur(60px) brightness(0.75) saturate(1.1)', transform: 'scale(1.15)',
+          }}
+        />
         <div
           ref={imgRef}
           className="hero-bg"
           style={{
             position: 'absolute', inset: '-7% 0', backgroundImage: `url(${HERO_IMAGE})`,
-            backgroundSize: 'cover', backgroundPosition: 'center 20%',
+            backgroundSize: 'contain', backgroundPosition: 'center 20%', backgroundRepeat: 'no-repeat',
           }}
         />
         {/* Very subtle gradient — only there so the wordmark stays legible
@@ -84,6 +98,13 @@ export function Hero({ content }: { content: HomeContent }) {
         <div style={{
           position: 'absolute', inset: 0,
           background: 'linear-gradient(to top, rgba(0,0,0,0.32), transparent 40%)',
+        }} />
+        {/* Fades toward the page's own background color right at the very
+            bottom edge, so the photo dissolves into the content band below
+            instead of ending in a hard cut. */}
+        <div style={{
+          position: 'absolute', inset: 0,
+          background: 'linear-gradient(to bottom, transparent 88%, var(--color-surface) 100%)',
         }} />
 
         <div style={{

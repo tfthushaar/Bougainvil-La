@@ -44,15 +44,15 @@ export default async function ContactPage() {
                 Visit Us
               </span>
               <p style={{ fontFamily: 'var(--font-sans)', fontWeight: 300, fontSize: '0.98rem', lineHeight: 1.8, color: 'var(--color-ink-soft)', margin: 0 }}>
-                📍 {settings.address}
+                {settings.address}
               </p>
             </div>
             <div>
               <a href={telHref} style={{ fontFamily: 'var(--font-sans)', fontWeight: 400, fontSize: '0.98rem', color: 'var(--color-ink)', textDecoration: 'none', display: 'block' }}>
-                📞 {settings.phone}
+                {settings.phone}
               </a>
               <a href={`mailto:${settings.email}`} style={{ fontFamily: 'var(--font-sans)', fontWeight: 400, fontSize: '0.98rem', color: 'var(--color-ink)', textDecoration: 'none', display: 'block', marginTop: '0.5rem' }}>
-                ✉️ {settings.email}
+                {settings.email}
               </a>
             </div>
             <div>

@@ -13,8 +13,8 @@ export function Highlights({ content }: { content: HomeContent }) {
         </span>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.25rem 2rem' }}>
           {content.highlights.map((h) => (
-            <div key={h} style={{ display: 'flex', alignItems: 'baseline', gap: '0.75rem' }}>
-              <span style={{ color: 'var(--color-gold-deep)', fontSize: '1rem' }}>✨</span>
+            <div key={h} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <span style={{ flexShrink: 0, width: '5px', height: '5px', background: 'var(--color-gold-deep)' }} />
               <span style={{ fontFamily: 'var(--font-sans)', fontWeight: 300, fontSize: '1rem', color: 'var(--color-ink)' }}>{h}</span>
             </div>
           ))}

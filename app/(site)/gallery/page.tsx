@@ -52,29 +52,6 @@ export default async function GalleryPage() {
         </span>
       </div>
 
-      {/* sticky to the viewport bottom (not the header) so it rides along while
-          scrolling through the gallery, then naturally un-sticks once the page
-          scrolls past the end of this <main> — right as the footer arrives —
-          instead of overlapping the footer. bottom offset on mobile clears the
-          fixed StickyMobileCTA bar so the two don't stack on top of each other. */}
-      <nav className="gallery-jumpnav" style={{ background: 'var(--color-surface)', borderTop: '1px solid var(--color-line)', boxShadow: '0 -4px 20px rgba(0,0,0,0.06)', padding: '1rem clamp(1.25rem, 5vw, 3rem)', position: 'sticky', bottom: 0, zIndex: 10 }}>
-        <div style={{ maxWidth: '84rem', margin: '0 auto', display: 'flex', gap: '1.5rem', flexWrap: 'wrap', justifyContent: 'center' }}>
-          {venues.map((v) => (
-            <a key={v.slug} href={`#${v.slug}`} style={{
-              fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: '0.75rem', letterSpacing: '0.1em',
-              textTransform: 'uppercase', color: 'var(--color-ink-soft)', textDecoration: 'none',
-            }}>
-              {v.name}
-            </a>
-          ))}
-        </div>
-        <style>{`
-          @media (max-width: 1240px) {
-            .gallery-jumpnav { bottom: 3.5rem; }
-          }
-        `}</style>
-      </nav>
-
       {venues.map((v, i) => (
         <section key={v.slug} id={v.slug} style={{
           background: i % 2 === 0 ? 'var(--color-surface)' : 'var(--color-surface-2)',
@@ -98,6 +75,35 @@ export default async function GalleryPage() {
           </div>
         </section>
       ))}
+
+      {/* Placed last in document order on purpose: position:sticky with a
+          bottom offset pins an element to the viewport's bottom edge only
+          BEFORE its natural (in-flow) position is reached, releasing once
+          that position is scrolled past — the opposite of what it looks
+          like it should do. Putting it at the very end of <main> means that
+          "natural position" is right before the footer, so it stays pinned
+          to the bottom for the entire scroll through the gallery and only
+          releases (scrolling away normally) right as the footer arrives —
+          verified with an isolated repro before wiring this up for real.
+          bottom offset on mobile clears the fixed StickyMobileCTA bar so
+          the two don't stack on top of each other. */}
+      <nav className="gallery-jumpnav" style={{ background: 'var(--color-surface)', borderTop: '1px solid var(--color-line)', boxShadow: '0 -4px 20px rgba(0,0,0,0.06)', padding: '1rem clamp(1.25rem, 5vw, 3rem)', position: 'sticky', bottom: 0, zIndex: 10 }}>
+        <div style={{ maxWidth: '84rem', margin: '0 auto', display: 'flex', gap: '1.5rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+          {venues.map((v) => (
+            <a key={v.slug} href={`#${v.slug}`} style={{
+              fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: '0.75rem', letterSpacing: '0.1em',
+              textTransform: 'uppercase', color: 'var(--color-ink-soft)', textDecoration: 'none',
+            }}>
+              {v.name}
+            </a>
+          ))}
+        </div>
+        <style>{`
+          @media (max-width: 1240px) {
+            .gallery-jumpnav { bottom: 3.5rem; }
+          }
+        `}</style>
+      </nav>
     </main>
   )
 }

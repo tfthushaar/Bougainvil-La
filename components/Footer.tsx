@@ -26,7 +26,7 @@ export function Footer({ settings }: { settings: SiteSettings }) {
   const telHref = `tel:+${settings.phone.replace(/[^0-9]/g, '')}`
 
   return (
-    <footer style={{ background: 'var(--color-ink)', color: '#fff', borderTop: '1px solid rgba(212,175,140,0.25)' }}>
+    <footer style={{ background: 'var(--color-accent-deep)', color: '#fff', borderTop: '1px solid rgba(255,255,255,0.2)' }}>
       <div style={{
         maxWidth: '84rem', margin: '0 auto', padding: 'clamp(3.5rem, 8vh, 5.5rem) clamp(1.25rem, 4vw, 2.5rem) clamp(2.5rem, 6vh, 4rem)',
         display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '2.5rem 2rem',
@@ -47,9 +47,9 @@ export function Footer({ settings }: { settings: SiteSettings }) {
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
           <span style={labelStyle}>Contact</span>
-          <span style={{ ...linkStyle, lineHeight: 1.6 }}>📍 {settings.address}</span>
-          <a href={telHref} className="footer-link" style={linkStyle}>📞 {settings.phone}</a>
-          <a href={`mailto:${settings.email}`} className="footer-link" style={linkStyle}>✉️ {settings.email}</a>
+          <span style={{ ...linkStyle, lineHeight: 1.6 }}>{settings.address}</span>
+          <a href={telHref} className="footer-link" style={linkStyle}>{settings.phone}</a>
+          <a href={`mailto:${settings.email}`} className="footer-link" style={linkStyle}>{settings.email}</a>
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
