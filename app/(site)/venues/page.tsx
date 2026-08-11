@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { getVenues } from '@/lib/sanity/venues'
+import { getVenues } from '@/lib/content/venues'
 import { PageHeader } from '@/components/PageHeader'
 import { Reveal } from '@/components/Reveal'
 

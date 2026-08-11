@@ -1,5 +1,5 @@
-import type { HomeContent } from '@/lib/sanity/home'
-import { getRoomTypes } from '@/lib/sanity/roomTypes'
+import type { HomeContent } from '@/lib/content/home'
+import { getRoomTypes } from '@/lib/content/roomTypes'
 
 function BulletList({ heading, items }: { heading: string; items: string[] }) {
   return (

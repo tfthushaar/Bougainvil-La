@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { getLocationBySlug } from '@/lib/sanity/locations'
+import { getLocationBySlug } from '@/lib/content/locations'
 import { LocationPageContent } from '@/components/sections/LocationPageContent'
 
 const SLUG = 'wedding-venue-near-jp-nagar-bangalore'

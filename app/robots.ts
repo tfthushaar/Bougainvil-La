@@ -9,12 +9,13 @@ export default function robots(): MetadataRoute.Robots {
         // Explicit allow for the well-known AI crawlers/agents, on top of
         // the default "*" allow — belt and suspenders in case any of them
         // change their default posture, and future-proofs against needing
-        // to revisit this if a new one shows up. /studio/ (the CMS) and
-        // /api/ (functional endpoints, not content) stay off-limits for
-        // everyone.
+        // to revisit this if a new one shows up. /api/ (functional
+        // endpoints, not content) stays off-limits for everyone. The CMS
+        // no longer lives on this site (Sanity Studio is hosted standalone),
+        // so there's no /studio/ path here to disallow.
         userAgent: '*',
         allow: '/',
-        disallow: ['/studio/', '/api/'],
+        disallow: ['/api/'],
       },
       {
         userAgent: [
@@ -28,7 +29,7 @@ export default function robots(): MetadataRoute.Robots {
           'Amazonbot', 'meta-externalagent',
         ],
         allow: '/',
-        disallow: ['/studio/', '/api/'],
+        disallow: ['/api/'],
       },
     ],
     sitemap: `${SITE_URL}/sitemap.xml`,

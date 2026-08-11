@@ -15,8 +15,8 @@
   --color-ink-soft:     oklch(44%   0.03 335);  /* secondary text              */
   --color-line:         oklch(85%   0.02 340);  /* hairline                    */
   --color-dark:         oklch(8%    0.015 330); /* near-black — footer only    */
-  --color-accent:       oklch(58%   0.19 350);  /* bougainvillea pink          */
-  --color-accent-deep:  oklch(42%   0.17 345);  /* deep plum/magenta           */
+  --color-accent:       oklch(72%   0.14 50);   /* peach                       */
+  --color-accent-deep:  oklch(56%   0.15 45);   /* deep peach/coral            */
   --color-gold:         oklch(72%   0.10 82);   /* muted metallic gold — rules,
                                                     icons, gold-on-dark text    */
   --color-gold-deep:    oklch(42%   0.12 75);   /* higher-contrast gold — small

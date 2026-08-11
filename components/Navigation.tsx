@@ -2,14 +2,16 @@
 
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import type { SiteSettings } from '@/lib/sanity/siteSettings'
+import type { SiteSettings } from '@/lib/content/siteSettings'
 
 // Secret entry point to the Studio: click the wordmark 5 times in quick
 // succession. Not real security (Sanity's own login is) — just keeps the
 // admin route from being an obvious thing casual visitors stumble onto.
+// Studio is hosted standalone (not embedded on this site), hence the
+// external navigation instead of an internal route push.
 const SECRET_CLICKS = 5
 const SECRET_WINDOW_MS = 1500
+const STUDIO_URL = 'https://bougainvilla.sanity.studio/'
 
 const NAV_LINKS = [
   { href: '/about/', label: 'About' },
@@ -52,7 +54,6 @@ export function Navigation({ settings }: { settings: SiteSettings }) {
   const [open, setOpen] = useState(false)
   const [onLight, setOnLight] = useState(false)
   const headerRef = useRef<HTMLElement>(null)
-  const router = useRouter()
   const logoClickCount = useRef(0)
   const logoLastClickAt = useRef(0)
 
@@ -64,7 +65,7 @@ export function Navigation({ settings }: { settings: SiteSettings }) {
     if (logoClickCount.current >= SECRET_CLICKS) {
       logoClickCount.current = 0
       e.preventDefault()
-      router.push('/studio/')
+      window.location.href = STUDIO_URL
     }
   }
 

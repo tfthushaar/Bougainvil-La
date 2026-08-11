@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { getVenues } from '@/lib/sanity/venues'
+import { getVenues } from '@/lib/content/venues'
 import { PageHeader } from '@/components/PageHeader'
 
 export const metadata: Metadata = {
@@ -52,9 +52,12 @@ export default async function GalleryPage() {
         </span>
       </div>
 
-      {/* top offset clears the fixed site header (~4.5rem tall) so this
-          sticky jump-nav sticks just below it instead of overlapping it */}
-      <nav style={{ background: 'var(--color-surface)', borderBottom: '1px solid var(--color-line)', padding: '1rem clamp(1.25rem, 5vw, 3rem)', position: 'sticky', top: '4.5rem', zIndex: 10 }}>
+      {/* sticky to the viewport bottom (not the header) so it rides along while
+          scrolling through the gallery, then naturally un-sticks once the page
+          scrolls past the end of this <main> — right as the footer arrives —
+          instead of overlapping the footer. bottom offset on mobile clears the
+          fixed StickyMobileCTA bar so the two don't stack on top of each other. */}
+      <nav className="gallery-jumpnav" style={{ background: 'var(--color-surface)', borderTop: '1px solid var(--color-line)', boxShadow: '0 -4px 20px rgba(0,0,0,0.06)', padding: '1rem clamp(1.25rem, 5vw, 3rem)', position: 'sticky', bottom: 0, zIndex: 10 }}>
         <div style={{ maxWidth: '84rem', margin: '0 auto', display: 'flex', gap: '1.5rem', flexWrap: 'wrap', justifyContent: 'center' }}>
           {venues.map((v) => (
             <a key={v.slug} href={`#${v.slug}`} style={{
@@ -65,6 +68,11 @@ export default async function GalleryPage() {
             </a>
           ))}
         </div>
+        <style>{`
+          @media (max-width: 1240px) {
+            .gallery-jumpnav { bottom: 3.5rem; }
+          }
+        `}</style>
       </nav>
 
       {venues.map((v, i) => (

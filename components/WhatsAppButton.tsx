@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import type { SiteSettings } from '@/lib/sanity/siteSettings'
+import type { SiteSettings } from '@/lib/content/siteSettings'
 
 const STORAGE_KEY = 'whatsapp-fab-position'
 const SIZE = 54 // px, matches the button's width/height below

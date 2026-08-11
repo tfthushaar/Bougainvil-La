@@ -7,24 +7,17 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "cf:build": "opennextjs-cloudflare build && node scripts/fix-cf-redirects.mjs",
+    "cf:build": "opennextjs-cloudflare build",
     "cf:preview": "npm run cf:build && opennextjs-cloudflare preview",
     "cf:deploy": "npm run cf:build && opennextjs-cloudflare deploy",
     "cf:typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
   },
   "dependencies": {
-    "@portabletext/react": "^7.0.1",
-    "@sanity/image-url": "^2.1.1",
-    "@sanity/vision": "^4.22.0",
-    "@sanity/visual-editing": "^4.0.3",
     "gsap": "^3.12.5",
     "lenis": "^1.1.14",
     "next": "^15.3.3",
-    "next-sanity": "^11.6.13",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "sanity": "^4.22.0",
-    "server-only": "^0.0.1",
     "styled-components": "^6.5.0"
   },
   "devDependencies": {

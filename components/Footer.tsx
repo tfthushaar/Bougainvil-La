@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import type { SiteSettings } from '@/lib/sanity/siteSettings'
+import type { SiteSettings } from '@/lib/content/siteSettings'
 
 const EXPLORE_LINKS = [
   { href: '/', label: 'Home' },

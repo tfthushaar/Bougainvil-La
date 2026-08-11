@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import type { HomeContent } from '@/lib/sanity/home'
+import type { HomeContent } from '@/lib/content/home'
 
 export function FounderTeaser({ content }: { content: HomeContent }) {
   return (

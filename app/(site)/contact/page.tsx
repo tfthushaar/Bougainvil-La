@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { getSiteSettings } from '@/lib/sanity/siteSettings'
+import { getSiteSettings } from '@/lib/content/siteSettings'
 import { ContactForm } from '@/components/sections/ContactForm'
 import { PageHeader } from '@/components/PageHeader'
 import { Reveal } from '@/components/Reveal'

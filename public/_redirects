@@ -1,4 +1,0 @@
-# Sanity Studio is a client-side SPA — any deep link under /studio/ (e.g. a
-# bookmarked document URL) needs to fall back to the Studio shell so its own
-# router can take over, rather than hitting a static 404.
-/studio/*  /studio/index.html  200

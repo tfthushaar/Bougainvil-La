@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import type { HomeContent } from '@/lib/sanity/home'
+import type { HomeContent } from '@/lib/content/home'
 
 gsap.registerPlugin(ScrollTrigger)
 

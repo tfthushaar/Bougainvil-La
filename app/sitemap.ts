@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next'
-import { getVenueSlugs } from '@/lib/sanity/venues'
-import { getLocationSlugs } from '@/lib/sanity/locations'
+import { getVenueSlugs } from '@/lib/content/venues'
+import { getLocationSlugs } from '@/lib/content/locations'
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://bougainvilla.co.in'
 

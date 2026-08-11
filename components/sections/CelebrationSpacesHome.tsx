@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { getVenues } from '@/lib/sanity/venues'
+import { getVenues } from '@/lib/content/venues'
 
 export async function CelebrationSpacesHome() {
   const venues = await getVenues()
@@ -17,7 +17,7 @@ export async function CelebrationSpacesHome() {
           </p>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.75rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '1.25rem' }}>
           {venues.map((v) => (
             <Link key={v.slug} href={`/venues/${v.slug}/`} style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.9rem' }}>

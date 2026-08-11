@@ -1,4 +1,4 @@
-import type { HomeContent } from '@/lib/sanity/home'
+import type { HomeContent } from '@/lib/content/home'
 
 export function Intro({ content }: { content: HomeContent }) {
   return (

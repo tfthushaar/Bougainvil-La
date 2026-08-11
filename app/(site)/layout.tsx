@@ -1,14 +1,11 @@
 import type { Metadata, Viewport } from 'next'
-import { draftMode } from 'next/headers'
-import { VisualEditing } from 'next-sanity/visual-editing'
 import { ebGaramond, raleway } from '@/lib/fonts'
 import { SmoothScroll } from '@/components/SmoothScroll'
 import { Navigation } from '@/components/Navigation'
 import { Footer } from '@/components/Footer'
 import { StickyMobileCTA } from '@/components/StickyMobileCTA'
 import { WhatsAppButton } from '@/components/WhatsAppButton'
-import { getSiteSettings } from '@/lib/sanity/siteSettings'
-import { SanityLive } from '@/lib/sanity/live'
+import { getSiteSettings } from '@/lib/content/siteSettings'
 import '../globals.css'
 
 export const viewport: Viewport = {
@@ -24,9 +21,8 @@ export const metadata: Metadata = {
     "Bougainvil'La is one of the finest Luxury Wedding Venue Bangalore destinations, thoughtfully designed for couples who seek elegance, exclusivity, and unforgettable celebrations.",
 }
 
-export default async function SiteLayout({ children }: { children: React.ReactNode }) {
-  const settings = await getSiteSettings()
-  const { isEnabled: isDraftMode } = await draftMode()
+export default function SiteLayout({ children }: { children: React.ReactNode }) {
+  const settings = getSiteSettings()
 
   return (
     <html lang="en" className={`${ebGaramond.variable} ${raleway.variable}`}>
@@ -38,10 +34,6 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
         </SmoothScroll>
         <StickyMobileCTA settings={settings} />
         <WhatsAppButton settings={settings} />
-        <SanityLive />
-        {/* Only ever rendered for an authenticated Studio preview session
-            (draft mode) — normal visitors never get this overlay script. */}
-        {isDraftMode && <VisualEditing />}
       </body>
     </html>
   )

@@ -1,4 +1,4 @@
-import type { SiteSettings } from '@/lib/sanity/siteSettings'
+import type { SiteSettings } from '@/lib/content/siteSettings'
 
 export function StickyMobileCTA({ settings }: { settings: SiteSettings }) {
   const mailto = `mailto:${settings.email}?subject=${encodeURIComponent(settings.bookTourEmailSubject)}`

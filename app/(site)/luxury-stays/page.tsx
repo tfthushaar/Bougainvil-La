@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { getRoomTypes } from '@/lib/sanity/roomTypes'
+import { getRoomTypes } from '@/lib/content/roomTypes'
 import { PageHeader } from '@/components/PageHeader'
 import { Reveal } from '@/components/Reveal'
 

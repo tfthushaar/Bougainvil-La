@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { getAboutContent } from '@/lib/sanity/about'
+import { getAboutContent } from '@/lib/content/about'
 import { PageHeader } from '@/components/PageHeader'
 import { Reveal } from '@/components/Reveal'
 

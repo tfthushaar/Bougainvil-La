@@ -5,12 +5,11 @@ import { Highlights } from '@/components/sections/Highlights'
 import { CelebrationSpacesHome } from '@/components/sections/CelebrationSpacesHome'
 import { WhyBougainvilla } from '@/components/sections/WhyBougainvilla'
 import { SignatureExperiences } from '@/components/sections/SignatureExperiences'
-import { GalleryPreview } from '@/components/sections/GalleryPreview'
 import { LuxuryStaysPreview } from '@/components/sections/LuxuryStaysPreview'
 import { LocationBlurb } from '@/components/sections/LocationBlurb'
 import { EnquireForm } from '@/components/sections/EnquireForm'
 import { Reveal } from '@/components/Reveal'
-import { getHomeContent } from '@/lib/sanity/home'
+import { getHomeContent } from '@/lib/content/home'
 
 export default async function Home() {
   const home = await getHomeContent()
@@ -25,7 +24,6 @@ export default async function Home() {
       <Reveal><WhyBougainvilla content={home} /></Reveal>
       <Reveal><SignatureExperiences content={home} /></Reveal>
       <Reveal><EnquireForm /></Reveal>
-      <Reveal><GalleryPreview /></Reveal>
       <Reveal><LuxuryStaysPreview /></Reveal>
       <Reveal><LocationBlurb content={home} /></Reveal>
     </main>
