@@ -95,14 +95,25 @@ export function PageHeader({ eyebrow, title, paragraph, meta, image, imagePositi
         }}
       />
       <div style={{
-        position: 'absolute', inset: 0,
-        background: 'linear-gradient(to top, var(--color-surface) 0%, color-mix(in oklch, var(--color-surface) 74%, transparent) 34%, color-mix(in oklch, var(--color-surface) 0%, transparent) 64%)',
-      }} />
-      <div style={{
         position: 'absolute', left: 0, right: 0, bottom: 0,
-        padding: 'clamp(2rem, 6vh, 3.5rem) clamp(1.25rem, 6vw, 5rem)',
+        display: 'flex', justifyContent: isLeft ? 'flex-start' : 'center',
+        padding: 'clamp(1.25rem, 5vh, 2.5rem) clamp(1.25rem, 6vw, 5rem)',
       }}>
-        {content}
+        {/* Frosted panel, not a gradient scrim — a scrim strong enough to
+            guarantee contrast against a photo with uneven local tone (dark
+            foliage, bright sky, mixed decor colors) ends up either too weak
+            near the top of the text block or too heavy/flat near the
+            bottom. A backdrop-blur panel behind the text fixes contrast
+            unconditionally regardless of what's behind it. */}
+        <div style={{
+          maxWidth: paragraph ? '44rem' : '40rem',
+          background: 'color-mix(in oklch, var(--color-surface) 88%, transparent)',
+          backdropFilter: 'blur(18px)', WebkitBackdropFilter: 'blur(18px)',
+          border: '1px solid color-mix(in oklch, var(--color-surface) 40%, white 10%)',
+          padding: 'clamp(1.5rem, 4vw, 2.25rem) clamp(1.5rem, 4vw, 2.5rem)',
+        }}>
+          {content}
+        </div>
       </div>
     </section>
   )

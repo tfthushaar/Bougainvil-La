@@ -1,6 +1,6 @@
 'use client'
 
-import { useNetlifyForm } from '@/lib/useNetlifyForm'
+import { useEnquiryForm } from '@/lib/useEnquiryForm'
 
 const fieldStyle: React.CSSProperties = {
   fontFamily: 'var(--font-sans)', fontWeight: 300, fontSize: '0.95rem', color: 'var(--color-ink)',
@@ -14,11 +14,11 @@ const labelStyle: React.CSSProperties = {
 }
 
 export function ContactForm() {
-  const { status, handleSubmit } = useNetlifyForm()
+  const { status, handleSubmit } = useEnquiryForm('contact')
 
   return (
     <form name="enquiry" onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-      <input type="hidden" name="form-name" value="enquiry" />
+      <input type="text" name="company" tabIndex={-1} autoComplete="off" aria-hidden="true" style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', opacity: 0 }} />
       <div>
         <label htmlFor="name" style={labelStyle}>Full Name</label>
         <input id="name" name="name" type="text" required style={fieldStyle} />

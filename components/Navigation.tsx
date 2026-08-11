@@ -23,21 +23,22 @@ const NAV_LINKS = [
 ]
 
 function CTAButtons({ compact, textColor, settings }: { compact?: boolean; textColor: string; settings: SiteSettings }) {
-  const pad = compact ? '0.6rem 1.1rem' : '0.85rem 1.7rem'
-  const size = compact ? '0.68rem' : '0.75rem'
+  const pad = compact ? '0.55rem 0.85rem' : '0.85rem 1.7rem'
+  const size = compact ? '0.66rem' : '0.75rem'
+  const tracking = compact ? '0.08em' : '0.14em'
   const mailto = `mailto:${settings.email}?subject=${encodeURIComponent(settings.bookTourEmailSubject)}`
   const borderColor = textColor === '#fff' ? 'var(--color-gold)' : 'var(--color-gold-deep)'
   return (
-    <div style={{ display: 'flex', gap: '0.7rem' }}>
+    <div style={{ display: 'flex', gap: compact ? '0.6rem' : '0.9rem' }}>
       <a href={mailto} className="btn-press" style={{
-        fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: size, letterSpacing: '0.14em',
+        fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: size, letterSpacing: tracking,
         textTransform: 'uppercase', color: '#fff', background: 'var(--color-accent-deep)',
         textDecoration: 'none', padding: pad, whiteSpace: 'nowrap',
       }}>
         Book a Venue Tour
       </a>
       <a href="/brochure.pdf" className="btn-press" style={{
-        fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: size, letterSpacing: '0.14em',
+        fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: size, letterSpacing: tracking,
         textTransform: 'uppercase', color: textColor, background: 'transparent', transition: 'color 0.3s ease, border-color 0.3s ease',
         textDecoration: 'none', padding: pad, border: `1px solid ${borderColor}`, whiteSpace: 'nowrap',
       }}>
@@ -122,8 +123,8 @@ export function Navigation({ settings }: { settings: SiteSettings }) {
   return (
     <header ref={headerRef} style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100, background: 'transparent' }}>
       <div style={{
-        maxWidth: '84rem', margin: '0 auto', padding: '0.9rem clamp(1.25rem, 4vw, 2.5rem)',
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem',
+        maxWidth: '88rem', margin: '0 auto', padding: '1.1rem clamp(1.25rem, 4vw, 2.75rem)',
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1.5rem',
       }}>
         <Link href="/" onClick={handleLogoClick} style={{ display: 'flex', alignItems: 'center', flexShrink: 0, textDecoration: 'none' }} aria-label="Bougainvil'La — Home">
           <span className="font-display" style={{
@@ -134,7 +135,7 @@ export function Navigation({ settings }: { settings: SiteSettings }) {
           </span>
         </Link>
 
-        <nav style={{ display: 'flex', gap: 'clamp(0.6rem, 1.3vw, 1.1rem)', flexWrap: 'wrap', justifyContent: 'flex-end' }} className="nav-links-desktop">
+        <nav style={{ display: 'flex', gap: 'clamp(0.6rem, 1.2vw, 1.1rem)', flexWrap: 'nowrap', justifyContent: 'flex-end' }} className="nav-links-desktop">
           {NAV_LINKS.map((l) => (
             <Link key={l.href} href={l.href} style={linkStyle}>{l.label}</Link>
           ))}
@@ -175,11 +176,11 @@ export function Navigation({ settings }: { settings: SiteSettings }) {
       )}
 
       <style>{`
-        @media (max-width: 860px) {
+        @media (max-width: 1240px) {
           .nav-links-desktop, .nav-cta-desktop { display: none !important; }
           .nav-menu-button { display: inline-flex !important; }
         }
-        @media (min-width: 861px) {
+        @media (min-width: 1241px) {
           .nav-mobile-panel { display: none !important; }
         }
       `}</style>

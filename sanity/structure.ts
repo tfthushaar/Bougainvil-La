@@ -9,6 +9,14 @@ export const structure: StructureResolver = (S) =>
     .title('Content')
     .items([
       S.listItem()
+        .title('Enquiries')
+        .child(
+          S.documentTypeList('enquiry')
+            .title('Enquiries')
+            .defaultOrdering([{ field: 'submittedAt', direction: 'desc' }])
+        ),
+      S.divider(),
+      S.listItem()
         .title('Home Page')
         .child(S.document().schemaType('homeContent').documentId('homeContent')),
       S.listItem()
@@ -24,6 +32,6 @@ export const structure: StructureResolver = (S) =>
       S.documentTypeListItem('locationPage').title('Location Pages'),
       ...S.documentTypeListItems().filter(
         (item) => item.getId() && !SINGLETONS.includes(item.getId() as (typeof SINGLETONS)[number]) &&
-          !['venue', 'roomType', 'faqItem', 'locationPage'].includes(item.getId() as string)
+          !['venue', 'roomType', 'faqItem', 'locationPage', 'enquiry'].includes(item.getId() as string)
       ),
     ])

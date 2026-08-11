@@ -14,6 +14,11 @@ gsap.registerPlugin(ScrollTrigger)
 // used here since GSAP's free core has no CSS-custom-property ease input.
 
 const HERO_IMAGE = '/images/brand/hero/jaipur-mandap-golden-hour.webp'
+// A separate, portrait-oriented pick for narrow screens — the wide
+// architectural shot above loses most of its impact when `cover`-cropped
+// down to a phone's aspect ratio. This one (golden-hour floating mandap,
+// peacocks, water reflection) was shot portrait, so it survives that crop.
+const HERO_IMAGE_MOBILE = '/images/brand/hero/floating-mandap-daylight.webp'
 
 function GoldRule({ width = '2.5rem' }: { width?: string }) {
   return <span style={{ display: 'inline-block', width, height: '1px', background: 'var(--color-gold-deep)' }} />
@@ -66,6 +71,7 @@ export function Hero({ content }: { content: HomeContent }) {
     >
       <div
         ref={imgRef}
+        className="hero-bg"
         style={{
           position: 'absolute', inset: '-7% 0', backgroundImage: `url(${HERO_IMAGE})`,
           backgroundSize: 'cover', backgroundPosition: 'center 38%',
@@ -81,7 +87,7 @@ export function Hero({ content }: { content: HomeContent }) {
             what's under it in the photo (the mandap's dark stone roof runs
             right through this zone), instead of chasing a scrim across an
             image with wildly uneven tones. */}
-        <div style={{
+        <div className="hero-panel" style={{
           maxWidth: '36rem', display: 'flex', flexDirection: 'column', gap: 'clamp(0.9rem, 2vh, 1.35rem)',
           background: 'color-mix(in oklch, var(--color-surface) 88%, transparent)',
           backdropFilter: 'blur(18px)', WebkitBackdropFilter: 'blur(18px)',
@@ -131,6 +137,15 @@ export function Hero({ content }: { content: HomeContent }) {
           </div>
         </div>
       </div>
+
+      <style>{`
+        @media (max-width: 640px) {
+          .hero-panel { gap: 0.7rem !important; padding: 1.25rem !important; }
+          .hero-headline { font-size: 2rem !important; }
+          .hero-paragraph, .hero-buttons { display: none !important; }
+          .hero-bg { background-image: url(${HERO_IMAGE_MOBILE}) !important; background-position: center 22% !important; }
+        }
+      `}</style>
     </section>
   )
 }

@@ -7,3 +7,7 @@ next-env.d.ts
 .DS_Store
 .env.local
 tsconfig.tsbuildinfo
+.open-next
+.wrangler
+cloudflare-env.d.ts
+.dev.vars

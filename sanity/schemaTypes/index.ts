@@ -5,6 +5,7 @@ import { faqItem } from './faqItem'
 import { homeContent } from './homeContent'
 import { aboutContent } from './aboutContent'
 import { siteSettings } from './siteSettings'
+import { enquiry } from './enquiry'
 
 export const schemaTypes = [
   venue,
@@ -14,4 +15,5 @@ export const schemaTypes = [
   homeContent,
   aboutContent,
   siteSettings,
+  enquiry,
 ]
