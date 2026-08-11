@@ -125,11 +125,11 @@ export function Navigation({ settings }: { settings: SiteSettings }) {
   return (
     <header ref={headerRef} style={{
       position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
-      background: 'rgba(0,0,0,0.12)', backdropFilter: 'blur(14px)', WebkitBackdropFilter: 'blur(14px)',
-      borderBottom: '1px solid rgba(255,255,255,0.08)',
+      background: 'rgba(0,0,0,0.07)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)',
+      borderBottom: '1px solid rgba(255,255,255,0.06)',
     }}>
       <div style={{
-        maxWidth: '88rem', margin: '0 auto', padding: '1.1rem clamp(1.25rem, 4vw, 2.75rem)',
+        maxWidth: '88rem', margin: '0 auto', padding: '0.75rem clamp(1.25rem, 4vw, 2.75rem)',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1.5rem',
       }}>
         <Link href="/" onClick={handleLogoClick} style={{ display: 'flex', alignItems: 'center', flexShrink: 0, textDecoration: 'none' }} aria-label="Bougainvil'La — Home">

@@ -26,7 +26,7 @@ const BLOG_POSTS: BlogPost[] = [
     author: 'Lakshmi Keerthi',
     authorRole: 'Luxury Wedding Planner / Founder',
     publishedAt: '2026-07-01',
-    featuredImage: '/images/venues/sumeera/with-decor/015.webp',
+    featuredImage: '/images/venues/sumeera/without-decor/002.webp',
     excerpt:
       "Looking for outdoor wedding venues near Bannerghatta Road? Discover why Bougainvil'La's Floating Mandap and landscaped gardens make it Bangalore's top choice.",
     blocks: [
@@ -121,7 +121,7 @@ const BLOG_POSTS: BlogPost[] = [
     author: 'Lakshmi Keerthi',
     authorRole: 'Luxury Wedding Planner / Founder',
     publishedAt: '2026-07-15',
-    featuredImage: '/images/rooms/bridal-suite/003.webp',
+    featuredImage: '/images/venues/sumeera/with-decor/011.webp',
     excerpt:
       "Thinking about a destination wedding but want to stay near Bangalore? Here's how couples are getting both — without the travel logistics.",
     blocks: [
@@ -159,7 +159,7 @@ const BLOG_POSTS: BlogPost[] = [
     author: 'Lakshmi Keerthi',
     authorRole: 'Luxury Wedding Planner / Founder',
     publishedAt: '2026-07-22',
-    featuredImage: '/images/brand/hero/floating-mandap-daylight.webp',
+    featuredImage: '/images/brand/hero/mandap-daylight-clouds.webp',
     excerpt:
       "Everything you need to know about planning a Floating Mandap wedding at Bougainvil'La — setup, capacity, photography tips, and timing.",
     blocks: [
@@ -199,7 +199,7 @@ const BLOG_POSTS: BlogPost[] = [
     author: 'Lakshmi Keerthi',
     authorRole: 'Luxury Wedding Planner / Founder',
     publishedAt: '2026-07-29',
-    featuredImage: '/images/venues/floral-trellis/with-decor/023.webp',
+    featuredImage: '/images/venues/floral-trellis/with-decor/022.webp',
     excerpt:
       "Planning a wedding during Bangalore's monsoon season? Here's why a retractable roof venue solves the biggest risk of outdoor weddings.",
     blocks: [
@@ -237,7 +237,7 @@ const BLOG_POSTS: BlogPost[] = [
     author: 'Lakshmi Keerthi',
     authorRole: 'Luxury Wedding Planner / Founder',
     publishedAt: '2026-08-05',
-    featuredImage: '/images/venues/divine-bells/with-decor/008.webp',
+    featuredImage: '/images/venues/margarita/with-decor/004.webp',
     excerpt:
       'Before you book a wedding venue in Bangalore, ask these questions. A practical checklist from the team at Bougainvil’La.',
     blocks: [

@@ -50,7 +50,7 @@ export async function LocationPageContent({ page }: { page: LocationPageDoc }) {
 
       <Reveal>
         <section style={{ background: 'var(--color-surface)', padding: 'clamp(3rem, 7vh, 4.5rem) clamp(1.25rem, 5vw, 3rem)' }}>
-          <div style={{ maxWidth: '42rem', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+          <div style={{ maxWidth: '52rem', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
             {page.blocks.map((block, i) => <BlockRenderer key={i} block={block} index={i} />)}
 
             <div style={{ display: 'flex', gap: '0.8rem', marginTop: '1rem', flexWrap: 'wrap' }}>

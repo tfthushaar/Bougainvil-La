@@ -11,7 +11,9 @@ export const metadata: Metadata = {
 
 export default async function LuxuryStaysPage() {
   const rooms = await getRoomTypes()
-  const headerImage = rooms.find((r) => r.photo)?.photo ?? null
+  // Landscape shot — every room photo is portrait (no landscape room shots
+  // exist) and needed heavy cropping in this wide PageHeader banner.
+  const headerImage = '/images/venues/sumeera/without-decor/001.webp'
 
   return (
     <main>
@@ -23,7 +25,7 @@ export default async function LuxuryStaysPage() {
 
       <Reveal>
       <section style={{ background: 'var(--color-surface)', padding: 'clamp(3rem, 7vh, 4.5rem) clamp(1.25rem, 5vw, 3rem)' }}>
-        <div style={{ maxWidth: '42rem', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+        <div style={{ maxWidth: '52rem', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
           <p style={{ fontFamily: 'var(--font-sans)', fontWeight: 300, fontSize: '1.02rem', lineHeight: 1.8, color: 'var(--color-ink-soft)', margin: 0 }}>
             Some of the most cherished wedding memories happen long after the ceremonies
             end—late-night conversations, laughter with loved ones, getting ready together, and
@@ -42,7 +44,7 @@ export default async function LuxuryStaysPage() {
           </p>
         </div>
 
-        <div style={{ maxWidth: '42rem', margin: '2.5rem auto 0' }}>
+        <div style={{ maxWidth: '52rem', margin: '2.5rem auto 0' }}>
           <span style={{ display: 'block', fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: '0.7rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--color-gold-deep)', marginBottom: '1rem' }}>
             At a Glance
           </span>

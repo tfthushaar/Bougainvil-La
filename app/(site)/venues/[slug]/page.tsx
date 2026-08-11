@@ -5,6 +5,16 @@ import { getVenues, getVenueBySlug, getVenueSlugs } from '@/lib/content/venues'
 import { PageHeader } from '@/components/PageHeader'
 import { Reveal } from '@/components/Reveal'
 
+// Landscape shots, not each venue's "cover" (those are portrait and needed
+// heavy cropping in this wide PageHeader banner).
+const HEADER_IMAGES: Record<string, string> = {
+  sumeera: '/images/venues/sumeera/with-decor/024.webp',
+  'floral-trellis': '/images/venues/floral-trellis/with-decor/012.webp',
+  'divine-bells': '/images/venues/divine-bells/with-decor/007.webp',
+  margarita: '/images/venues/margarita/with-decor/001.webp',
+  'ice-spice': '/images/venues/ice-spice/with-decor/004.webp',
+}
+
 export async function generateStaticParams() {
   const slugs = await getVenueSlugs()
   return slugs.map((slug) => ({ slug }))
@@ -32,7 +42,7 @@ export default async function VenueDetailPage({ params }: { params: Promise<{ sl
         title={venue.name}
         paragraph={venue.subtitle ?? undefined}
         meta={`${venue.seated} Seated · ${venue.floating} Floating`}
-        image={venue.cover ?? venue.highlights[0] ?? null}
+        image={HEADER_IMAGES[venue.slug] ?? venue.cover ?? venue.highlights[0] ?? null}
       />
 
       {venue.highlights.length > 0 ? (
@@ -58,7 +68,7 @@ export default async function VenueDetailPage({ params }: { params: Promise<{ sl
 
       <Reveal>
         <section style={{ background: 'var(--color-surface)', padding: 'clamp(3rem, 7vh, 4.5rem) clamp(1.25rem, 5vw, 3rem)' }}>
-          <div style={{ maxWidth: '42rem', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+          <div style={{ maxWidth: '52rem', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
             {venue.description.map((para, i) => (
               <p key={i} style={{ fontFamily: 'var(--font-sans)', fontWeight: 300, fontSize: '1.02rem', lineHeight: 1.8, color: 'var(--color-ink-soft)', margin: 0 }}>
                 {para}

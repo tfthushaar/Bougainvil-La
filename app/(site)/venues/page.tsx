@@ -12,7 +12,9 @@ export const metadata: Metadata = {
 
 export default async function VenuesPage() {
   const venues = await getVenues()
-  const headerImage = venues.find((v) => v.cover)?.cover ?? null
+  // Landscape shot, not a venue "cover" (those are portrait and needed
+  // heavy cropping in this wide PageHeader banner).
+  const headerImage = '/images/venues/sumeera/with-decor/001.webp'
 
   return (
     <main>

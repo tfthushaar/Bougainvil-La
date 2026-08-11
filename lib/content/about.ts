@@ -14,7 +14,9 @@ const ABOUT_CONTENT: AboutContent = {
     'At Bougainvil’La, we believe a wedding is far more than a single event—it is a collection of unforgettable moments that deserve extraordinary surroundings.',
     'As one of the most sought-after Luxury Wedding Venue Bangalore destinations, Bougainvil’La has been thoughtfully planned to host every chapter of your celebration. Inspired by timeless Jaipur architecture and surrounded by lush tropical landscapes, our Wedding Venue South Bangalore features Bengaluru’s iconic Floating Mandap, India’s first Retractable Roof Wedding Venue, elegant indoor and outdoor celebration spaces, and premium Luxury Accommodation—all seamlessly connected within one spectacular destination.',
   ],
-  heroImage: '/images/about/about-us.webp',
+  // Landscape shot — the portrait about-us.webp needed heavy cropping in
+  // the wide PageHeader banner.
+  heroImage: '/images/brand/hero/jaipur-mandap-golden-hour.webp',
   founderName: 'Lakshmi Keerthi',
   founderTitle: 'Founder, Bougainvil’La | Luxury Wedding Planner',
   founderBioParagraphs: [

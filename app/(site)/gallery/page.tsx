@@ -31,8 +31,9 @@ function ImageGrid({ urls }: { urls: string[] }) {
 
 export default async function GalleryPage() {
   const venues = await getVenues()
-  const withCovers = venues.filter((v) => v.cover)
-  const headerImage = (withCovers[1] ?? withCovers[0])?.cover ?? null
+  // Landscape shot, not a venue "cover" (those are portrait and needed
+  // heavy cropping in this wide PageHeader banner).
+  const headerImage = '/images/venues/divine-bells/with-decor/010.webp'
 
   return (
     <main>
