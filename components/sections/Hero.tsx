@@ -72,7 +72,7 @@ export function Hero({ content }: { content: HomeContent }) {
           brand wordmark itself and the subtle gradient that keeps it
           legible. All the descriptive copy lives below, in-flow, not
           floating on top of the photo. */}
-      <div data-nav-surface="dark" style={{ position: 'relative', height: 'clamp(26rem, 88vh, 46rem)', overflow: 'hidden' }}>
+      <div style={{ position: 'relative', height: 'clamp(26rem, 88vh, 46rem)', overflow: 'hidden' }}>
         <div
           ref={imgRef}
           className="hero-bg"

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import Link from 'next/link'
 import type { SiteSettings } from '@/lib/content/siteSettings'
 
@@ -34,14 +34,14 @@ function CTAButtons({ compact, textColor, settings }: { compact?: boolean; textC
   return (
     <div style={{ display: 'flex', gap: compact ? '0.6rem' : '0.9rem' }}>
       <a href={mailto} className="btn-press" style={{
-        fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: size, letterSpacing: tracking,
+        fontFamily: 'var(--font-sans)', fontWeight: 700, fontSize: size, letterSpacing: tracking,
         textTransform: 'uppercase', color: '#fff', background: 'var(--color-accent-deep)',
         textDecoration: 'none', padding: pad, whiteSpace: 'nowrap',
       }}>
         Book a Venue Tour
       </a>
       <a href="/brochure.pdf" className="btn-press" style={{
-        fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: size, letterSpacing: tracking,
+        fontFamily: 'var(--font-sans)', fontWeight: 700, fontSize: size, letterSpacing: tracking,
         textTransform: 'uppercase', color: textColor, background: 'transparent', transition: 'color 0.3s ease, border-color 0.3s ease',
         textDecoration: 'none', padding: pad, border: `1px solid ${borderColor}`, whiteSpace: 'nowrap',
       }}>
@@ -53,7 +53,6 @@ function CTAButtons({ compact, textColor, settings }: { compact?: boolean; textC
 
 export function Navigation({ settings }: { settings: SiteSettings }) {
   const [open, setOpen] = useState(false)
-  const [onLight, setOnLight] = useState(false)
   const headerRef = useRef<HTMLElement>(null)
   const logoClickCount = useRef(0)
   const logoLastClickAt = useRef(0)
@@ -70,56 +69,15 @@ export function Navigation({ settings }: { settings: SiteSettings }) {
     }
   }
 
-  useEffect(() => {
-    // Every dark-background section on the site (Hero, page headers, the
-    // Highlights band, location pages, etc.) is tagged data-nav-surface="dark".
-    // If any of them currently overlaps the strip the fixed nav sits over,
-    // the nav needs light (white) text; otherwise it's over a light section
-    // and needs dark ink text. This handles pages with no dark section at
-    // all, and pages with more than one (e.g. the home page's Hero *and*
-    // Highlights), not just a single before/after threshold.
-    function check() {
-      const navHeight = headerRef.current?.offsetHeight ?? 72
-      const darkSurfaces = document.querySelectorAll('[data-nav-surface="dark"]')
-      let overDark = false
-      darkSurfaces.forEach((el) => {
-        const rect = el.getBoundingClientRect()
-        if (rect.top <= navHeight && rect.bottom >= 0) overDark = true
-      })
-      setOnLight(!overDark)
-    }
-
-    check()
-    let ticking = false
-    function onScroll() {
-      if (ticking) return
-      ticking = true
-      requestAnimationFrame(() => { check(); ticking = false })
-    }
-    window.addEventListener('scroll', onScroll, { passive: true })
-    window.addEventListener('resize', check)
-
-    // Hero resolves `prefers-reduced-motion` async before it renders its
-    // real dark-surface element, so it isn't in the DOM yet on Navigation's
-    // first check — recheck once it actually appears, rather than waiting
-    // for the user to scroll first.
-    const observer = new MutationObserver(check)
-    observer.observe(document.body, { childList: true, subtree: true })
-
-    return () => {
-      window.removeEventListener('scroll', onScroll)
-      window.removeEventListener('resize', check)
-      observer.disconnect()
-    }
-  }, [])
-
-  const textColor = onLight ? 'var(--color-ink)' : '#fff'
-  const textShadow = onLight ? 'none' : '0 1px 8px rgba(0,0,0,0.5)'
+  // Always dark ink, bold — was previously switching to white over photo
+  // sections, which washed out illegibly against bright skies/light areas
+  // of a photo. A reliably light, semi-opaque bar (below) means dark text
+  // stays legible everywhere, so there's no need to detect what's behind it.
+  const textColor = 'var(--color-ink)'
 
   const linkStyle: React.CSSProperties = {
-    fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: '0.72rem', letterSpacing: '0.07em',
-    textTransform: 'uppercase', color: textColor, textDecoration: 'none', textShadow, whiteSpace: 'nowrap',
-    transition: 'color 0.3s ease',
+    fontFamily: 'var(--font-sans)', fontWeight: 700, fontSize: '0.72rem', letterSpacing: '0.07em',
+    textTransform: 'uppercase', color: textColor, textDecoration: 'none', whiteSpace: 'nowrap',
   }
 
   return (
@@ -129,10 +87,12 @@ export function Navigation({ settings }: { settings: SiteSettings }) {
           near the bottom of the bar, not just the frost behind them. A hard
           edge (border/solid cutoff) reads as a bar sitting on top of the
           page; fading just this layer dissolves it into the content
-          underneath instead. */}
+          underneath instead. Light + fairly opaque so the always-dark text
+          above stays legible regardless of what photo is behind it. */}
       <div style={{
         position: 'absolute', inset: 0, zIndex: -1,
-        background: 'rgba(0,0,0,0.045)', backdropFilter: 'blur(5px)', WebkitBackdropFilter: 'blur(5px)',
+        background: 'color-mix(in oklch, var(--color-surface) 82%, transparent)',
+        backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)',
         WebkitMaskImage: 'linear-gradient(to bottom, black 55%, transparent 100%)',
         maskImage: 'linear-gradient(to bottom, black 55%, transparent 100%)',
       }} />
@@ -142,8 +102,7 @@ export function Navigation({ settings }: { settings: SiteSettings }) {
       }}>
         <Link href="/" onClick={handleLogoClick} style={{ display: 'flex', alignItems: 'center', flexShrink: 0, textDecoration: 'none' }} aria-label="Bougainvil'La — Home">
           <span className="font-display" style={{
-            fontStyle: 'italic', fontWeight: 500, fontSize: '1.35rem', color: textColor,
-            textShadow, transition: 'color 0.3s ease',
+            fontStyle: 'italic', fontWeight: 700, fontSize: '1.35rem', color: textColor,
           }}>
             Bougainvil&rsquo;La
           </span>
@@ -164,11 +123,11 @@ export function Navigation({ settings }: { settings: SiteSettings }) {
           aria-label="Toggle menu"
           className="nav-menu-button"
           style={{
-            display: 'none', background: 'none', border: `1px solid ${textColor}`, transition: 'border-color 0.3s ease',
+            display: 'none', background: 'none', border: `1px solid ${textColor}`,
             padding: '0.5rem 0.7rem', cursor: 'pointer', flexShrink: 0,
           }}
         >
-          <span style={{ fontFamily: 'var(--font-sans)', fontSize: '0.7rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: textColor, transition: 'color 0.3s ease' }}>
+          <span style={{ fontFamily: 'var(--font-sans)', fontWeight: 700, fontSize: '0.7rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: textColor }}>
             {open ? 'Close' : 'Menu'}
           </span>
         </button>
@@ -181,7 +140,7 @@ export function Navigation({ settings }: { settings: SiteSettings }) {
           background: 'var(--color-ink)',
         }}>
           {NAV_LINKS.map((l) => (
-            <Link key={l.href} href={l.href} style={{ ...linkStyle, color: '#fff', textShadow: 'none' }} onClick={() => setOpen(false)}>{l.label}</Link>
+            <Link key={l.href} href={l.href} style={{ ...linkStyle, color: '#fff' }} onClick={() => setOpen(false)}>{l.label}</Link>
           ))}
           <div style={{ marginTop: '0.5rem' }}>
             <CTAButtons textColor="#fff" settings={settings} />

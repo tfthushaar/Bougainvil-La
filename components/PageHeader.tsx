@@ -91,7 +91,7 @@ export function PageHeader({ eyebrow, title, paragraph, meta, image, imagePositi
           copy sits in its own band underneath instead of floating on top of
           the photo, so the image stays uncropped-by-text and legible on its
           own. */}
-      <div data-nav-surface="dark" style={{ position: 'relative', height: 'clamp(20rem, 50vh, 32rem)', overflow: 'hidden' }}>
+      <div style={{ position: 'relative', height: 'clamp(20rem, 50vh, 32rem)', overflow: 'hidden' }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={image!} alt="" style={{
