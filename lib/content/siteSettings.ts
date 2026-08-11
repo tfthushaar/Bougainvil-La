@@ -1,5 +1,6 @@
 export interface SiteSettings {
   address: string
+  mapsUrl: string
   phone: string
   email: string
   instagramHandle: string
@@ -10,6 +11,7 @@ export interface SiteSettings {
 
 const SITE_SETTINGS: SiteSettings = {
   address: 'Near Bolare, K.G. Gollarapalya, Kanakapura Road, Bengaluru, Karnataka – 562109',
+  mapsUrl: 'https://maps.app.goo.gl/ksAa6SHcVmsKMZ1Y9?g_st=ic',
   phone: '+91 86606 54160',
   email: 'bougainvillaluxury@gmail.com',
   instagramHandle: '@bougainvillaweddingvenue',

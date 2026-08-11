@@ -1,6 +1,6 @@
 export type LocationBlock =
   | { type: 'heading'; text: string }
-  | { type: 'paragraph'; text: string }
+  | { type: 'paragraph'; text: string; href?: string }
   | { type: 'list'; items: string[] }
 
 export interface LocationPageDoc {
@@ -14,10 +14,13 @@ export interface LocationPageDoc {
   isPillar?: boolean
 }
 
+// Both address lines link to the venue's Google Maps location.
+const MAPS_URL = 'https://maps.app.goo.gl/ksAa6SHcVmsKMZ1Y9?g_st=ic'
+
 const ADDRESS_BLOCKS: LocationBlock[] = [
   { type: 'paragraph', text: "Bougainvil'La – Celebrate Luxury" },
-  { type: 'paragraph', text: 'Near Bolare, K.G. Gollarapalya' },
-  { type: 'paragraph', text: 'Bengaluru, Karnataka – 562109' },
+  { type: 'paragraph', text: 'Near Bolare, K.G. Gollarapalya', href: MAPS_URL },
+  { type: 'paragraph', text: 'Bengaluru, Karnataka – 562109', href: MAPS_URL },
   { type: 'paragraph', text: 'Call: +91 86606 54160' },
 ]
 

@@ -25,25 +25,25 @@ const NAV_LINKS = [
   { href: '/contact/', label: 'Contact' },
 ]
 
-function CTAButtons({ compact, textColor, settings }: { compact?: boolean; textColor: string; settings: SiteSettings }) {
+function CTAButtons({ compact, stack, textColor, settings }: { compact?: boolean; stack?: boolean; textColor: string; settings: SiteSettings }) {
   const pad = compact ? '0.55rem 0.85rem' : '0.85rem 1.7rem'
   const size = compact ? '0.66rem' : '0.75rem'
   const tracking = compact ? '0.08em' : '0.14em'
   const mailto = `mailto:${settings.email}?subject=${encodeURIComponent(settings.bookTourEmailSubject)}`
   const borderColor = textColor === '#fff' ? 'var(--color-gold)' : 'var(--color-gold-deep)'
   return (
-    <div style={{ display: 'flex', gap: compact ? '0.6rem' : '0.9rem' }}>
+    <div style={{ display: 'flex', flexDirection: stack ? 'column' : 'row', flexWrap: 'wrap', gap: compact ? '0.6rem' : '0.9rem' }}>
       <a href={mailto} className="btn-press" style={{
         fontFamily: 'var(--font-sans)', fontWeight: 700, fontSize: size, letterSpacing: tracking,
         textTransform: 'uppercase', color: '#fff', background: 'var(--color-accent-deep)',
-        textDecoration: 'none', padding: pad, whiteSpace: 'nowrap',
+        textDecoration: 'none', padding: pad, textAlign: 'center', whiteSpace: 'nowrap',
       }}>
         Book a Venue Tour
       </a>
       <a href="/brochure.pdf" className="btn-press" style={{
         fontFamily: 'var(--font-sans)', fontWeight: 700, fontSize: size, letterSpacing: tracking,
         textTransform: 'uppercase', color: textColor, background: 'transparent', transition: 'color 0.3s ease, border-color 0.3s ease',
-        textDecoration: 'none', padding: pad, border: `1px solid ${borderColor}`, whiteSpace: 'nowrap',
+        textDecoration: 'none', padding: pad, textAlign: 'center', border: `1px solid ${borderColor}`, whiteSpace: 'nowrap',
       }}>
         Download Brochure
       </a>
@@ -143,7 +143,7 @@ export function Navigation({ settings }: { settings: SiteSettings }) {
             <Link key={l.href} href={l.href} style={{ ...linkStyle, color: '#fff' }} onClick={() => setOpen(false)}>{l.label}</Link>
           ))}
           <div style={{ marginTop: '0.5rem' }}>
-            <CTAButtons textColor="#fff" settings={settings} />
+            <CTAButtons stack textColor="#fff" settings={settings} />
           </div>
         </div>
       )}

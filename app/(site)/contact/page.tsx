@@ -43,9 +43,12 @@ export default async function ContactPage() {
               <span style={{ display: 'block', fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: '0.72rem', letterSpacing: '0.28em', textTransform: 'uppercase', color: 'var(--color-gold-deep)', marginBottom: '1rem' }}>
                 Visit Us
               </span>
-              <p style={{ fontFamily: 'var(--font-sans)', fontWeight: 300, fontSize: '0.98rem', lineHeight: 1.8, color: 'var(--color-ink-soft)', margin: 0 }}>
+              <a
+                href={settings.mapsUrl} target="_blank" rel="noopener noreferrer"
+                style={{ display: 'block', fontFamily: 'var(--font-sans)', fontWeight: 300, fontSize: '0.98rem', lineHeight: 1.8, color: 'var(--color-ink-soft)', textDecoration: 'underline', textUnderlineOffset: '2px' }}
+              >
                 {settings.address}
-              </p>
+              </a>
             </div>
             <div>
               <a href={telHref} style={{ fontFamily: 'var(--font-sans)', fontWeight: 400, fontSize: '0.98rem', color: 'var(--color-ink)', textDecoration: 'none', display: 'block' }}>

@@ -48,7 +48,7 @@ export function Footer({ settings }: { settings: SiteSettings }) {
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
           <span style={labelStyle}>Contact</span>
-          <span style={{ ...linkStyle, lineHeight: 1.6 }}>{settings.address}</span>
+          <a href={settings.mapsUrl} target="_blank" rel="noopener noreferrer" className="footer-link" style={{ ...linkStyle, lineHeight: 1.6 }}>{settings.address}</a>
           <a href={telHref} className="footer-link" style={linkStyle}>{settings.phone}</a>
           <a href={`mailto:${settings.email}`} className="footer-link" style={linkStyle}>{settings.email}</a>
         </div>

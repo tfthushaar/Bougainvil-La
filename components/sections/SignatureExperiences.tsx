@@ -10,13 +10,24 @@ export function SignatureExperiences({ content }: { content: HomeContent }) {
         display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 'clamp(2.5rem, 6vw, 4.5rem)',
         alignItems: 'start',
       }}>
-        <div style={{ position: 'sticky', top: 'clamp(6rem, 12vh, 8rem)' }}>
+        {/* Sticky is a deliberate desktop-only effect — the image floats
+            alongside the list as you scroll through it in the two-column
+            layout. Once the grid collapses to one column on narrow screens
+            there's no list to scroll "alongside" anymore, so the image just
+            follows scroll oddly instead; disabled there via the media query
+            below rather than removing the desktop effect. */}
+        <div className="signature-sticky-image" style={{ position: 'sticky', top: 'clamp(6rem, 12vh, 8rem)' }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={IMAGE} alt="The floating mandap at Bougainvil'La, daylight"
             style={{ width: '100%', height: 'auto', display: 'block' }}
           />
         </div>
+        <style>{`
+          @media (max-width: 700px) {
+            .signature-sticky-image { position: static !important; }
+          }
+        `}</style>
 
         <div>
           <h2 className="font-display" style={{

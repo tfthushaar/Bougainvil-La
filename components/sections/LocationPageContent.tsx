@@ -23,11 +23,15 @@ function BlockRenderer({ block, index }: { block: LocationBlock; index: number }
     )
   }
   if (block.type === 'paragraph') {
-    return (
-      <p key={index} style={{ fontFamily: 'var(--font-sans)', fontWeight: 300, fontSize: '1rem', lineHeight: 1.75, color: 'var(--color-ink-soft)', margin: 0 }}>
-        {block.text}
-      </p>
-    )
+    const style: React.CSSProperties = { fontFamily: 'var(--font-sans)', fontWeight: 300, fontSize: '1rem', lineHeight: 1.75, color: 'var(--color-ink-soft)', margin: 0 }
+    if (block.href) {
+      return (
+        <a key={index} href={block.href} target="_blank" rel="noopener noreferrer" style={{ ...style, textDecoration: 'underline', textUnderlineOffset: '2px' }}>
+          {block.text}
+        </a>
+      )
+    }
+    return <p key={index} style={style}>{block.text}</p>
   }
   return (
     <ul key={index} style={{ margin: 0, padding: 0, listStyle: 'none', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '0.6rem 1.5rem' }}>
