@@ -13,7 +13,13 @@ const ADMIN_ORIGIN = 'https://bougainvilla-admin.netlify.app'
 export function EditBridge() {
   useEffect(() => {
     if (window.self === window.top) return
-    if (new URLSearchParams(window.location.search).get('bgEdit') !== '1') return
+
+    // The query param only needs to be present on the FIRST page load —
+    // sessionStorage carries it across ordinary in-iframe navigation (e.g.
+    // clicking "Explore Venues"), which wouldn't otherwise preserve it.
+    const flaggedByUrl = new URLSearchParams(window.location.search).get('bgEdit') === '1'
+    if (flaggedByUrl) sessionStorage.setItem('bgEdit', '1')
+    if (!flaggedByUrl && sessionStorage.getItem('bgEdit') !== '1') return
 
     let hovered: HTMLElement | null = null
 

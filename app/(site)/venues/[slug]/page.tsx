@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import { getVenues, getVenueBySlug, getVenueSlugs } from '@/lib/content/venues'
 import { PageHeader } from '@/components/PageHeader'
 import { Reveal } from '@/components/Reveal'
+import { EditBridge } from '@/components/EditBridge'
 
 // Landscape shots, not each venue's "cover" (those are portrait and needed
 // heavy cropping in this wide PageHeader banner).
@@ -37,12 +38,14 @@ export default async function VenueDetailPage({ params }: { params: Promise<{ sl
 
   return (
     <main>
+      <EditBridge />
       <PageHeader
         eyebrow={venue.tagline}
         title={venue.name}
         paragraph={venue.subtitle ?? undefined}
         meta={`${venue.seated} Seated · ${venue.floating} Floating`}
         image={HEADER_IMAGES[venue.slug] ?? venue.cover ?? venue.highlights[0] ?? null}
+        editFields={{ eyebrow: `venue:${venue.id}.tagline`, title: `venue:${venue.id}.name`, paragraph: `venue:${venue.id}.subtitle` }}
       />
 
       {venue.highlights.length > 0 ? (
@@ -69,11 +72,16 @@ export default async function VenueDetailPage({ params }: { params: Promise<{ sl
       <Reveal>
         <section style={{ background: 'var(--color-surface)', padding: 'clamp(3rem, 7vh, 4.5rem) clamp(1.25rem, 5vw, 3rem)' }}>
           <div style={{ maxWidth: '52rem', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-            {venue.description.map((para, i) => (
-              <p key={i} style={{ fontFamily: 'var(--font-sans)', fontWeight: 300, fontSize: '1.02rem', lineHeight: 1.8, color: 'var(--color-ink-soft)', margin: 0 }}>
-                {para}
-              </p>
-            ))}
+            <div
+              data-edit-field={`venue:${venue.id}.description`} data-edit-type="list" data-edit-value={venue.description.join('\n')}
+              style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}
+            >
+              {venue.description.map((para, i) => (
+                <p key={i} style={{ fontFamily: 'var(--font-sans)', fontWeight: 300, fontSize: '1.02rem', lineHeight: 1.8, color: 'var(--color-ink-soft)', margin: 0 }}>
+                  {para}
+                </p>
+              ))}
+            </div>
             <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginTop: '0.5rem' }}>
               <Link href={`/gallery/#${venue.slug}`} style={{
                 fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: '0.78rem', letterSpacing: '0.14em',

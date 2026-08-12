@@ -3,6 +3,7 @@ import { db } from '../db/client'
 import { venues } from '../db/schema'
 
 export interface Venue {
+  id: string
   slug: string
   name: string
   tagline: string

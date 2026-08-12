@@ -4,6 +4,13 @@ interface PageHeaderCta {
   external?: boolean
 }
 
+interface PageHeaderEditFields {
+  eyebrow?: string
+  title?: string
+  paragraph?: string
+  image?: string
+}
+
 interface PageHeaderProps {
   eyebrow?: string
   title: string
@@ -14,9 +21,11 @@ interface PageHeaderProps {
   imagePosition?: string
   cta?: PageHeaderCta
   align?: 'center' | 'left'
+  /** Field ids (e.g. "venue:abc123.name") for the visual editor — omit per-field to leave that element non-editable. */
+  editFields?: PageHeaderEditFields
 }
 
-export function PageHeader({ eyebrow, title, paragraph, meta, image, imagePosition = 'center', cta, align = 'center' }: PageHeaderProps) {
+export function PageHeader({ eyebrow, title, paragraph, meta, image, imagePosition = 'center', cta, align = 'center', editFields }: PageHeaderProps) {
   const isPhoto = Boolean(image)
   const isLeft = align === 'left'
 
@@ -27,24 +36,33 @@ export function PageHeader({ eyebrow, title, paragraph, meta, image, imagePositi
       textAlign: isLeft ? 'left' : 'center', alignItems: isLeft ? 'flex-start' : 'center',
     }}>
       {eyebrow && (
-        <span style={{
-          fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: '0.72rem', letterSpacing: '0.28em',
-          textTransform: 'uppercase', color: 'var(--color-gold-deep)',
-        }}>
+        <span
+          data-edit-field={editFields?.eyebrow} data-edit-value={editFields?.eyebrow ? eyebrow : undefined}
+          style={{
+            fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: '0.72rem', letterSpacing: '0.28em',
+            textTransform: 'uppercase', color: 'var(--color-gold-deep)',
+          }}
+        >
           {eyebrow}
         </span>
       )}
-      <h1 className="font-display" style={{
-        fontStyle: 'italic', fontWeight: 500, fontSize: 'clamp(2rem, 4.4vw, 3.2rem)', lineHeight: 1.1,
-        color: 'var(--color-ink)', margin: 0,
-      }}>
+      <h1
+        className="font-display" data-edit-field={editFields?.title} data-edit-value={editFields?.title ? title : undefined}
+        style={{
+          fontStyle: 'italic', fontWeight: 500, fontSize: 'clamp(2rem, 4.4vw, 3.2rem)', lineHeight: 1.1,
+          color: 'var(--color-ink)', margin: 0,
+        }}
+      >
         {title}
       </h1>
       {paragraph && (
-        <p style={{
-          fontFamily: 'var(--font-sans)', fontWeight: 300, fontSize: '1rem', lineHeight: 1.7,
-          color: 'var(--color-ink-soft)', margin: 0,
-        }}>
+        <p
+          data-edit-field={editFields?.paragraph} data-edit-value={editFields?.paragraph ? paragraph : undefined}
+          style={{
+            fontFamily: 'var(--font-sans)', fontWeight: 300, fontSize: '1rem', lineHeight: 1.7,
+            color: 'var(--color-ink-soft)', margin: 0,
+          }}
+        >
           {paragraph}
         </p>
       )}
@@ -94,7 +112,10 @@ export function PageHeader({ eyebrow, title, paragraph, meta, image, imagePositi
       <div style={{ position: 'relative', height: 'clamp(20rem, 50vh, 32rem)', overflow: 'hidden' }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={image!} alt="" style={{
+          src={image!} alt=""
+          data-edit-field={editFields?.image} data-edit-type={editFields?.image ? 'image' : undefined}
+          data-edit-value={editFields?.image ? image! : undefined}
+          style={{
             position: 'absolute', inset: 0, width: '100%', height: '100%',
             objectFit: 'cover', objectPosition: imagePosition,
           }}

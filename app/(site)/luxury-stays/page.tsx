@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { getRoomTypes } from '@/lib/content/roomTypes'
 import { PageHeader } from '@/components/PageHeader'
 import { Reveal } from '@/components/Reveal'
+import { EditBridge } from '@/components/EditBridge'
 
 export const metadata: Metadata = {
   title: "Luxury Stays | Bougainvil'La — Accommodation for 100 Guests",
@@ -20,6 +21,7 @@ export default async function LuxuryStaysPage() {
 
   return (
     <main>
+      <EditBridge />
       <PageHeader
         eyebrow="Luxury Stays"
         title="Stay Together. Celebrate Longer."
@@ -74,7 +76,7 @@ export default async function LuxuryStaysPage() {
       </Reveal>
 
       {rooms.map((r, i) => (
-        <Reveal key={r.name}>
+        <Reveal key={r.id}>
           <section style={{
             background: i % 2 === 0 ? 'var(--color-surface-2)' : 'var(--color-surface)',
             borderTop: '1px solid var(--color-line)',
@@ -89,6 +91,7 @@ export default async function LuxuryStaysPage() {
                 <img
                   src={r.photo}
                   alt={r.name}
+                  data-edit-field={`roomType:${r.id}.photo`} data-edit-type="image" data-edit-value={r.photo}
                   style={{ order: i % 2 === 0 ? 1 : 0, width: '100%', height: 'auto', display: 'block' }}
                 />
               ) : (
@@ -98,8 +101,8 @@ export default async function LuxuryStaysPage() {
                 }} />
               )}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                <h2 className="font-display" style={{ fontWeight: 500, fontSize: '1.5rem', color: 'var(--color-ink)', margin: 0 }}>{r.name}</h2>
-                <p style={{ fontFamily: 'var(--font-sans)', fontWeight: 300, fontSize: '1rem', lineHeight: 1.75, color: 'var(--color-ink-soft)', margin: 0 }}>{r.description}</p>
+                <h2 className="font-display" data-edit-field={`roomType:${r.id}.name`} data-edit-value={r.name} style={{ fontWeight: 500, fontSize: '1.5rem', color: 'var(--color-ink)', margin: 0 }}>{r.name}</h2>
+                <p data-edit-field={`roomType:${r.id}.description`} data-edit-value={r.description} style={{ fontFamily: 'var(--font-sans)', fontWeight: 300, fontSize: '1rem', lineHeight: 1.75, color: 'var(--color-ink-soft)', margin: 0 }}>{r.description}</p>
               </div>
             </div>
           </section>

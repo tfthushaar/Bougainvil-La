@@ -37,10 +37,10 @@ export async function WhyBougainvilla({ content }: { content: HomeContent }) {
           }}>
             &ldquo;
           </span>
-          <h2 className="font-display" data-edit-field="home.whyHeadline" data-edit-value={content.whyHeadline} style={{ fontStyle: 'italic', fontWeight: 500, fontSize: 'clamp(1.9rem, 3.8vw, 2.8rem)', margin: 0, color: 'var(--color-ink)' }}>
+          <h2 className="font-display" data-edit-field="home:singleton.whyHeadline" data-edit-value={content.whyHeadline} style={{ fontStyle: 'italic', fontWeight: 500, fontSize: 'clamp(1.9rem, 3.8vw, 2.8rem)', margin: 0, color: 'var(--color-ink)' }}>
             {content.whyHeadline}
           </h2>
-          <div data-edit-field="home.whyParagraphs" data-edit-type="list" data-edit-value={content.whyParagraphs.join('\n')} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+          <div data-edit-field="home:singleton.whyParagraphs" data-edit-type="list" data-edit-value={content.whyParagraphs.join('\n')} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
             {content.whyParagraphs.map((para, i) => (
               <p key={i} style={{ fontFamily: 'var(--font-sans)', fontWeight: 300, fontSize: '1.02rem', lineHeight: 1.8, color: 'var(--color-ink-soft)', margin: 0 }}>
                 {para}
@@ -63,11 +63,11 @@ export async function WhyBougainvilla({ content }: { content: HomeContent }) {
       }}>
         <BulletList
           heading={content.whyCouplesChooseHeadline} items={content.whyCouplesChoose}
-          headingField="home.whyCouplesChooseHeadline" listField="home.whyCouplesChoose"
+          headingField="home:singleton.whyCouplesChooseHeadline" listField="home:singleton.whyCouplesChoose"
         />
         <BulletList
           heading={content.eventsWeHostHeadline} items={content.eventsWeHost}
-          headingField="home.eventsWeHostHeadline" listField="home.eventsWeHost"
+          headingField="home:singleton.eventsWeHostHeadline" listField="home:singleton.eventsWeHost"
         />
       </div>
     </section>

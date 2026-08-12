@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { getFaqItems } from '@/lib/content/faq'
 import { PageHeader } from '@/components/PageHeader'
 import { Reveal } from '@/components/Reveal'
+import { EditBridge } from '@/components/EditBridge'
 
 export const metadata: Metadata = {
   title: "Frequently Asked Questions | Bougainvil'La",
@@ -14,15 +15,16 @@ export default async function FAQPage() {
 
   return (
     <main>
+      <EditBridge />
       <PageHeader eyebrow="FAQ" title="Frequently Asked Questions" />
 
       <Reveal>
         <section style={{ background: 'var(--color-surface)', padding: 'clamp(3rem, 7vh, 4.5rem) clamp(1.25rem, 5vw, 3rem)' }}>
           <div style={{ maxWidth: '52rem', margin: '0 auto', display: 'flex', flexDirection: 'column' }}>
             {faqs.map((item, i) => (
-              <div key={item.question} style={{ padding: '1.75rem 0', borderBottom: i < faqs.length - 1 ? '1px solid var(--color-line)' : 'none' }}>
-                <h2 className="font-display" style={{ fontWeight: 500, fontSize: '1.1rem', color: 'var(--color-ink)', margin: '0 0 0.6rem' }}>{item.question}</h2>
-                <p style={{ fontFamily: 'var(--font-sans)', fontWeight: 300, fontSize: '0.95rem', lineHeight: 1.7, color: 'var(--color-ink-soft)', margin: 0 }}>{item.answer}</p>
+              <div key={item.id} style={{ padding: '1.75rem 0', borderBottom: i < faqs.length - 1 ? '1px solid var(--color-line)' : 'none' }}>
+                <h2 className="font-display" data-edit-field={`faq:${item.id}.question`} data-edit-value={item.question} style={{ fontWeight: 500, fontSize: '1.1rem', color: 'var(--color-ink)', margin: '0 0 0.6rem' }}>{item.question}</h2>
+                <p data-edit-field={`faq:${item.id}.answer`} data-edit-value={item.answer} style={{ fontFamily: 'var(--font-sans)', fontWeight: 300, fontSize: '0.95rem', lineHeight: 1.7, color: 'var(--color-ink-soft)', margin: 0 }}>{item.answer}</p>
               </div>
             ))}
           </div>

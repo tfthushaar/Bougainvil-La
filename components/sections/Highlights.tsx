@@ -12,7 +12,7 @@ export function Highlights({ content }: { content: HomeContent }) {
           Our Highlights
         </span>
         <div
-          data-edit-field="home.highlights" data-edit-type="list" data-edit-value={content.highlights.join('\n')}
+          data-edit-field="home:singleton.highlights" data-edit-type="list" data-edit-value={content.highlights.join('\n')}
           style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.25rem 2rem' }}
         >
           {content.highlights.map((h) => (

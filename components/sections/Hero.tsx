@@ -128,19 +128,19 @@ export function Hero({ content }: { content: HomeContent }) {
             fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: 'clamp(0.72rem, 1vw, 0.85rem)', letterSpacing: '0.28em',
             textTransform: 'uppercase', color: 'var(--color-gold-deep)', display: 'flex', alignItems: 'center', gap: '0.9rem',
           }}>
-            <span data-edit-field="home.heroSubtitleLeft" data-edit-value={content.heroSubtitleLeft}>{content.heroSubtitleLeft}</span>
+            <span data-edit-field="home:singleton.heroSubtitleLeft" data-edit-value={content.heroSubtitleLeft}>{content.heroSubtitleLeft}</span>
             <GoldRule width="1.75rem" />
-            <span data-edit-field="home.heroSubtitleRight" data-edit-value={content.heroSubtitleRight}>{content.heroSubtitleRight}</span>
+            <span data-edit-field="home:singleton.heroSubtitleRight" data-edit-value={content.heroSubtitleRight}>{content.heroSubtitleRight}</span>
           </span>
 
-          <h1 className="hero-headline font-display" data-edit-field="home.heroHeadline" data-edit-value={content.heroHeadline} style={{
+          <h1 className="hero-headline font-display" data-edit-field="home:singleton.heroHeadline" data-edit-value={content.heroHeadline} style={{
             fontStyle: 'italic', fontWeight: 500, color: 'var(--color-ink)', margin: 0,
             fontSize: 'clamp(2.1rem, 4.2vw, 3.4rem)', lineHeight: 1.08,
           }}>
             {content.heroHeadline}
           </h1>
 
-          <p className="hero-paragraph" data-edit-field="home.heroParagraph" data-edit-value={content.heroParagraph} style={{
+          <p className="hero-paragraph" data-edit-field="home:singleton.heroParagraph" data-edit-value={content.heroParagraph} style={{
             fontFamily: 'var(--font-sans)', fontWeight: 400, fontSize: 'clamp(0.98rem, 1.2vw, 1.08rem)',
             lineHeight: 1.7, color: 'var(--color-ink-soft)', margin: 0,
           }}>
@@ -149,7 +149,7 @@ export function Hero({ content }: { content: HomeContent }) {
 
           <div className="hero-feature" style={{ display: 'flex', alignItems: 'center', gap: '0.9rem' }}>
             <GoldRule width="1.75rem" />
-            <span data-edit-field="home.heroFeatureLine" data-edit-value={content.heroFeatureLine} style={{
+            <span data-edit-field="home:singleton.heroFeatureLine" data-edit-value={content.heroFeatureLine} style={{
               fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: 'clamp(0.72rem, 0.95vw, 0.82rem)', letterSpacing: '0.16em',
               textTransform: 'uppercase', color: 'var(--color-ink-soft)',
             }}>

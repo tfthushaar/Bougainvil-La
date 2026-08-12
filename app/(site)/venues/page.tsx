@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { getVenues } from '@/lib/content/venues'
 import { PageHeader } from '@/components/PageHeader'
 import { Reveal } from '@/components/Reveal'
+import { EditBridge } from '@/components/EditBridge'
 
 export const metadata: Metadata = {
   title: "Celebration Spaces | Bougainvil'La — Five Distinctive Wedding Venues in South Bangalore",
@@ -18,6 +19,7 @@ export default async function VenuesPage() {
 
   return (
     <main>
+      <EditBridge />
       <PageHeader
         eyebrow="Celebration Spaces"
         title="Five Distinctive Spaces. Endless Possibilities."
@@ -33,13 +35,17 @@ export default async function VenuesPage() {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.9rem' }}>
                   {v.cover ? (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img src={v.cover} alt={`${v.name} at Bougainvil'La`} style={{ width: '100%', height: 'auto', display: 'block' }} />
+                    <img
+                      src={v.cover} alt={`${v.name} at Bougainvil'La`}
+                      data-edit-field={`venue:${v.id}.cover`} data-edit-type="image" data-edit-value={v.cover}
+                      style={{ width: '100%', height: 'auto', display: 'block' }}
+                    />
                   ) : (
                     <div style={{ width: '100%', aspectRatio: '4 / 3', background: 'linear-gradient(155deg, var(--color-surface-2), var(--color-accent) 140%)' }} />
                   )}
                   <div>
-                    <h2 className="font-display" style={{ fontWeight: 500, fontSize: '1.2rem', color: 'var(--color-ink)', margin: 0 }}>{v.name}</h2>
-                    <p style={{ fontFamily: 'var(--font-sans)', fontWeight: 300, fontSize: '0.85rem', color: 'var(--color-ink-soft)', margin: '0.35rem 0 0' }}>{v.tagline}</p>
+                    <h2 className="font-display" data-edit-field={`venue:${v.id}.name`} data-edit-value={v.name} style={{ fontWeight: 500, fontSize: '1.2rem', color: 'var(--color-ink)', margin: 0 }}>{v.name}</h2>
+                    <p data-edit-field={`venue:${v.id}.tagline`} data-edit-value={v.tagline} style={{ fontFamily: 'var(--font-sans)', fontWeight: 300, fontSize: '0.85rem', color: 'var(--color-ink-soft)', margin: '0.35rem 0 0' }}>{v.tagline}</p>
                     <p style={{ fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: '0.72rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--color-gold-deep)', margin: '0.5rem 0 0' }}>
                       {v.seated} Seated &middot; {v.floating} Floating
                     </p>

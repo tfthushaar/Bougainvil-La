@@ -1,42 +1,84 @@
 'use server'
 
 import { eq } from 'drizzle-orm'
+import type { PgTableWithColumns } from 'drizzle-orm/pg-core'
 import { revalidatePath } from 'next/cache'
 import { db } from '@/lib/db/client'
-import { homeContent } from '@/lib/db/schema'
+import { homeContent, aboutContent, siteSettings, venues, roomTypes, faqItems } from '@/lib/db/schema'
 
-// Allow-list, not a fully dynamic setter — the field name arrives from a
-// postMessage sent by the public site's EditBridge script, so it's treated
-// as untrusted input even though only this admin UI can trigger it.
-const TEXT_FIELDS = new Set([
-  'heroSubtitleLeft', 'heroSubtitleRight', 'heroHeadline', 'heroParagraph', 'heroFeatureLine',
-  'introHeadline', 'introParagraph',
-  'founderEyebrow', 'founderQuote',
-  'whyHeadline', 'whyCouplesChooseHeadline', 'eventsWeHostHeadline', 'signatureExperiencesHeadline',
-  'locationBlurbHeadline', 'locationBlurbQuote',
-])
-const LIST_FIELDS = new Set(['founderParagraphs', 'highlights', 'whyParagraphs', 'whyCouplesChoose', 'eventsWeHost'])
-const IMAGE_FIELDS = new Set(['founderImage'])
+type FieldType = 'text' | 'list' | 'number' | 'image'
 
-export async function updateHomeField(formData: FormData) {
+// Allow-list per table — the field name arrives from a postMessage sent by
+// the public site's EditBridge script, so it's treated as untrusted input
+// even though only this admin UI can trigger it. Field id format on the
+// wire: "<table>:<id>.<column>", e.g. "venue:9e1f...ab.name" or
+// "home:singleton.heroHeadline" for the singleton tables.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const TABLES: Record<string, { table: PgTableWithColumns<any>; revalidate: string; fields: Record<string, FieldType> }> = {
+  home: {
+    table: homeContent, revalidate: '/home',
+    fields: {
+      heroSubtitleLeft: 'text', heroSubtitleRight: 'text', heroHeadline: 'text', heroParagraph: 'text', heroFeatureLine: 'text',
+      introHeadline: 'text', introParagraph: 'text',
+      founderEyebrow: 'text', founderParagraphs: 'list', founderQuote: 'text', founderImage: 'image',
+      highlights: 'list',
+      whyHeadline: 'text', whyParagraphs: 'list', whyCouplesChooseHeadline: 'text', whyCouplesChoose: 'list',
+      eventsWeHostHeadline: 'text', eventsWeHost: 'list',
+      signatureExperiencesHeadline: 'text',
+      locationBlurbHeadline: 'text', locationBlurbQuote: 'text',
+    },
+  },
+  about: {
+    table: aboutContent, revalidate: '/about',
+    fields: {
+      eyebrow: 'text', introParagraphs: 'list', heroImage: 'image',
+      founderName: 'text', founderTitle: 'text', founderBioParagraphs: 'list', highlights: 'list',
+    },
+  },
+  siteSettings: {
+    table: siteSettings, revalidate: '/site-settings',
+    fields: { address: 'text', phone: 'text', email: 'text', instagramHandle: 'text' },
+  },
+  venue: {
+    table: venues, revalidate: '/venues',
+    fields: { name: 'text', tagline: 'text', subtitle: 'text', description: 'list', cover: 'image', seated: 'number', floating: 'number' },
+  },
+  roomType: {
+    table: roomTypes, revalidate: '/room-types',
+    fields: { name: 'text', description: 'text', photo: 'image', capacity: 'text', quantity: 'number' },
+  },
+  faq: {
+    table: faqItems, revalidate: '/faq',
+    fields: { question: 'text', answer: 'text' },
+  },
+}
+
+function parseValue(type: FieldType, raw: string): unknown {
+  switch (type) {
+    case 'list':
+      return raw.split('\n').map((s) => s.trim()).filter(Boolean)
+    case 'number':
+      return Number(raw) || 0
+    default:
+      return raw
+  }
+}
+
+export async function updateField(formData: FormData) {
   const field = String(formData.get('field') ?? '')
   const value = String(formData.get('value') ?? '')
 
-  if (!field.startsWith('home.')) throw new Error('Unknown field: ' + field)
-  const key = field.slice('home.'.length)
+  const m = field.match(/^([a-zA-Z]+):([^.]+)\.([a-zA-Z]+)$/)
+  if (!m) throw new Error('Malformed field id: ' + field)
+  const [, tableKey, id, column] = m
 
-  let parsed: unknown
-  if (LIST_FIELDS.has(key)) {
-    parsed = value.split('\n').map((s) => s.trim()).filter(Boolean)
-  } else if (TEXT_FIELDS.has(key) || IMAGE_FIELDS.has(key)) {
-    parsed = value
-  } else {
-    throw new Error('Field is not editable here: ' + key)
-  }
+  const spec = TABLES[tableKey]
+  if (!spec) throw new Error('Unknown table: ' + tableKey)
+  const fieldType = spec.fields[column]
+  if (!fieldType) throw new Error('Field is not editable here: ' + field)
 
-  const updates: Record<string, unknown> = { [key]: parsed }
-  await db().update(homeContent).set(updates as Partial<typeof homeContent.$inferInsert>).where(eq(homeContent.id, 'singleton'))
+  const updates = { [column]: parseValue(fieldType, value) }
+  await db().update(spec.table).set(updates).where(eq(spec.table.id, id))
 
-  revalidatePath('/home')
-  revalidatePath('/edit-website')
+  revalidatePath(spec.revalidate)
 }

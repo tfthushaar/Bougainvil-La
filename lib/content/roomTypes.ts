@@ -3,6 +3,7 @@ import { db } from '../db/client'
 import { roomTypes } from '../db/schema'
 
 export interface RoomType {
+  id: string
   name: string
   description: string
   photo: string | null

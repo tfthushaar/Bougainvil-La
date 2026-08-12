@@ -3,6 +3,7 @@ import { db } from '../db/client'
 import { faqItems } from '../db/schema'
 
 export interface FaqItem {
+  id: string
   question: string
   answer: string
 }

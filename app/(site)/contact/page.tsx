@@ -3,6 +3,7 @@ import { getSiteSettings } from '@/lib/content/siteSettings'
 import { ContactForm } from '@/components/sections/ContactForm'
 import { PageHeader } from '@/components/PageHeader'
 import { Reveal } from '@/components/Reveal'
+import { EditBridge } from '@/components/EditBridge'
 
 export const metadata: Metadata = {
   title: "Contact | Bougainvil'La — Schedule Your Venue Tour",
@@ -16,6 +17,7 @@ export default async function ContactPage() {
 
   return (
     <main>
+      <EditBridge />
       <PageHeader
         eyebrow="Begin Your Celebration"
         title="Let’s Create Something Beautiful Together"
@@ -45,16 +47,17 @@ export default async function ContactPage() {
               </span>
               <a
                 href={settings.mapsUrl} target="_blank" rel="noopener noreferrer"
+                data-edit-field="siteSettings:singleton.address" data-edit-value={settings.address}
                 style={{ display: 'block', fontFamily: 'var(--font-sans)', fontWeight: 300, fontSize: '0.98rem', lineHeight: 1.8, color: 'var(--color-ink-soft)', textDecoration: 'underline', textUnderlineOffset: '2px' }}
               >
                 {settings.address}
               </a>
             </div>
             <div>
-              <a href={telHref} style={{ fontFamily: 'var(--font-sans)', fontWeight: 400, fontSize: '0.98rem', color: 'var(--color-ink)', textDecoration: 'none', display: 'block' }}>
+              <a href={telHref} data-edit-field="siteSettings:singleton.phone" data-edit-value={settings.phone} style={{ fontFamily: 'var(--font-sans)', fontWeight: 400, fontSize: '0.98rem', color: 'var(--color-ink)', textDecoration: 'none', display: 'block' }}>
                 {settings.phone}
               </a>
-              <a href={`mailto:${settings.email}`} style={{ fontFamily: 'var(--font-sans)', fontWeight: 400, fontSize: '0.98rem', color: 'var(--color-ink)', textDecoration: 'none', display: 'block', marginTop: '0.5rem' }}>
+              <a href={`mailto:${settings.email}`} data-edit-field="siteSettings:singleton.email" data-edit-value={settings.email} style={{ fontFamily: 'var(--font-sans)', fontWeight: 400, fontSize: '0.98rem', color: 'var(--color-ink)', textDecoration: 'none', display: 'block', marginTop: '0.5rem' }}>
                 {settings.email}
               </a>
             </div>
@@ -62,7 +65,11 @@ export default async function ContactPage() {
               <span style={{ display: 'block', fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: '0.72rem', letterSpacing: '0.28em', textTransform: 'uppercase', color: 'var(--color-gold-deep)', marginBottom: '0.75rem' }}>
                 Follow Us
               </span>
-              <a href={settings.instagramUrl} target="_blank" rel="noopener noreferrer" style={{ fontFamily: 'var(--font-sans)', fontWeight: 400, fontSize: '0.98rem', color: 'var(--color-ink)', textDecoration: 'none' }}>
+              <a
+                href={settings.instagramUrl} target="_blank" rel="noopener noreferrer"
+                data-edit-field="siteSettings:singleton.instagramHandle" data-edit-value={settings.instagramHandle}
+                style={{ fontFamily: 'var(--font-sans)', fontWeight: 400, fontSize: '0.98rem', color: 'var(--color-ink)', textDecoration: 'none' }}
+              >
                 Instagram — {settings.instagramHandle}
               </a>
             </div>
