@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { ImagePicker } from '@/components/ImagePicker'
 import { updateField } from './actions'
 
@@ -27,6 +27,7 @@ export function EditWebsiteFrame() {
   const [frameReady, setFrameReady] = useState(false)
   const [panel, setPanel] = useState<EditPanel | null>(null)
   const [saving, setSaving] = useState(false)
+  const iframeRef = useRef<HTMLIFrameElement>(null)
 
   useEffect(() => {
     function onMessage(e: MessageEvent) {
@@ -56,11 +57,28 @@ export function EditWebsiteFrame() {
     e.preventDefault()
     setSaving(true)
     const formData = new FormData(e.currentTarget)
+    const field = String(formData.get('field') ?? '')
+    const type = panel?.type ?? 'text'
+    const value = String(formData.get('value') ?? '')
+
     try {
       await updateField(formData)
       setPanel(null)
-      setFrameReady(false)
-      setReloadKey((k) => k + 1)
+
+      // List-type edits change how many DOM nodes exist (one per array
+      // item), which isn't safe to patch in place — reload for those. Text
+      // and image edits touch exactly one element, so update it directly
+      // instead of reloading the whole iframe (full page load + hydration
+      // + on-load animations, which is what made this feel slow).
+      if (type === 'list') {
+        setFrameReady(false)
+        setReloadKey((k) => k + 1)
+      } else {
+        iframeRef.current?.contentWindow?.postMessage(
+          { source: 'bougainvilla-admin-apply-edit', field, editType: type, value },
+          SITE_ORIGIN
+        )
+      }
     } finally {
       setSaving(false)
     }
@@ -91,6 +109,7 @@ export function EditWebsiteFrame() {
             </div>
           )}
           <iframe
+            ref={iframeRef}
             key={reloadKey}
             src={`${SITE_ORIGIN}${path}?bgEdit=1`}
             className="h-full w-full border-0"

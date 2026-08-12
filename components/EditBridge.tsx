@@ -58,13 +58,35 @@ export function EditBridge() {
       )
     }
 
+    // Applies a just-saved edit directly to the DOM instead of waiting for
+    // admin to reload this whole iframe (a full page load + hydration +
+    // on-load animations, which felt slow) — the save already persisted to
+    // the database; this just makes the preview reflect it instantly.
+    function onMessage(e: MessageEvent) {
+      if (e.origin !== ADMIN_ORIGIN) return
+      const data = e.data as { source?: string; field?: string; editType?: string; value?: string }
+      if (data?.source !== 'bougainvilla-admin-apply-edit' || !data.field) return
+
+      const el = document.querySelector<HTMLElement>(`[data-edit-field="${data.field}"]`)
+      if (!el) return
+
+      el.dataset.editValue = data.value ?? ''
+      if (data.editType === 'image' && el instanceof HTMLImageElement) {
+        el.src = data.value ?? ''
+      } else if (data.editType !== 'list') {
+        el.textContent = data.value ?? ''
+      }
+    }
+
     document.addEventListener('mouseover', onOver)
     document.addEventListener('click', onClick, true)
+    window.addEventListener('message', onMessage)
     window.parent.postMessage({ source: 'bougainvilla-edit-bridge', ready: true }, ADMIN_ORIGIN)
 
     return () => {
       document.removeEventListener('mouseover', onOver)
       document.removeEventListener('click', onClick, true)
+      window.removeEventListener('message', onMessage)
     }
   }, [])
 
