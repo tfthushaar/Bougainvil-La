@@ -15,15 +15,19 @@
   --color-ink-soft:     oklch(44%   0.03 335);  /* secondary text              */
   --color-line:         oklch(85%   0.02 340);  /* hairline                    */
   --color-dark:         oklch(8%    0.015 330); /* near-black — footer only    */
-  --color-accent:       oklch(74%   0.16 25);   /* peachy pink (coral/salmon)  */
-  --color-accent-deep:  oklch(58%   0.18 20);   /* deep peachy pink            */
-  --color-gold:         oklch(72%   0.10 82);   /* muted metallic gold — rules,
-                                                    icons, gold-on-dark text    */
-  --color-gold-deep:    oklch(42%   0.12 75);   /* higher-contrast gold — small
+  --color-accent:       oklch(76%   0.13 42);   /* warm peach (coral-orange)   */
+  --color-accent-deep:  oklch(60%   0.16 38);   /* deep peach — CTA backgrounds,
+                                                    same L as the old pink so
+                                                    white button text keeps its
+                                                    contrast                    */
+  --color-gold:         oklch(72%   0.08 48);   /* muted peach — rules, icons,
+                                                    same hue family as accent
+                                                    now instead of true gold    */
+  --color-gold-deep:    oklch(45%   0.11 42);   /* higher-contrast peach — small
                                                     caps/labels on light cream,
                                                     where --color-gold fails
-                                                    WCAG AA on its own (42% L
-                                                    matches --color-ink-soft's
+                                                    WCAG AA on its own (L kept
+                                                    close to --color-ink-soft's
                                                     already-proven-legible L)   */
 
   --font-display: var(--font-garamond), "Georgia", "Times New Roman", serif;

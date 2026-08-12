@@ -25,7 +25,7 @@ export function EditBridge() {
 
     function setHighlight(el: HTMLElement | null, on: boolean) {
       if (!el) return
-      el.style.outline = on ? '2px solid #a8843f' : ''
+      el.style.outline = on ? '2px solid #c97a4a' : ''
       el.style.outlineOffset = on ? '2px' : ''
       el.style.cursor = on ? 'pointer' : ''
     }
