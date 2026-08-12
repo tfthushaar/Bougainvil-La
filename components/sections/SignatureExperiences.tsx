@@ -30,7 +30,7 @@ export function SignatureExperiences({ content }: { content: HomeContent }) {
         `}</style>
 
         <div>
-          <h2 className="font-display" style={{
+          <h2 className="font-display" data-edit-field="home.signatureExperiencesHeadline" data-edit-value={content.signatureExperiencesHeadline} style={{
             fontStyle: 'italic', fontWeight: 500, fontSize: 'clamp(1.8rem, 3.6vw, 2.6rem)', margin: '0 0 2rem', color: 'var(--color-ink)',
           }}>
             {content.signatureExperiencesHeadline}

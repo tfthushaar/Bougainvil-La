@@ -14,22 +14,25 @@ export function FounderTeaser({ content }: { content: HomeContent }) {
           <img
             src={content.founderImage}
             alt="The floating mandap, decorated, at Bougainvil'La"
+            data-edit-field="home.founderImage" data-edit-type="image" data-edit-value={content.founderImage}
             style={{ width: '100%', height: 'auto', display: 'block' }}
           />
         )}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-          <span style={{
+          <span data-edit-field="home.founderEyebrow" data-edit-value={content.founderEyebrow} style={{
             fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: '0.72rem', letterSpacing: '0.24em',
             textTransform: 'uppercase', color: 'var(--color-gold-deep)',
           }}>
             {content.founderEyebrow}
           </span>
-          {content.founderParagraphs.map((para, i) => (
-            <p key={i} style={{ fontFamily: 'var(--font-sans)', fontWeight: 300, fontSize: '1.05rem', lineHeight: 1.75, color: 'var(--color-ink-soft)', margin: 0 }}>
-              {para}
-            </p>
-          ))}
-          <p className="font-display" style={{ fontStyle: 'italic', fontWeight: 500, fontSize: '1.15rem', color: 'var(--color-ink)', margin: 0 }}>
+          <div data-edit-field="home.founderParagraphs" data-edit-type="list" data-edit-value={content.founderParagraphs.join('\n')} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+            {content.founderParagraphs.map((para, i) => (
+              <p key={i} style={{ fontFamily: 'var(--font-sans)', fontWeight: 300, fontSize: '1.05rem', lineHeight: 1.75, color: 'var(--color-ink-soft)', margin: 0 }}>
+                {para}
+              </p>
+            ))}
+          </div>
+          <p className="font-display" data-edit-field="home.founderQuote" data-edit-value={content.founderQuote} style={{ fontStyle: 'italic', fontWeight: 500, fontSize: '1.15rem', color: 'var(--color-ink)', margin: 0 }}>
             {content.founderQuote}
           </p>
           <Link href="/about/" style={{

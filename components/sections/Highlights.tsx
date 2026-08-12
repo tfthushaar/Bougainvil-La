@@ -11,7 +11,10 @@ export function Highlights({ content }: { content: HomeContent }) {
         }}>
           Our Highlights
         </span>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.25rem 2rem' }}>
+        <div
+          data-edit-field="home.highlights" data-edit-type="list" data-edit-value={content.highlights.join('\n')}
+          style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.25rem 2rem' }}
+        >
           {content.highlights.map((h) => (
             <div key={h} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
               <span style={{ flexShrink: 0, width: '5px', height: '5px', background: 'var(--color-gold-deep)' }} />

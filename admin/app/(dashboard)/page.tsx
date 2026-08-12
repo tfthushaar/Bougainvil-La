@@ -37,9 +37,9 @@ export default async function DashboardHome() {
       )}
 
       <p className="text-sm text-neutral-500">
-        Use <strong>Create Blog</strong> to write a new post, or <strong>Edit Website</strong> in the
-        sidebar to update any page — venues, room types, FAQ, location pages, the home and about
-        pages, and site settings.
+        Use <strong>Create Blog</strong> to write a new post, <strong>Edit Website</strong> to click
+        and edit the home page as it actually looks, or <strong>All Pages</strong> in the sidebar for
+        everything else — venues, room types, FAQ, location pages, about, and site settings.
       </p>
     </div>
   )

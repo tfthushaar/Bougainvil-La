@@ -3,9 +3,9 @@ import { auth, signOut } from '@/lib/auth'
 
 const NAV_SECTIONS = [
   {
-    label: 'Edit Website',
+    label: 'All Pages',
     items: [
-      { href: '/home', label: 'Home Page' },
+      { href: '/home', label: 'Home Page (all fields)' },
       { href: '/about', label: 'About Page' },
       { href: '/venues', label: 'Venues' },
       { href: '/room-types', label: 'Room Types' },
@@ -42,8 +42,11 @@ export default async function DashboardLayout({ children }: { children: React.Re
           <Link href="/" className="mb-1 block rounded px-3 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-100">
             Dashboard
           </Link>
-          <Link href="/blog" className="mb-4 block rounded px-3 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-100">
+          <Link href="/blog" className="mb-1 block rounded px-3 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-100">
             Create Blog
+          </Link>
+          <Link href="/edit-website" className="mb-4 block rounded px-3 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-100">
+            Edit Website
           </Link>
           {NAV_SECTIONS.map((section) => (
             <div key={section.label} className="mb-4">

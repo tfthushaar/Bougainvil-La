@@ -9,6 +9,7 @@ import { LuxuryStaysPreview } from '@/components/sections/LuxuryStaysPreview'
 import { LocationBlurb } from '@/components/sections/LocationBlurb'
 import { EnquireForm } from '@/components/sections/EnquireForm'
 import { Reveal } from '@/components/Reveal'
+import { EditBridge } from '@/components/EditBridge'
 import { getHomeContent } from '@/lib/content/home'
 
 export default async function Home() {
@@ -16,6 +17,7 @@ export default async function Home() {
 
   return (
     <main>
+      <EditBridge />
       <Hero content={home} />
       <Reveal><Intro content={home} /></Reveal>
       <Reveal><FounderTeaser content={home} /></Reveal>
