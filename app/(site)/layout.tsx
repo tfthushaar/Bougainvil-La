@@ -8,6 +8,19 @@ import { WhatsAppButton } from '@/components/WhatsAppButton'
 import { getSiteSettings } from '@/lib/content/siteSettings'
 import '../globals.css'
 
+// Every page here reads live content from the database on every request
+// (see lib/db/client.ts) — there's no incremental/tag cache backend wired
+// up on this Cloudflare deployment to safely invalidate a CDN-level cache
+// when that content changes. Without this, Next still classified these
+// routes as static (nothing in them uses cookies/headers/searchParams) and
+// attached a year-long `s-maxage`, which Cloudflare's edge network can
+// actually hold onto — a real incident: a stale cached page kept getting
+// served to some visitors long after the underlying bug was fixed and
+// every direct/uncached request confirmed healthy. Forcing dynamic
+// rendering makes Next emit no-store cache headers instead, so no edge
+// node can ever cache a response that then goes stale.
+export const dynamic = 'force-dynamic'
+
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,

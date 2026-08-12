@@ -1,15 +1,18 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { getBlogPosts, getBlogPostBySlug, getBlogSlugs, TOUR_HREF } from '@/lib/content/blog'
+import { getBlogPosts, getBlogPostBySlug, TOUR_HREF } from '@/lib/content/blog'
 import { PageHeader } from '@/components/PageHeader'
 import { RichContent } from '@/components/RichContent'
 import { Reveal } from '@/components/Reveal'
 
-export async function generateStaticParams() {
-  const slugs = await getBlogSlugs()
-  return slugs.map((slug) => ({ slug }))
-}
+// Deliberately no generateStaticParams: routes that have it are exported
+// as literal static HTML files and served directly by Cloudflare's assets
+// binding, bypassing the Worker (and this middleware's cache headers, and
+// the database) entirely — see app/(site)/layout.tsx and middleware.ts for
+// the incident that traced back to exactly that. Every blog post needs to
+// go through the same live, per-request path as the rest of the site.
+export const dynamic = 'force-dynamic'
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params

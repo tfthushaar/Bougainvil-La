@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { getVenues, getVenueBySlug, getVenueSlugs } from '@/lib/content/venues'
+import { getVenues, getVenueBySlug } from '@/lib/content/venues'
 import { PageHeader } from '@/components/PageHeader'
 import { Reveal } from '@/components/Reveal'
 import { EditBridge } from '@/components/EditBridge'
@@ -16,10 +16,13 @@ const HEADER_IMAGES: Record<string, string> = {
   'ice-spice': '/images/venues/ice-spice/with-decor/004.webp',
 }
 
-export async function generateStaticParams() {
-  const slugs = await getVenueSlugs()
-  return slugs.map((slug) => ({ slug }))
-}
+// Deliberately no generateStaticParams: routes that have it are exported
+// as literal static HTML files and served directly by Cloudflare's assets
+// binding, bypassing the Worker (and this middleware's cache headers, and
+// the database) entirely — see app/(site)/layout.tsx and middleware.ts for
+// the incident that traced back to exactly that. Every venue page needs to
+// go through the same live, per-request path as the rest of the site.
+export const dynamic = 'force-dynamic'
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
