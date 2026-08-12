@@ -3,7 +3,6 @@
 import { revalidatePath } from 'next/cache'
 import { db } from '@/lib/db/client'
 import { siteSettings } from '@/lib/db/schema'
-import { triggerPublicSiteDeploy } from '@/lib/deploy'
 
 export async function saveSiteSettings(formData: FormData) {
   const values = {
@@ -20,5 +19,4 @@ export async function saveSiteSettings(formData: FormData) {
 
   await db().insert(siteSettings).values(values).onConflictDoUpdate({ target: siteSettings.id, set: values })
   revalidatePath('/site-settings')
-  await triggerPublicSiteDeploy()
 }

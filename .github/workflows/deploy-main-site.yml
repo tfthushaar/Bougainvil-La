@@ -1,17 +1,17 @@
 name: Deploy main site
 
-# Rebuilds and redeploys the public Cloudflare Worker. Runs on every push
-# to main (so code changes deploy normally), and can also be triggered by
-# the admin app (repository_dispatch) whenever content changes in the
-# database — the site is statically generated at build time, so a DB write
-# alone never reaches the live site without a fresh build.
+# Rebuilds and redeploys the public Cloudflare Worker whenever code changes
+# land on main (replaces the previous manual `npm run cf:deploy` habit).
+#
+# Content edits from admin do NOT need this: the deployed Worker has no
+# incremental cache backend configured, so lib/content/*.ts's database
+# queries actually run fresh on every request — content saved in admin is
+# already live on the public site instantly, no rebuild required.
 on:
   push:
     branches: [main]
     # Admin-only or docs-only commits don't need a public-site rebuild.
     paths-ignore: ['admin/**', '**/*.md']
-  repository_dispatch:
-    types: [content-updated]
   workflow_dispatch: {}
 
 jobs:

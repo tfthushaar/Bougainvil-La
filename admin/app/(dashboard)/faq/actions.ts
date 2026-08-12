@@ -4,7 +4,6 @@ import { eq } from 'drizzle-orm'
 import { revalidatePath } from 'next/cache'
 import { db } from '@/lib/db/client'
 import { faqItems } from '@/lib/db/schema'
-import { triggerPublicSiteDeploy } from '@/lib/deploy'
 
 export async function saveFaqItem(formData: FormData) {
   const id = String(formData.get('id'))
@@ -20,12 +19,10 @@ export async function saveFaqItem(formData: FormData) {
     await db().update(faqItems).set(values).where(eq(faqItems.id, id))
   }
   revalidatePath('/faq')
-  await triggerPublicSiteDeploy()
 }
 
 export async function deleteFaqItem(formData: FormData) {
   const id = String(formData.get('id'))
   await db().delete(faqItems).where(eq(faqItems.id, id))
   revalidatePath('/faq')
-  await triggerPublicSiteDeploy()
 }
