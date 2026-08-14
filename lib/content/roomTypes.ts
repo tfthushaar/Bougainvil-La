@@ -1,6 +1,4 @@
-import { asc } from 'drizzle-orm'
-import { db } from '../db/client'
-import { roomTypes } from '../db/schema'
+import { query } from '../db/turso-http'
 
 export interface RoomType {
   id: string
@@ -12,5 +10,13 @@ export interface RoomType {
 }
 
 export async function getRoomTypes(): Promise<RoomType[]> {
-  return db().select().from(roomTypes).orderBy(asc(roomTypes.order))
+  const rows = await query('SELECT * FROM room_types ORDER BY "order"')
+  return rows.map((row) => ({
+    id: row.id as string,
+    name: row.name as string,
+    description: row.description as string,
+    photo: (row.photo as string | null) ?? null,
+    quantity: row.quantity as number,
+    capacity: row.capacity as string,
+  }))
 }

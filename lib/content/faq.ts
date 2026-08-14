@@ -1,6 +1,4 @@
-import { asc } from 'drizzle-orm'
-import { db } from '../db/client'
-import { faqItems } from '../db/schema'
+import { query } from '../db/turso-http'
 
 export interface FaqItem {
   id: string
@@ -9,5 +7,10 @@ export interface FaqItem {
 }
 
 export async function getFaqItems(): Promise<FaqItem[]> {
-  return db().select().from(faqItems).orderBy(asc(faqItems.order))
+  const rows = await query('SELECT * FROM faq_items ORDER BY "order"')
+  return rows.map((row) => ({
+    id: row.id as string,
+    question: row.question as string,
+    answer: row.answer as string,
+  }))
 }

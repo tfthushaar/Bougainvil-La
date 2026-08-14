@@ -1,7 +1,7 @@
 'use server'
 
 import { eq } from 'drizzle-orm'
-import type { PgTableWithColumns } from 'drizzle-orm/pg-core'
+import type { SQLiteTableWithColumns } from 'drizzle-orm/sqlite-core'
 import { revalidatePath } from 'next/cache'
 import { db } from '@/lib/db/client'
 import { homeContent, aboutContent, siteSettings, venues, roomTypes, faqItems } from '@/lib/db/schema'
@@ -14,7 +14,7 @@ type FieldType = 'text' | 'list' | 'number' | 'image'
 // wire: "<table>:<id>.<column>", e.g. "venue:9e1f...ab.name" or
 // "home:singleton.heroHeadline" for the singleton tables.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const TABLES: Record<string, { table: PgTableWithColumns<any>; revalidate: string; fields: Record<string, FieldType> }> = {
+const TABLES: Record<string, { table: SQLiteTableWithColumns<any>; revalidate: string; fields: Record<string, FieldType> }> = {
   home: {
     table: homeContent, revalidate: '/home',
     fields: {

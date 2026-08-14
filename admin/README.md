@@ -5,14 +5,20 @@ submissions. Deploys as its own Netlify site, fully separate from the main site 
 Cloudflare from the repo root) — see `../docs/netlify-admin-plan.md` for the original background
 and rationale.
 
-Built with Next.js (App Router), Drizzle ORM against Netlify DB (Neon Postgres), Auth.js
-(credentials login), and Netlify Blobs for uploaded images.
+Built with Next.js (App Router), Drizzle ORM against Turso (libSQL), Auth.js (credentials login),
+and Netlify Blobs for uploaded images.
+
+Originally built on Netlify DB (Neon Postgres); moved to Turso after Neon's free-tier compute
+endpoint got auto-disabled for exceeding its usage quota, taking the live site down — Turso has no
+sleep/quota-disable behavior for its free tier.
 
 ## Environment variables
 
 Copy `.env.local.example` to `.env.local` and fill in:
 
-- `DATABASE_URL` — the Netlify DB (Neon) connection string.
+- `TURSO_DATABASE_URL` / `TURSO_AUTH_TOKEN` — from your database's page at app.turso.tech.
+  The auth token must come from the database's own page, not the account-level "API Tokens"
+  settings page — those are a different, incompatible token type.
 - `AUTH_SECRET` — any long random string (`npx auth secret` will generate one).
 
 `@netlify/blobs` needs no environment variables — it auto-detects the Netlify runtime context in
@@ -29,7 +35,7 @@ npm run dev
 
 ## First-time database setup
 
-Once `DATABASE_URL` is set:
+Once `TURSO_DATABASE_URL`/`TURSO_AUTH_TOKEN` are set:
 
 ```bash
 npm run db:push          # creates all tables from lib/db/schema.ts

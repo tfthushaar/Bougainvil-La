@@ -1,6 +1,4 @@
-import { eq } from 'drizzle-orm'
-import { db } from '../db/client'
-import { siteSettings } from '../db/schema'
+import { query } from '../db/turso-http'
 
 export interface SiteSettings {
   address: string
@@ -14,8 +12,17 @@ export interface SiteSettings {
 }
 
 export async function getSiteSettings(): Promise<SiteSettings> {
-  const [row] = await db().select().from(siteSettings).where(eq(siteSettings.id, 'singleton')).limit(1)
-  if (!row) throw new Error('site_settings singleton row is missing — run the admin seed script.')
-  const { id: _id, ...rest } = row
-  return rest
+  const rows = await query("SELECT * FROM site_settings WHERE id = 'singleton' LIMIT 1")
+  const row = rows[0]
+  if (!row) throw new Error('site_settings singleton row is missing — run the admin seed/migration script.')
+  return {
+    address: row.address as string,
+    mapsUrl: row.maps_url as string,
+    phone: row.phone as string,
+    email: row.email as string,
+    instagramHandle: row.instagram_handle as string,
+    instagramUrl: row.instagram_url as string,
+    footerTagline: row.footer_tagline as string,
+    bookTourEmailSubject: row.book_tour_email_subject as string,
+  }
 }

@@ -1,6 +1,4 @@
-import { eq } from 'drizzle-orm'
-import { db } from '../db/client'
-import { locationPages } from '../db/schema'
+import { query, parseJsonColumn } from '../db/turso-http'
 import type { ContentBlock } from './blocks'
 
 export type LocationBlock = ContentBlock
@@ -16,29 +14,29 @@ export interface LocationPageDoc {
   isPillar?: boolean
 }
 
-function toDoc(row: typeof locationPages.$inferSelect): LocationPageDoc {
+function toDoc(row: Record<string, unknown>): LocationPageDoc {
   return {
-    slug: row.slug,
-    metaTitle: row.metaTitle,
-    metaDescription: row.metaDescription,
-    h1: row.h1,
-    subheading: row.subheading ?? undefined,
-    blocks: row.blocks as ContentBlock[],
-    isPillar: row.isPillar,
+    slug: row.slug as string,
+    metaTitle: row.meta_title as string,
+    metaDescription: row.meta_description as string,
+    h1: row.h1 as string,
+    subheading: (row.subheading as string | null) ?? undefined,
+    blocks: parseJsonColumn<ContentBlock[]>(row.blocks, []),
+    isPillar: row.is_pillar === 1 || row.is_pillar === true,
   }
 }
 
 export async function getLocations(): Promise<LocationPageDoc[]> {
-  const rows = await db().select().from(locationPages)
+  const rows = await query('SELECT * FROM location_pages')
   return rows.map(toDoc)
 }
 
 export async function getLocationBySlug(slug: string): Promise<LocationPageDoc | undefined> {
-  const [row] = await db().select().from(locationPages).where(eq(locationPages.slug, slug)).limit(1)
-  return row ? toDoc(row) : undefined
+  const rows = await query('SELECT * FROM location_pages WHERE slug = ? LIMIT 1', [slug])
+  return rows[0] ? toDoc(rows[0]) : undefined
 }
 
 export async function getLocationSlugs(): Promise<string[]> {
-  const rows = await db().select({ slug: locationPages.slug }).from(locationPages)
-  return rows.map((r) => r.slug)
+  const rows = await query('SELECT slug FROM location_pages')
+  return rows.map((r) => r.slug as string)
 }

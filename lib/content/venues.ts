@@ -1,6 +1,4 @@
-import { asc, eq } from 'drizzle-orm'
-import { db } from '../db/client'
-import { venues } from '../db/schema'
+import { query, parseJsonColumn } from '../db/turso-http'
 
 export interface Venue {
   id: string
@@ -17,16 +15,34 @@ export interface Venue {
   galleryWithoutDecor: string[]
 }
 
+function toVenue(row: Record<string, unknown>): Venue {
+  return {
+    id: row.id as string,
+    slug: row.slug as string,
+    name: row.name as string,
+    tagline: row.tagline as string,
+    subtitle: (row.subtitle as string | null) ?? null,
+    description: parseJsonColumn<string[]>(row.description, []),
+    seated: row.seated as number,
+    floating: row.floating as number,
+    cover: (row.cover as string | null) ?? null,
+    highlights: parseJsonColumn<string[]>(row.highlights, []),
+    galleryWithDecor: parseJsonColumn<string[]>(row.gallery_with_decor, []),
+    galleryWithoutDecor: parseJsonColumn<string[]>(row.gallery_without_decor, []),
+  }
+}
+
 export async function getVenues(): Promise<Venue[]> {
-  return db().select().from(venues).orderBy(asc(venues.order))
+  const rows = await query('SELECT * FROM venues ORDER BY "order"')
+  return rows.map(toVenue)
 }
 
 export async function getVenueBySlug(slug: string): Promise<Venue | undefined> {
-  const [row] = await db().select().from(venues).where(eq(venues.slug, slug)).limit(1)
-  return row
+  const rows = await query('SELECT * FROM venues WHERE slug = ? LIMIT 1', [slug])
+  return rows[0] ? toVenue(rows[0]) : undefined
 }
 
 export async function getVenueSlugs(): Promise<string[]> {
-  const rows = await db().select({ slug: venues.slug }).from(venues).orderBy(asc(venues.order))
-  return rows.map((r) => r.slug)
+  const rows = await query('SELECT slug FROM venues ORDER BY "order"')
+  return rows.map((r) => r.slug as string)
 }
